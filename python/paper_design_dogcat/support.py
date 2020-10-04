@@ -5,11 +5,11 @@
 *
 *  文件描述：封装类
 *
-*  创建人： qiwei_ji, 2020年5月31日
+*  创建人： qiwei_ji, 2020年10月4日
 *
-*  版本号：1.1.3.0301_alpha
+*  版本号：1.2
 *
-*  修改记录：63
+*  修改记录：64
 *
 ********************************************************************/
 '''
@@ -109,17 +109,18 @@ def train(net,epochs,LR,train_loader,test_loader):
         net.eval()
 
         for data in test_loader:
-            images, labels = data
-            images, labels = Variable(images), Variable(labels)
-            inputs, labels = inputs.cuda(), labels.cuda()
-            outputs = net(images)
+            testimages, testlabels = data
+            testimages, testlabels = Variable(testimages), Variable(testlabels)
+            testimages, testlabels = testimages.cuda(), testlabels.cuda()
+            net =net.eval()
+            outputs = net(testimages)
             print(outputs)
             _, predicted = torch.max(outputs.data, 1)
-            print(predicted,labels)
-            loss = cirterion(outputs, labels)
+            print(predicted,testlabels)
+            loss = cirterion(outputs, testlabels)
             test_loss += loss.item()
-            test_total += labels.size(0)
-            correct += (predicted == labels.data).sum()
+            test_total += testlabels.size(0)
+            correct += (predicted == testlabels.data).sum()
 
         # 测试计时
         endtime2 = datetime.datetime.now()
