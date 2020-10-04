@@ -11,6 +11,7 @@ from torchvision import transforms, utils
 import torch.optim as optim
 from PIL import Image
 import math
+import time
 
 
 class MyDataSet(Dataset):
@@ -28,7 +29,7 @@ class MyDataSet(Dataset):
     def __getitem__(self, index):
         label = np.array(int(self.labelArr[index]))
         img_path = self.imgPathArr[index]
-        pil_img = Image.open(img_path)
+        pil_img = Image.open(img_path).convert('RGB')
         if self.transforms:
             data = self.transforms(pil_img)
         else:
@@ -72,11 +73,11 @@ class ResNet(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(),
         )
-        self.layer1 = self.make_layer(ResidualBlock, 64,  2, stride=1)
+        # self.layer1 = self.make_layer(ResidualBlock, 64,  2, stride=1)
         self.layer2 = self.make_layer(ResidualBlock, 128, 2, stride=2)
         self.layer3 = self.make_layer(ResidualBlock, 256, 2, stride=2)
         self.layer4 = self.make_layer(ResidualBlock, 512, 2, stride=2)
-        self.fc = nn.Linear(512, num_classes)
+        self.fc = nn.Linear(7 * 7 * 512, num_classes)
 
     def make_layer(self, block, channels, num_blocks, stride):
         strides = [stride] + [1] * (num_blocks - 1)   #strides=[1,1]
@@ -103,7 +104,7 @@ def ResNet18():
     return ResNet(ResidualBlock)
 
 data_transform = transforms.Compose([
-    transforms.Resize((32,32)),
+    transforms.Resize((224,224)),
     transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(0.2),
     transforms.ToTensor(),
@@ -114,16 +115,28 @@ data_transform = transforms.Compose([
 
 if __name__ == '__main__':
 
-    train_dataset = MyDataSet('D:/pycharmcnn/venv/PRO/img/label.txt', data_transform)
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=4, shuffle=True, num_workers=4)
+    train_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jiqiwei/jianc/final/final/train',
+                                         transform=data_transform)
+    train_loader = torch.utils.data.DataLoader(train_dataset,
+                                               batch_size=8,
+                                               shuffle=True,
+                                               num_workers=4)
 
-    test_dataset = MyDataSet('D:/pycharmcnn/venv/PRO/test/label.txt', data_transform)
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=True, num_workers=4)
+    test_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jiqiwei/jianc/final/final/test',
+                                        transform=data_transform)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=True,
+                                              num_workers=4)
 
-    net = ResNet18()
-    print(net)
+    # train_dataset = MyDataSet('/media/dennis/ubuntu/ship_classification/data/final/train/label.txt', data_transform)
+    # train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=8, shuffle=True, num_workers=4)
+    #
+    # test_dataset = MyDataSet('/media/dennis/ubuntu/ship_classification/data/final/test/label.txt', data_transform)
+    # test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=True, num_workers=4)
 
-    LR = 0.001
+    net = ResNet18().cuda()
+    #print(net)
+
+    LR = 0.005
     cirterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)
 
@@ -131,42 +144,50 @@ if __name__ == '__main__':
     correct = 0
     total = 0
 
-    for epoch in range(100):
+
+    #net.load_state_dict(torch.load('resnet18_net_paramters.pkl'))
+
+    for epoch in range(200):
         running_loss = 0.0
         for i, data in enumerate(train_loader, 0):
             inputs, labels = data
-            inputs, labels = Variable(inputs), Variable(labels.long())
+            inputs, labels = inputs.cuda(), labels.cuda().long()
             outputs = net(inputs)
             loss = cirterion(outputs, labels)
             optimizer.zero_grad()
             loss.backward()
-            if epoch >= 50:
-                LR = 0.0001
+            # if epoch >= 100:
+            #     LR = 0.001
             optimizer.step()
 
             running_loss += loss.item()
-            predicted = torch.max(outputs.data, 1)[1].data.numpy()
+            predicted = torch.max(outputs.data, 1)[1]
             total += labels.size(0)
-            correct += (predicted == labels.numpy()).sum()
+            correct += (predicted == labels).sum()
 
             if i % 10 == 9:
-                print('[%d %5d] loss: %.3f ACC:%d %%' % (epoch + 1, i + 1, running_loss / 100, 100 * correct / total))
+                print('[%d %5d] train_loss: %.3f train_ACC:%d %%' % (epoch + 1, i + 1, running_loss / 100, 100 * correct / total))
                 running_loss = 0.0
+            
+        if epoch % 10 == 0:
+            start = time.time()
+            correct_test = 0
+            total_test = 0
+            for data in test_loader:
+                images, labels = data
+                images, labels = images.cuda(), labels.cuda()
+                outputs = net(images)
+                predicted = torch.max(outputs.data, 1)[1]
+                # if (predicted[0] < 3):
+                #     predicted[0] = 0
+                # if (labels[0] < 3):
+                #     labels[0] = 0
+                total_test += labels.size(0)
+                correct_test += (predicted == labels).sum()
+            end = time.time()
+            timeuse = end - start
 
-    torch.save(net.state_dict(), 'net_paramters.pkl')
+            print('Accuracy of the network on the test images: %d %%, time are %f s' % ((100 * correct_test / total_test), timeuse))
+
+    torch.save(net.state_dict(), 'resnet18_net_paramters.pkl')
     print('finished training!')
-
-
-    correct = 0
-    total = 0
-
-    for data in test_loader:
-        images, labels = data
-        images, labels = Variable(images), labels
-        outputs = net(images)
-
-        predicted = torch.max(outputs.data, 1)[1].data.numpy()
-        total += labels.size(0)
-        correct += (predicted == labels.numpy()).sum()
-
-    print('Accuracy of the network on the test images: %d %%' % (100 * correct / total))
