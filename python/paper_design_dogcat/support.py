@@ -76,6 +76,7 @@ def train(net,epochs,LR,train_loader,test_loader):
         for i, data in enumerate(train_loader, 0):
             inputs, train_labels = data
             inputs, labels = Variable(inputs), Variable(train_labels)
+            inputs, labels = inputs.cuda(), labels.cuda()
             optimizer.zero_grad()
             outputs = net(inputs)
             _, train_predicted = torch.max(outputs.data, 1)
@@ -110,6 +111,7 @@ def train(net,epochs,LR,train_loader,test_loader):
         for data in test_loader:
             images, labels = data
             images, labels = Variable(images), Variable(labels)
+            inputs, labels = inputs.cuda(), labels.cuda()
             outputs = net(images)
             print(outputs)
             _, predicted = torch.max(outputs.data, 1)

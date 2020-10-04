@@ -46,7 +46,7 @@ shuffle_data()
 
 #网络实例化
 # net = restore_params() 加载之前存储的网络参数
-net = MobileNetV1(2) # 分类
+net = MobileNetV1(2).cuda() # 分类
 train(net, epochs, LR, train_loader, test_loader)
 
 

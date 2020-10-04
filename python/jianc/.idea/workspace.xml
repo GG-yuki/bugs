@@ -10,7 +10,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/def.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="202">
@@ -20,6 +20,11 @@
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../paper_design_dogcat/support.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -383,6 +388,9 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../paper_design_dogcat/support.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>
