@@ -22,7 +22,7 @@ from torchvision import datasets
 
 # 部分训练参数参数
 epochs = 90 # 训练次数
-batch_size = 64  # 批处理大小
+batch_size = 32  # 批处理大小
 num_workers = 4 #多线程
 LR = 0.001 #初始学习速率
 

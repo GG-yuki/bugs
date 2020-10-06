@@ -78,10 +78,10 @@ class ResNet(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         # self.layer1 = self.make_layer(ResidualBlock, 64, 2, stride=1)
         # self.layer2 = self.make_layer(ResidualBlock, 128, 2, stride=2)
-        # self.layer3 = self.make_layer(ResidualBlock, 256, 2, stride=2)
-        # self.layer4 = self.make_layer(ResidualBlock, 512, 2, stride=2)
+        self.layer3 = self.make_layer(ResidualBlock, 256, 2, stride=2)
+        self.layer4 = self.make_layer(ResidualBlock, 512, 2, stride=2)
         self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
-        self.fc = nn.Linear(1 * 1 * 64, num_classes)
+        self.fc = nn.Linear(1 * 1 * 512, num_classes)
 
     def make_layer(self, block, channels, num_blocks, stride):
         strides = [stride] + [1] * (num_blocks - 1)  # strides=[1,1]
@@ -100,9 +100,9 @@ class ResNet(nn.Module):
         # print('1-1:'+str(out.size()))
         # out = self.layer2(out)
         # print('1-2:'+str(out.size()))
-        # out = self.layer3(out)
+        out = self.layer3(out)
         # print('1-3:'+str(out.size()))
-        # out = self.layer4(out)
+        out = self.layer4(out)
         # print('1-4:'+str(out.size()))
         # out = F.avg_pool2d(out, 4)
         # print('6:'+str(out.size()))
@@ -132,14 +132,14 @@ if __name__ == '__main__':
     # test_dataset = MyDataSet('/media/dennis/ubuntu/ship_classification/data/final/test/label.txt', data_transform)
     # test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=True, num_workers=4)
 
-    train_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jianc/final/final/train',
+    train_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jiqiwei/jianc/final/final/train',
                                          transform=data_transform)
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                batch_size=8,
                                                shuffle=True,
                                                num_workers=4)
 
-    test_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jianc/final/final/test',
+    test_dataset = datasets.ImageFolder(root=r'/home/zhangyunke/jiqiwei/jianc/final/final/test',
                                         transform=data_transform)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=True,
                                               num_workers=4)
