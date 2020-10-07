@@ -1,8 +1,6 @@
-import torch
 import torch.nn as nn
+import torch
 import torch.nn.functional as F
-
-
 '''
 /*============================================================
 *
@@ -42,6 +40,8 @@ import torch.nn.functional as F
 * ============================================================*/
 '''
 # start build CNN
+
+
 class mobilenetv1_block_test(nn.Module):
     def __init__(self):
         super(mobilenetv1, self).__init__()
@@ -71,30 +71,6 @@ class mobilenetv1_block_test(nn.Module):
         x = x.view(x.size(0), -1)
         output = F.softmax(self.out(x),dim=1)    # import torch.nn.funtional as F
         return output
-#
-# cnn = mobilenetv1()
-# print(cnn)  # net architecture
-
-
-# class Net(nn.Module):
-#     def __init__(self):
-#         super(Net, self).__init__()
-#
-#         self.conv1 = nn.Conv2d(3, 6, 5)
-#         self.pool = nn.MaxPool2d(2, 2)
-#         self.conv2 = nn.Conv2d(6, 16, 5)
-#         self.fc1 = nn.Linear(16 * 18 * 18, 800)
-#         self.fc2 = nn.Linear(800, 120)
-#         self.fc3 = nn.Linear(120, 2)
-#
-#     def forward(self, x):
-#         x = self.pool(F.relu(self.conv1(x)))
-#         x = self.pool(F.relu(self.conv2(x)))
-#         x = x.view(-1, 16 * 18 * 18)
-#         x = F.relu(self.fc1(x))
-#         x = F.relu(self.fc2(x))
-#         x = self.fc3(x)
-#         return x
 
 
 '''
@@ -135,9 +111,9 @@ class mobilenetv1_block_test(nn.Module):
 *        )
 * ============================================================*/
 '''
-class mobilenetv1(nn.Module):
-    def __init__(self):
-        super(mobilenetv1, self).__init__()
+class MobileNetV1(nn.Module):
+    def __init__(self, num_classes):
+        super(MobileNetV1, self).__init__()
 
         def conv_bn(inp, oup, stride):
             return nn.Sequential(
@@ -176,7 +152,7 @@ class mobilenetv1(nn.Module):
         )
         self.fc1 = nn.Linear(1024, 1000)
         self.fc2 = nn.Linear(1000, 10)
-        self.fc3 = nn.Linear(10, 2)
+        self.fc3 = nn.Linear(10, num_classes)
 
     def forward(self, x):
         x = self.model(x)
@@ -188,12 +164,10 @@ class mobilenetv1(nn.Module):
         return output
 
 
-# def test():
-#     net = mobilenetv1()
-#     x = torch.randn(2,3,224,224)
-#     y = net(x)
-#     print(y.size())
-# test()
-net = mobilenetv1()
-print(net)
+def test():
+    net = MobileNetV1(2)
+    x = torch.randn(2,3,224,224)
+    y = net(x)
+    print(y)
+test()
 

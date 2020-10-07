@@ -1,15 +1,15 @@
 '''
 /********************************************************************
 *
-*  文件名：support.py
+*  文件名：mobilenetv3.py
 *
-*  文件描述：封装类
+*  文件描述：MobileNetV3 in PyTorch
 *
-*  创建人： qiwei_ji, 2020年5月31日
+*  创建人： qiwei_ji, 2020年10月6日
 *
-*  版本号：1.1.3.0301_alpha
+*  版本号：1.1_alpha
 *
-*  修改记录：63
+*  修改记录：1
 *
 ********************************************************************/
 '''
@@ -26,81 +26,6 @@ import torch.nn.functional as F
 import csv
 import os
 from torchvision import datasets,transforms, models
-
-
-'''
-/*============================================================
-*
-* 函 数 名：loadTrainData()
-*
-* 参  数：
-*
-*    None
-*
-* 功能描述:
-*
-*    载入excel数据
-*
-* 返 回 值：42000*28*28的train数据
-*
-* 抛出异常：
-*
-* 作  者：qiwei_ji 2020/1/12
-* ============================================================*/
-
-class CNNnew(nn.Module):
-    def __init__(self):
-        super(CNN, self).__init__()
-        self.conv1 = nn.Sequential(  # (1, 28, 28)
-            nn.Conv2d(
-                in_channels=1, # 输入通道数，若图片为RGB则为3通道
-                out_channels=1, # 输出通道数，即多少个卷积核一起卷积
-                kernel_size=5, # 卷积核大小
-                stride=1, # 卷积核移动步长
-                padding=2, # 边缘增加的像素，使得得到的图片长宽没有变化
-            ),# (1, 28, 28)，点卷积
-            nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-        )
-        self.conv2 = nn.Sequential(
-            nn.Conv2d(32, 32, 3, 1, 1), # (32, 28, 28)
-            nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2), # 池化 (32, 14, 14)
-        )
-        self.conv3 = nn.Sequential(# (32, 14, 14)
-            nn.Conv2d(32, 64, 3, 1, 1),# (64, 14, 14)
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-        )
-        self.conv4 = nn.Sequential(
-            nn.Conv2d(64, 64, 3, 1, 1),# (64, 14, 14)
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(2),# (64, 7, 7)
-        )
-        self.out = nn.Sequential(
-            nn.Dropout(p = 0.5), # 抑制过拟合
-            nn.Linear(64 * 7 * 7, 512),
-            nn.BatchNorm1d(512),
-            nn.ReLU(inplace=True),
-            nn.Dropout(p = 0.5),
-            nn.Linear(512, 512),
-            nn.BatchNorm1d(512),
-            nn.ReLU(inplace=True),
-            nn.Dropout(p = 0.5),
-            nn.Linear(512, 10),
-        )
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
-        x = self.conv4(x)
-        x = x.view(x.size(0), -1) # (batch_size, 64*7*7)
-        output = self.out(x)
-        return output
-'''
-
 
 
 '''MobileNetV3 in PyTorch.
@@ -266,7 +191,7 @@ class MobileNetV3_Small(nn.Module):
         self.linear3 = nn.Linear(576, 1280)
         self.bn3 = nn.BatchNorm1d(1280)
         self.hs3 = hswish()
-        self.linear4 = nn.Linear(1280, 2)
+        self.linear4 = nn.Linear(1280, num_classes)
         self.init_params()
 
     def init_params(self):
