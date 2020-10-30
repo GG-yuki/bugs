@@ -34,7 +34,7 @@ def save_net(net):
 def restore_net():
     # restore entire net1 to net2
     net = torch.load('net.pkl')
-    torch.save(meet.state_dict(), 'net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
+    torch.save(net.state_dict(), 'net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
     return net
 
 
