@@ -8,8 +8,6 @@ import argparse
 import os
 import pickle
 import time
-
-import faiss
 import numpy as np
 from sklearn.metrics.cluster import normalized_mutual_info_score
 import torch
@@ -18,7 +16,6 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
-import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from support import *
 import clustering
@@ -48,12 +45,11 @@ def parse_args():
     parser.add_argument('--batch', default=32, type=int,
                         help='mini-batch size (default: 32)')
     parser.add_argument('--momentum', default=0.9, type=float, help='momentum (default: 0.9)')
-    parser.add_argument('--resume', default='', type=str, metavar='PATH',
+    parser.add_argument('--resume', default=r'/home/jijl/My_project/paper_design_deepcluster/check', type=str, metavar='PATH',
                         help='path to checkpoint (default: None)')
     parser.add_argument('--checkpoints', type=int, default=25000,
                         help='how many iterations between two checkpoints (default: 25000)')
     parser.add_argument('--exp', type=str, default=r'/home/jijl/My_project/paper_design_deepcluster/check', help='path to exp folder')
-    parser.add_argument('--verbose', action='store_true', help='chatty')
     return parser.parse_args()
 
 
@@ -64,7 +60,7 @@ def main(args):
     np.random.seed(31)
 
     # CNN
-    model = vgg16(sobel=True)
+    model = vgg16(sobel=True) #?
     fd = int(model.top_layer.weight.size()[1])
     model.top_layer = None
     model.features = torch.nn.DataParallel(model.features)
@@ -82,30 +78,8 @@ def main(args):
     # define loss function
     criterion = nn.CrossEntropyLoss().cuda()
 
-    # optionally resume from a checkpoint
-    if args.resume:
-        if os.path.isfile(args.resume):
-            print("=> loading checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume)
-            args.start_epoch = checkpoint['epoch']
-            # remove top_layer parameters from checkpoint
-            for key in checkpoint['state_dict']:
-                if 'top_layer' in key:
-                    del checkpoint['state_dict'][key]
-            model.load_state_dict(checkpoint['state_dict'])
-            optimizer.load_state_dict(checkpoint['optimizer'])
-            print("=> loaded checkpoint '{}' (epoch {})"
-                  .format(args.resume, checkpoint['epoch']))
-        else:
-            print("=> no checkpoint found at '{}'".format(args.resume))
-
-    # creating checkpoint repo
-    exp_check = os.path.join(args.exp, 'checkpoints')
-    if not os.path.isdir(exp_check):
-        os.makedirs(exp_check)
-
     # creating cluster assignments log
-    cluster_log = Logger(os.path.join(args.exp, 'clusters'))
+    cluster_log = Logger(r'/home/jijl/My_project/paper_design_deepcluster/check/exp')
 
     # load the data
     end = time.time()
@@ -123,8 +97,9 @@ def main(args):
 
     # training convnet with DeepCluster
     for epoch in range(args.start_epoch, args.epochs):
-        end = time.time()
 
+        end = time.time()
+        print(epoch)
         # remove head
         model.top_layer = None
         model.classifier = nn.Sequential(*list(model.classifier.children())[:-1])
@@ -133,13 +108,9 @@ def main(args):
         features = compute_features(dataloader, model, len(dataset))
 
         # cluster the features
-        if args.verbose:
-            print('Cluster the features')
-        clustering_loss = deepcluster.cluster(features, verbose=args.verbose)
+        clustering_loss = deepcluster.cluster(features)
 
         # assign pseudo-labels
-        if args.verbose:
-            print('Assign pseudo labels')
         train_dataset = clustering.cluster_assign(deepcluster.images_lists,
                                                   dataset.imgs)
 
@@ -168,29 +139,14 @@ def main(args):
         end = time.time()
         loss = train(train_dataloader, model, criterion, optimizer, epoch)
 
-        # print log
-        if args.verbose:
-            print('###### Epoch [{0}] ###### \n'
-                  'Time: {1:.3f} s\n'
-                  'Clustering loss: {2:.3f} \n'
-                  'ConvNet loss: {3:.3f}'
-                  .format(epoch, time.time() - end, clustering_loss, loss))
-            try:
-                nmi = normalized_mutual_info_score(
-                    clustering.arrange_clustering(deepcluster.images_lists),
-                    clustering.arrange_clustering(cluster_log.data[-1])
-                )
-                print('NMI against previous assignment: {0:.3f}'.format(nmi))
-            except IndexError:
-                pass
-            print('####################### \n')
-        # save running checkpoint
-        torch.save({'epoch': epoch + 1,
-                    'arch': args.arch,
-                    'state_dict': model.state_dict(),
-                    'optimizer' : optimizer.state_dict()},
-                   os.path.join(args.exp, 'checkpoint.pth.tar'))
 
+        nmi = normalized_mutual_info_score(
+            clustering.arrange_clustering(deepcluster.images_lists),
+            clustering.arrange_clustering(cluster_log.data[-1])
+        )
+
+
+        print('NMI against previous assignment: {0:.3f}'.format(nmi))
         # save cluster assignments
         cluster_log.log(deepcluster.images_lists)
 
@@ -226,23 +182,6 @@ def train(loader, model, crit, opt, epoch):
     for i, (input_tensor, target) in enumerate(loader):
         data_time.update(time.time() - end)
 
-        # save checkpoint
-        n = len(loader) * epoch + i
-        if n % args.checkpoints == 0:
-            path = os.path.join(
-                r'/home/jijl/My_project/paper_design_deepcluster/check',
-                'checkpoints',
-                'checkpoint_' + str(n / args.checkpoints) + '.pth.tar',
-            )
-            if args.verbose:
-                print('Save checkpoint at: {0}'.format(path))
-            torch.save({
-                'epoch': epoch + 1,
-                'arch': args.arch,
-                'state_dict': model.state_dict(),
-                'optimizer' : opt.state_dict()
-            }, path)
-
         target = target.cuda()
         input_var = torch.autograd.Variable(input_tensor.cuda())
         target_var = torch.autograd.Variable(target)
@@ -251,9 +190,10 @@ def train(loader, model, crit, opt, epoch):
         loss = crit(output, target_var)
 
         # record loss
-        losses.update(loss.data[0], input_tensor.size(0))
+        losses.update(loss.item(), input_tensor.size(0))
 
-        # compute gradient and do SGD step
+
+        # compute gradient and do SGD stepa
         opt.zero_grad()
         optimizer_tl.zero_grad()
         loss.backward()
@@ -264,19 +204,9 @@ def train(loader, model, crit, opt, epoch):
         batch_time.update(time.time() - end)
         end = time.time()
 
-        if args.verbose and (i % 200) == 0:
-            print('Epoch: [{0}][{1}/{2}]\t'
-                  'Time: {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Data: {data_time.val:.3f} ({data_time.avg:.3f})\t'
-                  'Loss: {loss.val:.4f} ({loss.avg:.4f})'
-                  .format(epoch, i, len(loader), batch_time=batch_time,
-                          data_time=data_time, loss=losses))
-
     return losses.avg
 
 def compute_features(dataloader, model, N):
-    if args.verbose:
-        print('Compute features')
     batch_time = AverageMeter()
     end = time.time()
     model.eval()
@@ -300,10 +230,6 @@ def compute_features(dataloader, model, N):
         batch_time.update(time.time() - end)
         end = time.time()
 
-        if args.verbose and (i % 200) == 0:
-            print('{0} / {1}\t'
-                  'Time: {batch_time.val:.3f} ({batch_time.avg:.3f})'
-                  .format(i, len(dataloader), batch_time=batch_time))
     return features
 
 

@@ -22,7 +22,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
 import clustering
-import models
+import vgg16
 from util import AverageMeter, Logger, UnifLabelSampler
 
 
@@ -73,7 +73,7 @@ def main(args):
     # CNN
     if args.verbose:
         print('Architecture: {}'.format(args.arch))
-    model = models.__dict__[args.arch](sobel=args.sobel)
+    model = vgg16.__dict__[args.arch](sobel=args.sobel)
     fd = int(model.top_layer.weight.size()[1])
     model.top_layer = None
     model.features = torch.nn.DataParallel(model.features)
@@ -126,7 +126,8 @@ def main(args):
 
     # load the data
     end = time.time()
-    dataset = datasets.ImageFolder(args.data, transform=transforms.Compose(tra))
+    data_transform = datatransform()
+    dataset = datasets.ImageFolder(r'/home/jijl/My_project/paper_design_deepcluster/sdsds', transform=data_transform)
     if args.verbose:
         print('Load dataset: {0:.2f} s'.format(time.time() - end))
 
@@ -206,7 +207,7 @@ def main(args):
                     'arch': args.arch,
                     'state_dict': model.state_dict(),
                     'optimizer' : optimizer.state_dict()},
-                   os.path.join(args.exp, 'checkpoint.pth.tar'))
+                   os.path.join(args.exp, 'checkpoint.pth'))
 
         # save cluster assignments
         cluster_log.log(deepcluster.images_lists)
@@ -248,7 +249,7 @@ def train(loader, model, crit, opt, epoch):
             path = os.path.join(
                 args.exp,
                 'checkpoints',
-                'checkpoint_' + str(n / args.checkpoints) + '.pth.tar',
+                'checkpoint_' + str(n / args.checkpoints) + '.pth',
             )
             if args.verbose:
                 print('Save checkpoint at: {0}'.format(path))
@@ -259,7 +260,7 @@ def train(loader, model, crit, opt, epoch):
                 'optimizer' : opt.state_dict()
             }, path)
 
-        target = target.cuda(async=True)
+        target = target.cuda()
         input_var = torch.autograd.Variable(input_tensor.cuda())
         target_var = torch.autograd.Variable(target)
 

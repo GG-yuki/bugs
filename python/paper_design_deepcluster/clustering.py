@@ -147,7 +147,7 @@ def cluster_assign(images_lists, dataset):
     return ReassignedDataset(image_indexes, pseudolabels, dataset, t)
 
 
-def run_kmeans(x, nmb_clusters, verbose=False):
+def run_kmeans(x, nmb_clusters):
     """Runs kmeans on 1 GPU.
     Args:
         x: data
@@ -184,10 +184,6 @@ def run_kmeans(x, nmb_clusters, verbose=False):
         stats.at(i).obj for i in range(stats.size())
     ])
 
-
-    if verbose:
-        print('k-means loss evolution: {0}'.format(losses))
-
     return [int(n[0]) for n in I], losses[-1]
 
 
@@ -205,7 +201,7 @@ class Kmeans(object):
     def __init__(self, k):
         self.k = k
 
-    def cluster(self, data, verbose=False):
+    def cluster(self, data):
         """Performs k-means clustering.
             Args:
                 x_data (np.array N * dim): data to cluster

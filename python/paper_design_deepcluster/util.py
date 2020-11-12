@@ -25,7 +25,7 @@ def load_model(path):
 
         # build skeleton of the model
         sob = 'sobel.0.weight' in checkpoint['state_dict'].keys()
-        model = models.__dict__[checkpoint['arch']](sobel=sob, out=int(N[0]))
+        model = vgg16.__dict__[checkpoint['arch']](sobel=sob, out=int(N[0]))
 
         # deal with a dataparallel table
         def rename_key(key):
