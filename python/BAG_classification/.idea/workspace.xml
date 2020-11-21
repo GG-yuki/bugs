@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e950bd24-8640-4d6c-93db-0393421ed57a" name="Default Changelist" comment="" />
+    <list default="true" id="7f47feaa-94ac-4fa5-bb81-72dc648437a0" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +36,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="JupyterTrust" id="5d54e841-454a-4541-a72d-60cd76b9b59a" />
-  <component name="ProjectId" id="1kC2REbrBW0yOlR0rXHQAGYc50O" />
+  <component name="ProjectId" id="1kYVR5NRZT95KRQhThj19scaUzY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -49,13 +49,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e950bd24-8640-4d6c-93db-0393421ed57a" name="Default Changelist" comment="" />
-      <created>1605190242741</created>
+      <changelist id="7f47feaa-94ac-4fa5-bb81-72dc648437a0" name="Default Changelist" comment="" />
+      <created>1605877500266</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1605190242741</updated>
-      <workItem from="1605190244661" duration="961000" />
-      <workItem from="1605877462324" duration="39000" />
+      <updated>1605877500266</updated>
+      <workItem from="1605877501479" duration="4040000" />
+      <workItem from="1605936222904" duration="6277000" />
+      <workItem from="1605954591487" duration="2306000" />
     </task>
     <servers />
   </component>
@@ -73,5 +74,11 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="349" y="155" key="IDE.errors.dialog" timestamp="1605939356117">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="155" key="IDE.errors.dialog/0.0.1536.824@0.0.1536.824" timestamp="1605939356117" />
   </component>
 </project>

@@ -145,9 +145,6 @@ if __name__ == '__main__':
                                               num_workers=4)
 
     net = ResNet18().cuda()
-    # net = torchvision.models.resnet18(pretrained=False)
-    # num_fc_ftr = net.fc.in_features
-    # net.fc = torch.nn.Linear(num_fc_ftr, 2)
     print(net)
 
     LR = 0.005
