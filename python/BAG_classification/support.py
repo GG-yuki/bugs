@@ -6,11 +6,11 @@
 *
 *  文件描述：封装类
 *
-*  创建人： qiwei_ji, 2020年11月20日
+*  创建人： qiwei_ji, 2020年11月23日
 *
-*  版本号：1.0
+*  版本号：2.0
 *
-*  修改记录：0
+*  修改记录：2
 *
 ********************************************************************/
 '''
@@ -21,10 +21,13 @@ import torch.optim as optim
 import datetime
 import torchvision.models as models
 from torch.autograd import Variable
+import numpy as np
+import matplotlib.pyplot as plt
+from torchvision import utils
 
 
 # 载入模型
-def loadmodel(num_classes = 2):
+def loadmodel(num_classes=2):
     # 定义是否使用GPU
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     net = models.resnet18(pretrained=False).to(device)
@@ -33,18 +36,44 @@ def loadmodel(num_classes = 2):
     return net
 
 
+def loadresnet50():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    net = models.resnet50(pretrained=False).to(device)
+    num_fc_ftr = net.fc.in_features
+    net.fc = torch.nn.Linear(num_fc_ftr, 2).to(device)
+    return net
+
+
 # 保存网络
-def save_net(net):
-    torch.save(net, 'net.pkl')  # 保存整个网络
-    torch.save(net.state_dict(), 'net_params.pkl')   # 只保存网络中的参数 (速度快, 占内存少)
+def save_18(net):
+    torch.save(net, 'resnet18.pkl')  # 保存整个网络
+    torch.save(net.state_dict(), 'resnet18_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
+    print('save_done')
+
+
+'''
+/********************************************************************/
+'''
+# 提取网络
+def restore_18():
+    # restore entire net1 to net2
+    net = torch.load(r'resnet18.pkl',map_location='cpu')
+    return net
+
+
+'''
+/********************************************************************/
+'''
+def save_50(net):
+    torch.save(net, 'resnet50.pkl')  # 保存整个网络
+    torch.save(net.state_dict(), 'resnet50_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
     print('save_done')
 
 
 # 提取网络
-def restore_net():
+def restore_50():
     # restore entire net1 to net2
-    net = torch.load('net.pkl')
-    torch.save(net.state_dict(), 'net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
+    net = torch.load('resnet50.pkl',map_location='cpu')
     return net
 
 
@@ -59,21 +88,67 @@ def datatransform():
     return data_transform
 
 
-# 定义训练过程
-def train(net,epochs,LR,train_loader,test_loader):
+def imshow(inp, pred, ylabel,number):
+    """Imshow for Tensor."""
+    inp = inp.numpy().transpose((1, 2, 0))
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    inp = std * inp + mean
+    inp = np.clip(inp, 0, 1)
+    plt.imshow(inp)
+    plt.title('GroundTruth: {}, Predicted: {}'.format(ylabel, pred))
+    plt.savefig(r'./result/%d.jpg'%number)
 
+
+# 加载网络后进行预测
+def test(net, test_loader):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    net = net.to(device)
+    correct_test = 0
+    total_test = 0
+    i = 1
+    plt.figure()
+    for data in test_loader:
+        images, labels = data
+        out = utils.make_grid(images)
+        images, labels = images.to(device), labels.to(device)
+        net = net.eval()
+        outputs = net(images)
+        predicted = torch.max(outputs.data, 1)[1]
+        plt.subplot(1, 1, 1)
+        if (predicted.numpy()[0] == 0):
+            preclassstr = 'boy'
+        else:
+            preclassstr = 'girl'
+        if (labels.numpy()[0] == 0):
+            labelclassstr = 'boy'
+        else:
+            labelclassstr = 'girl'
+        imshow(out, preclassstr, labelclassstr,i)
+        i = i+1
+        total_test += labels.size(0)
+        correct_test += (predicted == labels).sum()
+        plt.clf()
+    plt.close()
+    print('测试准确率为: %d %%' % ((100 * correct_test // total_test)))
+
+
+
+# 定义训练过程
+def train(net, epochs, LR, train_loader, test_loader):
     # 定义是否使用GPU
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # 定义loss和optimizer
     cirterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)
-
+    j = 1
     for epoch in range(epochs):
-        starttime = datetime.datetime.now() # 计时
+        starttime = datetime.datetime.now()  # 计时
 
         # 训练开始
         # net = net.train()
+        j = j+1
         running_loss = 0.0
         train_correct = 0
         train_total = 0
@@ -85,8 +160,6 @@ def train(net,epochs,LR,train_loader,test_loader):
             optimizer.zero_grad()
             outputs = net(inputs)
             train_predicted = torch.max(outputs.data, 1)[1]
-            # _, train_predicted = torch.max(outputs.data, 1)
-            # print(train_predicted,labels.data)
             train_correct += (train_predicted == labels.data).sum()
             loss = cirterion(outputs, labels)
             loss.backward()
@@ -94,50 +167,56 @@ def train(net,epochs,LR,train_loader,test_loader):
             running_loss += loss.item()
             train_total += train_labels.size(0)
 
-        # 训练计时
-        endtime = datetime.datetime.now()
-        loadingtime=(endtime - starttime).seconds
-        # print(loadingtime)
 
         # 打印训练结果
-        print('train %d epoch loss: %.3f  acc: %.3f  load:%d' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
-        f = open("foo.txt", "a")
-        f.write('train %d epoch loss: %.3f  acc: %.3f  load:%d \n' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
+        print('train %d epoch loss: %.3f acc: %.3f' % (
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total))
+        f = open("result_train.txt", "a")
+        f.write('train %d epoch loss: %.3f acc: %.3f \n' % (
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total))
         f.close()
 
-        # 模型test
-        correct = 0
-        test_loss = 0.0
-        test_total = 0
-        # net.eval()
 
+        a = 0
+        correct_test = 0
+        total_test = 0
+        if j % 5 == 0:
+            plt.figure()
         for data in test_loader:
-            testimages, testlabels = data
-            testimages, testlabels = Variable(testimages), Variable(testlabels)
-            testimages, testlabels = testimages.to(device), testlabels.to(device)
-            net =net.eval()
-            outputs = net(testimages)
+            images, labels = data
+            out = utils.make_grid(images)
+            images, labels = images.to(device), labels.to(device)
+            net = net.eval()
+            outputs = net(images)
             predicted = torch.max(outputs.data, 1)[1]
-            # _, predicted = torch.max(outputs.data, 1)
-            # print(predicted,testlabels)
-            loss = cirterion(outputs, testlabels)
-            test_loss += loss.item()
-            test_total += testlabels.size(0)
-            correct += (predicted == testlabels.data).sum()
+            if j % 5 == 0:
+                plt.subplot(1, 1, 1)
+            if (predicted.numpy()[0] == 0):
+                preclassstr = 'boy'
+            else:
+                preclassstr = 'girl'
+            if (labels.numpy()[0] == 0):
+                labelclassstr = 'boy'
+            else:
+                labelclassstr = 'girl'
+            if j % 5 == 0:
+                imshow(out, preclassstr, labelclassstr, a)
+                plt.clf()
+            a = a + 1
+            total_test += labels.size(0)
+            correct_test += (predicted == labels).sum()
+        if j % 5 == 0:
+            plt.close()
 
-        # 测试计时
-        endtime2 = datetime.datetime.now()
-        loadingtime2=(endtime2 - endtime).seconds
-        # print(loadingtime2)
 
         # 打印测试结果
-        print('test  %d epoch loss: %.3f  acc: %.3f ' % (epoch + 1, test_loss / test_total, 100 * correct / test_total))
-        f = open("foo.txt", "a")
-        f.write('test  %d epoch loss: %.3f  acc: %.3f  load:%d\n' % (epoch + 1, test_loss / test_total, 100 * correct / test_total,loadingtime2))
+        print('test  %d epoch  acc: %.3f ' % (
+            epoch + 1, 100 * correct_test / total_test))
+        f = open("result_test.txt", "a")
+        f.write('test  %d epoch  acc: %.3f \n' % (
+            epoch + 1, 100 * correct_test / total_test))
         f.close()
 
-        if epoch % 30 == 0:
-            LR=LR/10
-
+        # 每15轮，lr缩小10倍
+        if epoch % 15 == 0:
+            LR = LR / 10

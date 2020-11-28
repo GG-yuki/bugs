@@ -18,21 +18,44 @@ using namespace std;
 
 int main(void)
 {
-    vector<int> v1,v2;
-    int number,temp;
+    vector<int> v1,v2,v3;
+    int min_length = 0, temp_length = 0;
+    int number,temp = 1, max = 1;
     while (cin >> number)
     {
          v1.push_back(number);
 	 if (cin.get() == '\n') //按下回车键退出循环
 		break;
     }
-    for(auto it = v1.begin(); it != v1.end(); it++)
+    auto it = v1.begin();
+
+    for(; (*it) !=0; it++) v2.push_back((*it));//输入，遇0停止
+
+    for(; it != v1.end(); it++)//遇0计算一遍乘积并判断，遇到数字则push进v2
     {
-        if((*it) != 0) v2.push_back((*it));
         if((*it) == 0) 
         {
+            temp = multiplication(v2);
+            temp_length = v2.size();
+            v2.pop_back((*it));
         }
+        if(temp >= max)
+        {
+            if (temp == max)
+            {
+                if(temp_length < min_length)
+                {
+                    temp_length = min_length;
+                    v3 = v2;
+                }
+            }
+            max = temp;
+            v3 = v2;
+            min_length = v3.size();
+        }
+        if((*it) != 0) v2.push_back((*it));
     }
+    cout << max;
     return 0;
 }
 
