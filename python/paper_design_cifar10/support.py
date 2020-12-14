@@ -1,72 +1,75 @@
-'''
+"""
 /********************************************************************
 *
 *  文件名：support.py
 *
 *  文件描述：封装类
 *
-*  创建人： qiwei_ji, 2020年5月31日
+*  创建人： qiwei_ji, 2020年10月4日
 *
-*  版本号：1.1.3.0301_alpha
+*  版本号：1.2
 *
-*  修改记录：63
+*  修改记录：64
 *
 ********************************************************************/
-'''
+"""
 import torch
 import torch.nn as nn
 from torchvision import transforms
+import torchvision.models as models
 import torch.optim as optim
 import datetime
-import os
-import numpy as np
 from torch.autograd import Variable
 
 
 # 保存网络
-def save_net(net):
-    torch.save(net, 'net.pkl')  # 保存整个网络
-    torch.save(net.state_dict(), 'net_params.pkl')   # 只保存网络中的参数 (速度快, 占内存少)
+def save_net(net, epoch):
+    save_epoch = ('./pkl/epoch_%d_net' % epoch)
+    torch.save(net, save_epoch + '.pkl')  # 保存整个网络
+    torch.save(net.state_dict(), './pkl/net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
     print('save_done')
 
 
 # 提取网络
-def restore_net():
+def load_net(net):
     # restore entire net1 to net2
-    net = torch.load('net.pkl')
-    torch.save(meet.state_dict(), 'net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
+    net = torch.load(net + '_net.pkl')
     return net
-
-
-# 提取网络(不常用，用的时候记得修改）
-def restore_params():
-    # 新建 net2
-    net2 = mobilenetv2.mobilenetv2(num_classes=2)
-    # 将保存的参数复制到 net2
-    net2.load_state_dict(torch.load('net_params.pkl'))
-    return net2
 
 
 # 图像归一化后裁剪，最后尺寸224*224*3
 def datatransform():
     data_transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.RandomCrop(32, padding=4),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.24703223, 0.24348512, 0.26158784])
     ])
     return data_transform
 
 
+def transform_test():
+    test_transform = transforms.Compose(
+        [transforms.ToTensor(),
+         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    ])
+    return test_transform
+
+
 # 定义训练过程
-def train(net,epochs,LR,train_loader,test_loader):
+def train(net, epochs, lr, train_loader, test_loader):
+    # 刷新txt
+    lr_decay = [80, 100, 120, 140]
+    net.train()
+    with open("result.txt", "w") as f:
+        f.write("开始实验")  # 这句话自带文件关闭功能，不需要再写f.close()
 
     # 定义loss和optimizer
     cirterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
 
     for epoch in range(epochs):
-        starttime = datetime.datetime.now() # 计时
+        starttime = datetime.datetime.now()  # 计时
 
         # 训练开始
         running_loss = 0.0
@@ -79,27 +82,24 @@ def train(net,epochs,LR,train_loader,test_loader):
             inputs, labels = inputs.cuda(), labels.cuda()
             optimizer.zero_grad()
             outputs = net(inputs)
+            loss = cirterion(outputs, labels.long())
             _, train_predicted = torch.max(outputs.data, 1)
-            # print(train_predicted,labels.data)
             train_correct += (train_predicted == labels.data).sum()
-            loss = cirterion(outputs, labels)
             loss.backward()
             optimizer.step()
             running_loss += loss.item()
             train_total += train_labels.size(0)
-            print("%d\n"%(i))
 
         # 训练计时
         endtime = datetime.datetime.now()
-        loadingtime=(endtime - starttime).seconds
-        print(loadingtime)
+        loadingtime = (endtime - starttime).seconds
 
         # 打印训练结果
         print('train %d epoch loss: %.3f  acc: %.3f  load:%d' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
-        f = open("foo.txt", "a")
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
+        f = open("result.txt", "a")
         f.write('train %d epoch loss: %.3f  acc: %.3f  load:%d \n' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
         f.close()
 
         # 模型test
@@ -107,39 +107,42 @@ def train(net,epochs,LR,train_loader,test_loader):
         test_loss = 0.0
         test_total = 0
         net.eval()
-
-        for data in test_loader:
-            images, labels = data
-            images, labels = Variable(images), Variable(labels)
-            inputs, labels = inputs.cuda(), labels.cuda()
-            outputs = net(images)
-            print(outputs)
-            _, predicted = torch.max(outputs.data, 1)
-            print(predicted,labels)
-            loss = cirterion(outputs, labels)
-            test_loss += loss.item()
-            test_total += labels.size(0)
-            correct += (predicted == labels.data).sum()
+        with torch.no_grad():
+            for data in test_loader:
+                testimages, testlabels = data
+                testimages, testlabels = Variable(testimages), Variable(testlabels)
+                testimages, testlabels = testimages.cuda(), testlabels.cuda()
+                net = net.eval()
+                outputs = net(testimages)
+                _, predicted = torch.max(outputs.data, 1)
+                loss = cirterion(outputs, testlabels)
+                test_loss += loss.item()
+                test_total += testlabels.size(0)
+                correct += (predicted == testlabels.data).sum()
 
         # 测试计时
         endtime2 = datetime.datetime.now()
-        loadingtime2=(endtime2 - endtime).seconds
-        print(loadingtime2)
+        loadingtime2 = (endtime2 - endtime).seconds
 
         # 打印测试结果
-        print('test  %d epoch loss: %.3f  acc: %.3f ' % (epoch + 1, test_loss / test_total, 100 * correct / test_total))
-        f = open("foo.txt", "a")
-        f.write('test  %d epoch loss: %.3f  acc: %.3f  load:%d\n' % (epoch + 1, test_loss / test_total, 100 * correct / test_total,loadingtime2))
+        print('test  %d epoch loss: %.3f  acc: %.3f ' %
+              (epoch + 1, test_loss / test_total, 100 * correct / test_total))
+        f = open("result.txt", "a")
+        f.write('test  %d epoch loss: %.3f  acc: %.3f  load:%d\n' %
+                (epoch + 1, test_loss / test_total, 100 * correct / test_total, loadingtime2))
         f.close()
 
-        if epoch == 30:
-            LR=LR/10
-        if epoch == 60:
-            LR=LR/10
+        # if (epoch + 1) % 50 == 0:
+        #     lr = lr / 10
+        #     save_net(net, epoch)
+        if epoch in lr_decay:
+            for p in optimizer.param_groups:
+                p['lr'] *= 0.1
 
 
-def shuffle_data():
-    original_dataset_dir = r'/home/jijl/My_project/graduation_design/sdsds/test'
-    total_num = int(len(os.listdir(original_dataset_dir)) / 2)
-    random_idx = np.array(range(total_num))
-    np.random.shuffle(random_idx)
+def loadmodel(num_classes=10):
+    net = models.mobilenet_v2(pretrained=False)
+    net.classifier = nn.Sequential(
+        nn.Dropout(0.2),
+        nn.Linear(in_features=1280, out_features=num_classes, bias=True))
+    return net

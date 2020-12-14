@@ -107,7 +107,7 @@ def test(net, test_loader):
     correct_test = 0
     total_test = 0
     i = 1
-    plt.figure()
+    # plt.figure()
     for data in test_loader:
         images, labels = data
         out = utils.make_grid(images)
@@ -115,21 +115,22 @@ def test(net, test_loader):
         net = net.eval()
         outputs = net(images)
         predicted = torch.max(outputs.data, 1)[1]
-        plt.subplot(1, 1, 1)
-        if (predicted.numpy()[0] == 0):
-            preclassstr = 'boy'
-        else:
-            preclassstr = 'girl'
-        if (labels.numpy()[0] == 0):
-            labelclassstr = 'boy'
-        else:
-            labelclassstr = 'girl'
-        imshow(out, preclassstr, labelclassstr,i)
+        print(labels.item())
+        # plt.subplot(1, 1, 1)
+        # if (predicted.numpy()[0] == 0):
+        #     preclassstr = 'boy'
+        # else:
+        #     preclassstr = 'girl'
+        # if (labels.numpy()[0] == 0):
+        #     labelclassstr = 'boy'
+        # else:
+        #     labelclassstr = 'girl'
+        # imshow(out, preclassstr, labelclassstr,i)
         i = i+1
         total_test += labels.size(0)
         correct_test += (predicted == labels).sum()
-        plt.clf()
-    plt.close()
+        # plt.clf()
+    # plt.close()
     print('测试准确率为: %d %%' % ((100 * correct_test // total_test)))
 
 

@@ -24,9 +24,9 @@ parser = argparse.ArgumentParser(description='construct your own neural network'
 parser.add_argument('--learningrate',type=float,default=0.001, help='define learning rate')
 parser.add_argument('--epochs',type=int,default=40, help='define training epochs',)
 parser.add_argument('--num_workers',type=int,default=0, help='define the number of thread',)
-parser.add_argument('--batch_size',type=int,default=1, help='define the batch size',)
+parser.add_argument('--batch_size',type=int,default=3, help='define the batch size',)
 parser.add_argument('--train_folder', type=str, default='./dataset/train', help='define your train loader')
-parser.add_argument('--test_folder', type=str, default='./classmate_photo/', help='define your test loader')
+parser.add_argument('--test_folder', type=str, default='./image/', help='define your test loader')
 args = parser.parse_args()
 
 
@@ -39,13 +39,6 @@ data_transform = datatransform()
 # │   ├── 1.jpg
 # │   ├── 2.jpg
 # │   ├── 3.jpg
-train_dataset = datasets.ImageFolder(root=args.train_folder,
-                                     transform=data_transform)
-train_loader = torch.utils.data.DataLoader(train_dataset,
-                                           batch_size=args.batch_size,
-                                           shuffle=True,
-                                           num_workers=args.num_workers)
-
 
 test_dataset = datasets.ImageFolder(root=args.test_folder,
                                     transform=data_transform)

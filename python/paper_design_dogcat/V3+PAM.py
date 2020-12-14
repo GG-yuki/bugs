@@ -26,7 +26,6 @@ import torch.nn.functional as F
 import csv
 import os
 from torchvision import datasets,transforms, models
-from snooper import my_snooper
 
 
 '''MobileNetV3 in PyTorch.

@@ -3,13 +3,13 @@
 *
 *  文件名：main_file_classify.py
 *
-*  文件描述：mobilenetv1-v1 船只识别
+*  文件描述：猫狗识别
 *
-*  创建人： qiwei_ji, 2020年8月22日
+*  创建人： qiwei_ji, 2020年10月4日
 *
-*  版本号：1.0_alpha
+*  版本号：1.2_alpha
 *
-*  修改记录：2
+*  修改记录：10
 *
 ********************************************************************/
 '''
@@ -22,8 +22,8 @@ from torchvision import datasets
 
 # 部分训练参数参数
 epochs = 90 # 训练次数
-batch_size = 64  # 批处理大小
-num_workers = 0 #多线程
+batch_size = 32  # 批处理大小
+num_workers = 4 #多线程
 LR = 0.001 #初始学习速率
 
 
@@ -47,6 +47,8 @@ shuffle_data()
 #网络实例化
 # net = restore_params() 加载之前存储的网络参数
 net = MobileNetV1(2).cuda() # 分类
+#net = MobileNetV2(2).cuda() # 分类
+# net = MobileNetV3_Small(2).cuda() # 分类
 train(net, epochs, LR, train_loader, test_loader)
 
 
