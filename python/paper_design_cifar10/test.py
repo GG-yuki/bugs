@@ -1,66 +1,197 @@
-import torch
+"""mobilenet in pytorch [1] Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko, Weijun Wang, Tobias Weyand,
+Marco Andreetto, Hartwig Adam MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications
+https://arxiv.org/abs/1704.04861 """
+
 import torch.nn as nn
-import torch.nn.functional as F
 
 
-class BasicConv2d(nn.Module):
-    def __init__(self, ksize, inCH, outCH, padding=0, stride=1):
-        super(BasicConv2d, self).__init__()
-        self.conv2d = nn.Conv2d(kernel_size=ksize, in_channels=inCH, 
-                        out_channels=outCH, padding=padding, stride=stride)
-        self.bn = nn.BatchNorm2d(outCH)
-        self.relu = nn.ReLU(inplace=True)
+class DepthSeperabelConv2d(nn.Module):
+
+    def __init__(self, input_channels, output_channels, kernel_size, **kwargs):
+        super().__init__()
+        self.depthwise = nn.Sequential(
+            nn.Conv2d(
+                input_channels,
+                input_channels,
+                kernel_size,
+                groups=input_channels,
+                **kwargs),
+            nn.BatchNorm2d(input_channels),
+            nn.ReLU(inplace=True)
+        )
+
+        self.pointwise = nn.Sequential(
+            nn.Conv2d(input_channels, output_channels, 1),
+            nn.BatchNorm2d(output_channels),
+            nn.ReLU(inplace=True)
+        )
 
     def forward(self, x):
-        x = self.conv2d(x)
-        x = self.bn(x)
-        x = self.relu(x)
+        x = self.depthwise(x)
+        x = self.pointwise(x)
+
         return x
 
 
-class DepthwiseConv2d(nn.Module):
-    def __init__(self, ksize, inCH, outCH, padding=0, stride=1):
-        super(DepthwiseConv2d, self).__init__()
-        self.dwConv2d = nn.Conv2d(kernel_size=ksize, in_channels=inCH, 
-                            out_channels=inCH, stride=stride, padding=padding, groups=inCH)
-        self.bn = nn.BatchNorm2d(inCH)
+class BasicConv2d(nn.Module):
+
+    def __init__(self, input_channels, output_channels, kernel_size, **kwargs):
+        super().__init__()
+        self.conv = nn.Conv2d(
+            input_channels, output_channels, kernel_size, **kwargs)
+        self.bn = nn.BatchNorm2d(output_channels)
         self.relu = nn.ReLU(inplace=True)
-        self.pointwiseConv2d = BasicConv2d(ksize=1, inCH=inCH, outCH=outCH)
 
     def forward(self, x):
-        x = self.dwConv2d(x)
+        x = self.conv(x)
         x = self.bn(x)
         x = self.relu(x)
-        x = self.pointwiseConv2d(x)
+
         return x
 
 
 class MobileNet(nn.Module):
-    def __init__(self):
-        super(MobileNet, self).__init__()
-        self.pre_layer = BasicConv2d(ksize=3, inCH=3, outCH=32)
-        self.Depthwise = nn.Sequential(
-            DepthwiseConv2d(ksize=3, inCH=32, outCH=64, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=64, outCH=128, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=128, outCH=128, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=128, outCH=256, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=256, outCH=256, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=256, outCH=512, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=1024, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=1024, outCH=1024, padding=1)
+    """
+    Args:
+        width multipler: The role of the width multiplier α is to thin
+                         a network uniformly at each layer. For a given
+                         layer and width multiplier α, the number of
+                         input channels M becomes αM and the number of
+                         output channels N becomes αN.
+    """
+
+    def __init__(self, width_multiplier=1, class_num=100):
+        super().__init__()
+
+        alpha = width_multiplier
+        self.stem = nn.Sequential(
+            BasicConv2d(3, int(32 * alpha), 3, padding=1, bias=False),
+            DepthSeperabelConv2d(
+                int(32 * alpha),
+                int(64 * alpha),
+                3,
+                padding=1,
+                bias=False
+            )
         )
-        self.avgpool = nn.AvgPool2d((4, 4))
-        self.linear = nn.Linear(1024*1*1, 10)
+
+        # downsample
+        self.conv1 = nn.Sequential(
+            DepthSeperabelConv2d(
+                int(64 * alpha),
+                int(128 * alpha),
+                3,
+                stride=2,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(128 * alpha),
+                int(128 * alpha),
+                3,
+                padding=1,
+                bias=False
+            )
+        )
+
+        # downsample
+        self.conv2 = nn.Sequential(
+            DepthSeperabelConv2d(
+                int(128 * alpha),
+                int(256 * alpha),
+                3,
+                stride=2,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(256 * alpha),
+                int(256 * alpha),
+                3,
+                padding=1,
+                bias=False
+            )
+        )
+
+        # downsample
+        self.conv3 = nn.Sequential(
+            DepthSeperabelConv2d(
+                int(256 * alpha),
+                int(512 * alpha),
+                3,
+                stride=2,
+                padding=1,
+                bias=False
+            ),
+
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(512 * alpha),
+                3,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(512 * alpha),
+                3,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(512 * alpha),
+                3,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(512 * alpha),
+                3,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(512 * alpha),
+                3,
+                padding=1,
+                bias=False
+            )
+        )
+
+        # downsample
+        self.conv4 = nn.Sequential(
+            DepthSeperabelConv2d(
+                int(512 * alpha),
+                int(1024 * alpha),
+                3,
+                stride=2,
+                padding=1,
+                bias=False
+            ),
+            DepthSeperabelConv2d(
+                int(1024 * alpha),
+                int(1024 * alpha),
+                3,
+                padding=1,
+                bias=False
+            )
+        )
+
+        self.fc = nn.Linear(int(1024 * alpha), class_num)
+        self.avg = nn.AdaptiveAvgPool2d(1)
 
     def forward(self, x):
-        x = self.pre_layer(x)
-        x = self.Depthwise(x)
-        x = self.avgpool(x)
-        x = x.view(-1, 1*1*1024)
-        x = self.linear(x)
+        x = self.stem(x)
+
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        x = self.conv4(x)
+
+        x = self.avg(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
         return x

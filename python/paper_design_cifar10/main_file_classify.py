@@ -16,15 +16,18 @@
 # coding=utf-8
 from support import *
 from mobilenetv1 import *
-from mobilenetv2 import *
-from mobilenetv3 import *
+# from mobilenetv2 import *
+# from mobilenetv3 import *
 from torchvision import datasets
 
 # 部分训练参数参数
-epochs = 100  # 训练次数
+epochs = 200  # 训练次数
 batch_size = 128  # 批处理大小
 num_workers = 4  # 多线程
-LR = 0.01  # 初始学习速率
+LR = 0.001  # 初始学习速率
+
+# seed
+seed: Optional[int] = None
 
 # 对加载的图像作归一化处理， 并裁剪为[224x224x3]大小的图像
 data_transform = datatransform()
@@ -43,7 +46,8 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 # 网络实例化
 # net = restore_params() 加载之前存储的网络参数
-net = MobileNetV1(num_classes=10).cuda()  # 分类
+# net = MobileNetV1(num_classes=10).cuda()  # 分类
+net = load_net('epoch_299')
 # net = loadmodel(10)  # 分类
 # net = net.cuda()
 # net = MobileNetV3_Small(10).cuda() # 分类

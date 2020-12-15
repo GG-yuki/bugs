@@ -227,6 +227,6 @@ class MobileNetV3_Small(nn.Module):
 #     y = net(x)
 #     print(y.size())
 # test()
-model = MobileNetV3_Small(10).cuda()
-from torchsummary import summary
-summary(model, (3, 32, 32))
+# model = MobileNetV3_Small(10).cuda()
+# from torchsummary import summary
+# summary(model, (3, 32, 32))

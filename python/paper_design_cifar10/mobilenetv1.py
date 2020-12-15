@@ -1,71 +1,97 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-
-class BasicConv2d(nn.Module):
-    def __init__(self, ksize, inCH, outCH, padding=0, stride=1):
-        super(BasicConv2d, self).__init__()
-        self.conv2d = nn.Conv2d(kernel_size=ksize, in_channels=inCH,
-                        out_channels=outCH, padding=padding, stride=stride)
-        self.bn = nn.BatchNorm2d(outCH)
-        self.relu = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        x = self.conv2d(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        return x
-
-
-class DepthwiseConv2d(nn.Module):
-    def __init__(self, ksize, inCH, outCH, padding=0, stride=1):
-        super(DepthwiseConv2d, self).__init__()
-        self.dwConv2d = nn.Conv2d(kernel_size=ksize, in_channels=inCH,
-                            out_channels=inCH, stride=stride, padding=padding, groups=inCH)
-        self.bn = nn.BatchNorm2d(inCH)
-        self.relu = nn.ReLU(inplace=True)
-        self.pointwiseConv2d = BasicConv2d(ksize=1, inCH=inCH, outCH=outCH)
-
-    def forward(self, x):
-        x = self.dwConv2d(x)
-        x = self.bn(x)
-        x = self.relu(x)
-        x = self.pointwiseConv2d(x)
-        return x
-
-
-class MobileNet(nn.Module):
-    def __init__(self):
-        super(MobileNet, self).__init__()
-        self.pre_layer = BasicConv2d(ksize=3, inCH=3, outCH=32)
-        self.Depthwise = nn.Sequential(
-            DepthwiseConv2d(ksize=3, inCH=32, outCH=64, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=64, outCH=128, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=128, outCH=128, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=128, outCH=256, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=256, outCH=256, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=256, outCH=512, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=512, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=512, outCH=1024, stride=2, padding=1),
-            DepthwiseConv2d(ksize=3, inCH=1024, outCH=1024, padding=1)
-        )
-        self.avgpool = nn.AvgPool2d((4, 4))
-        self.linear = nn.Linear(1024*1*1, 10)
-
-    def forward(self, x):
-        x = self.pre_layer(x)
-        x = self.Depthwise(x)
-        x = self.avgpool(x)
-        x = x.view(-1, 1*1*1024)
-        x = self.linear(x)
-        return x
-
-
-model = MobileNet().cuda()
 from torchsummary import summary
+'''
+/*============================================================
+*
+* 函 数 名：mobilenetv1()
+*
+* 参  数：
+*
+*    tensor,4维，m样本*n通道*尺寸*尺寸
+*
+* 功能描述:
+*
+*    mobilenetv1
+*
+* 返 回 值：softmax,2个概率值，用来预测猫狗
+*
+* 抛出异常：
+*
+* 作  者：qiwei_ji 2020/5/31
+*
+* 网络结构：
+*
+*       mobilenetv1(
+*          (conv1): Sequential(
+*           (0): Conv2d(1, 1, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+*           (1): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+*            (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+*            (3): ReLU()
+*          )
+*          (conv2): Sequential(
+*            (0): Conv2d(1, 32, kernel_size=(1, 1), stride=(1, 1))
+*            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+*            (2): ReLU()
+*            (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+*          )
+*         (out): Linear(in_features=1568, out_features=10, bias=True)
+*        )
+* ============================================================*/
+'''
+
+
+class MobileNetV1(nn.Module):
+    def __init__(self, num_classes):
+        super(MobileNetV1, self).__init__()
+
+        def conv_bn(inp, oup, stride):
+            return nn.Sequential(
+                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU(inplace=True)
+            )
+
+        def conv_dw(inp, oup, stride):
+            return nn.Sequential(
+                nn.Conv2d(inp, inp, 3, stride, 1, groups=inp, bias=False),
+                nn.BatchNorm2d(inp),
+                nn.ReLU(inplace=True),
+
+                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU(inplace=True),
+            )
+
+        self.model = nn.Sequential(
+            conv_bn(3, 32, 1),
+            conv_dw(32, 64, 1),
+            conv_dw(64, 128, 2),
+            conv_dw(128, 128, 1),
+            conv_dw(128, 256, 2),
+            conv_dw(256, 256, 1),
+            conv_dw(256, 512, 2),
+            conv_dw(512, 512, 1),
+            conv_dw(512, 512, 1),
+            conv_dw(512, 512, 1),
+            conv_dw(512, 512, 1),
+            conv_dw(512, 512, 1),
+            conv_dw(512, 1024, 2),
+            conv_dw(1024, 1024, 1),
+        )
+        self.avg = nn.AdaptiveAvgPool2d(1)
+        self.fc1 = nn.Linear(1024, 1000)
+        self.fc2 = nn.Linear(1000, num_classes)
+
+    def forward(self, x):
+        x = self.model(x)
+        x = self.avg(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc1(x)
+        x = self.fc2(x)
+        output = F.softmax(x, dim=1)  # import torch.nn.funtional as F
+        return output
+
+
+model = MobileNetV1(10).cuda()
 summary(model, (3, 32, 32))

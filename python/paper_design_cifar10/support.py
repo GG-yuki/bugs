@@ -20,6 +20,9 @@ import torchvision.models as models
 import torch.optim as optim
 import datetime
 from torch.autograd import Variable
+import numpy as np
+from typing import Optional
+from torch.optim.lr_scheduler import StepLR
 
 
 # 保存网络
@@ -33,7 +36,7 @@ def save_net(net, epoch):
 # 提取网络
 def load_net(net):
     # restore entire net1 to net2
-    net = torch.load(net + '_net.pkl')
+    net = torch.load('./pkl/' + net + '_net.pkl')
     return net
 
 
@@ -44,6 +47,7 @@ def datatransform():
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.24703223, 0.24348512, 0.26158784])
+        # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
     return data_transform
 
@@ -51,15 +55,14 @@ def datatransform():
 def transform_test():
     test_transform = transforms.Compose(
         [transforms.ToTensor(),
-         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
+         transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.24703223, 0.24348512, 0.26158784])
+         ])
     return test_transform
 
 
 # 定义训练过程
 def train(net, epochs, lr, train_loader, test_loader):
     # 刷新txt
-    lr_decay = [80, 100, 120, 140]
     net.train()
     with open("result.txt", "w") as f:
         f.write("开始实验")  # 这句话自带文件关闭功能，不需要再写f.close()
@@ -67,6 +70,8 @@ def train(net, epochs, lr, train_loader, test_loader):
     # 定义loss和optimizer
     cirterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
+    # optimizer = optim.Adam(model.parameters(), lr=0.01)
+    # scheduler = StepLR(optimizer, step_size=10, gamma=0.5)
 
     for epoch in range(epochs):
         starttime = datetime.datetime.now()  # 计时
@@ -89,6 +94,7 @@ def train(net, epochs, lr, train_loader, test_loader):
             optimizer.step()
             running_loss += loss.item()
             train_total += train_labels.size(0)
+        # scheduler.step()
 
         # 训练计时
         endtime = datetime.datetime.now()
@@ -125,19 +131,34 @@ def train(net, epochs, lr, train_loader, test_loader):
         loadingtime2 = (endtime2 - endtime).seconds
 
         # 打印测试结果
-        print('test  %d epoch loss: %.3f  acc: %.3f ' %
-              (epoch + 1, test_loss / test_total, 100 * correct / test_total))
+        print('test  %d epoch loss: %.3f  acc: %.3f  load:%d ' %
+              (epoch + 1, test_loss / test_total, 100 * correct / test_total, loadingtime2))
         f = open("result.txt", "a")
         f.write('test  %d epoch loss: %.3f  acc: %.3f  load:%d\n' %
                 (epoch + 1, test_loss / test_total, 100 * correct / test_total, loadingtime2))
         f.close()
 
-        # if (epoch + 1) % 50 == 0:
-        #     lr = lr / 10
-        #     save_net(net, epoch)
-        if epoch in lr_decay:
-            for p in optimizer.param_groups:
-                p['lr'] *= 0.1
+        if (epoch + 1) % 100 == 0:
+            lr = lr / 10
+            save_net(net, epoch)
+
+
+def set_random_seed(seed: Optional[int] = None) -> int:
+    """
+    Set the random seed for numpy and torch.
+    Parameters
+    ----------
+    seed: int or None, default None
+        Specify initial random seed.
+    Returns
+    -------
+    seed : int
+    """
+    seed = np.random.randint(10_000) if seed is None else seed
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # type: ignore
+    return seed
 
 
 def loadmodel(num_classes=10):
