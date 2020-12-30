@@ -1,7 +1,0 @@
-**/.*.swp
-*.ipynb
-**/*.pyc
-*.pyc
-.ipynb_checkpoints
-third-parties/
-third-parties/*

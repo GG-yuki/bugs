@@ -8,7 +8,6 @@
 import argparse
 import os
 import time
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -17,8 +16,8 @@ import torch.optim
 import torch.utils.data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-
-from util import AverageMeter, learning_rate_decay, load_model, Logger
+from support import load_net
+from util import AverageMeter, learning_rate_decay, Logger  # , load_model
 
 parser = argparse.ArgumentParser(description="""Train linear classifier on top
                                  of frozen convolutional layers of an AlexNet.""")
@@ -27,8 +26,6 @@ parser.add_argument('--data', type=str, help='path to dataset')
 parser.add_argument('--model', type=str, help='path to model')
 parser.add_argument('--conv', type=int, choices=[1, 2, 3, 4, 5],
                     help='on top of which convolutional layer train logistic regression')
-parser.add_argument('--tencrops', action='store_true',
-                    help='validation accuracy averaged over 10 crops')
 parser.add_argument('--exp', type=str, default='', help='exp folder')
 parser.add_argument('--workers', default=4, type=int,
                     help='number of data loading workers (default: 4)')
@@ -47,7 +44,7 @@ def main():
     global args
     args = parser.parse_args()
 
-    #fix random seeds
+    # fix random seeds
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
     np.random.seed(args.seed)
@@ -55,8 +52,9 @@ def main():
     best_prec1 = 0
 
     # load model
-    model = load_model(args.model)
-    model.cuda()
+    model = nn.DataParallel(Resnet18())
+    model.load_state_dict(torch.load(path))
+    model = model.module
     cudnn.benchmark = True
 
     # freeze the features layers
@@ -73,17 +71,11 @@ def main():
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
-    if args.tencrops:
-        transformations_val = [
-            transforms.Resize(256),
-            transforms.TenCrop(224),
-            transforms.Lambda(lambda crops: torch.stack([normalize(transforms.ToTensor()(crop)) for crop in crops])),
-        ]
-    else:
-        transformations_val = [transforms.Resize(256),
-                               transforms.CenterCrop(224),
-                               transforms.ToTensor(),
-                               normalize]
+
+    transformations_val = [transforms.Resize(256),
+                           transforms.CenterCrop(224),
+                           transforms.ToTensor(),
+                           normalize]
 
     transformations_train = [transforms.Resize(256),
                              transforms.CenterCrop(256),
@@ -91,6 +83,7 @@ def main():
                              transforms.RandomHorizontalFlip(),
                              transforms.ToTensor(),
                              normalize]
+
     train_dataset = datasets.ImageFolder(
         traindir,
         transform=transforms.Compose(transformations_train)
@@ -106,7 +99,7 @@ def main():
                                                num_workers=args.workers,
                                                pin_memory=True)
     val_loader = torch.utils.data.DataLoader(val_dataset,
-                                             batch_size=int(args.batch_size/2),
+                                             batch_size=int(args.batch_size / 2),
                                              shuffle=False,
                                              num_workers=args.workers)
 
@@ -116,7 +109,7 @@ def main():
         filter(lambda x: x.requires_grad, reglog.parameters()),
         args.lr,
         momentum=args.momentum,
-        weight_decay=10**args.weight_decay
+        weight_decay=10 ** args.weight_decay
     )
 
     # create logs
@@ -154,28 +147,29 @@ def main():
             'state_dict': model.state_dict(),
             'prec5': prec5,
             'best_prec1': best_prec1,
-            'optimizer' : optimizer.state_dict(),
+            'optimizer': optimizer.state_dict(),
         }, os.path.join(args.exp, filename))
 
 
 class RegLog(nn.Module):
     """Creates logistic regression on top of frozen features"""
+
     def __init__(self, conv, num_labels):
         super(RegLog, self).__init__()
         self.conv = conv
-        if conv==1:
+        if conv == 1:
             self.av_pool = nn.AvgPool2d(6, stride=6, padding=3)
             s = 9600
-        elif conv==2:
+        elif conv == 2:
             self.av_pool = nn.AvgPool2d(4, stride=4, padding=0)
             s = 9216
-        elif conv==3:
+        elif conv == 3:
             self.av_pool = nn.AvgPool2d(3, stride=3, padding=1)
             s = 9600
-        elif conv==4:
+        elif conv == 4:
             self.av_pool = nn.AvgPool2d(3, stride=3, padding=1)
             s = 9600
-        elif conv==5:
+        elif conv == 5:
             self.av_pool = nn.AvgPool2d(2, stride=2, padding=0)
             s = 9216
         self.linear = nn.Linear(s, num_labels)
@@ -199,6 +193,7 @@ def forward(x, model, conv):
             count = count + 1
     return x
 
+
 def accuracy(output, target, topk=(1,)):
     """Computes the precision@k for the specified values of k"""
     maxk = max(topk)
@@ -213,6 +208,7 @@ def accuracy(output, target, topk=(1,)):
         correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
         res.append(correct_k.mul_(100.0 / batch_size))
     return res
+
 
 def train(train_loader, model, reglog, criterion, optimizer, epoch):
     batch_time = AverageMeter()
@@ -230,10 +226,10 @@ def train(train_loader, model, reglog, criterion, optimizer, epoch):
         # measure data loading time
         data_time.update(time.time() - end)
 
-        #adjust learning rate
+        # adjust learning rate
         learning_rate_decay(optimizer, len(train_loader) * epoch + i, args.lr)
 
-        target = target.cuda(async=True)
+        target = target.cuda()
         input_var = torch.autograd.Variable(input.cuda())
         target_var = torch.autograd.Variable(target)
         # compute output
@@ -264,7 +260,7 @@ def train(train_loader, model, reglog, criterion, optimizer, epoch):
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                   'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'
                   .format(epoch, i, len(train_loader), batch_time=batch_time,
-                   data_time=data_time, loss=losses, top1=top1, top5=top5))
+                          data_time=data_time, loss=losses, top1=top1, top5=top5))
 
 
 def validate(val_loader, model, reglog, criterion):
@@ -281,14 +277,14 @@ def validate(val_loader, model, reglog, criterion):
         if args.tencrops:
             bs, ncrops, c, h, w = input_tensor.size()
             input_tensor = input_tensor.view(-1, c, h, w)
-        target = target.cuda(async=True)
+        target = target.cuda()
         input_var = torch.autograd.Variable(input_tensor.cuda(), volatile=True)
         target_var = torch.autograd.Variable(target, volatile=True)
 
         output = reglog(forward(input_var, model, reglog.conv))
 
         if args.tencrops:
-            output_central = output.view(bs, ncrops, -1)[: , ncrops / 2 - 1, :]
+            output_central = output.view(bs, ncrops, -1)[:, ncrops / 2 - 1, :]
             output = softmax(output)
             output = torch.squeeze(output.view(bs, ncrops, -1).mean(1))
         else:
@@ -311,9 +307,10 @@ def validate(val_loader, model, reglog, criterion):
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                   'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'
                   .format(i, len(val_loader), batch_time=batch_time,
-                   loss=losses, top1=top1, top5=top5))
+                          loss=losses, top1=top1, top5=top5))
 
     return top1.avg, top5.avg, losses.avg
+
 
 if __name__ == '__main__':
     main()

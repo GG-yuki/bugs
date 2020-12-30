@@ -46,7 +46,29 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.clustering">
+    <configuration name="clustering" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="paper_design_deepcluster" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clustering.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="paper_design_deepcluster" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -135,35 +157,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="vgg16" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="paper_design_deepcluster" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/vgg16.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.clustering" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.main_before" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.open_code_file" />
-        <item itemvalue="Python.vgg16" />
       </list>
     </recent_temporary>
   </component>
@@ -192,6 +192,8 @@
       <workItem from="1605101441443" duration="573000" />
       <workItem from="1605102231501" duration="631000" />
       <workItem from="1605171014568" duration="1992000" />
+      <workItem from="1608637397611" duration="569000" />
+      <workItem from="1608712860677" duration="11775000" />
     </task>
     <servers />
   </component>
@@ -199,10 +201,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="361" y="71" width="874" height="682" key="#Deployment" timestamp="1605101539506">
+    <state x="361" y="71" width="874" height="682" key="#Deployment" timestamp="1608716628060">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="71" width="874" height="682" key="#Deployment/0.0.1536.824@0.0.1536.824" timestamp="1605101539506" />
+    <state x="361" y="71" width="874" height="682" key="#Deployment/0.0.1536.824@0.0.1536.824" timestamp="1608716628060" />
     <state x="444" y="94" key="#Options" timestamp="1604235006131">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -219,40 +221,42 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="148" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604234722837" />
-    <state width="844" height="173" key="GridCell.Tab.0.bottom" timestamp="1605188992725">
+    <state width="1493" height="173" key="GridCell.Tab.0.bottom" timestamp="1608904592786">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="844" height="173" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605188992725" />
-    <state width="844" height="173" key="GridCell.Tab.0.center" timestamp="1605188992724">
+    <state width="1493" height="173" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1608904592786" />
+    <state width="1493" height="173" key="GridCell.Tab.0.center" timestamp="1608904592786">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="844" height="173" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605188992724" />
-    <state width="844" height="173" key="GridCell.Tab.0.left" timestamp="1605188992724">
+    <state width="1493" height="173" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1608904592786" />
+    <state width="1493" height="173" key="GridCell.Tab.0.left" timestamp="1608904592786">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="844" height="173" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605188992724" />
-    <state width="844" height="173" key="GridCell.Tab.0.right" timestamp="1605188992724">
+    <state width="1493" height="173" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1608904592786" />
+    <state width="1493" height="173" key="GridCell.Tab.0.right" timestamp="1608904592786">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="844" height="173" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605188992724" />
-    <state x="277" y="57" key="SettingsEditor" timestamp="1605171035202">
+    <state width="1493" height="173" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1608904592786" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1608713199848">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605171035202" />
-    <state x="578" y="278" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1605101631324">
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1608713199848" />
+    <state x="578" y="278" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1608713198771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="578" y="278" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1536.824@0.0.1536.824" timestamp="1605101631324" />
-    <state x="534" y="143" key="ftp.server.browser" timestamp="1604234513066">
+    <state x="578" y="278" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1536.824@0.0.1536.824" timestamp="1608713198771" />
+    <state x="534" y="143" key="ftp.server.browser" timestamp="1608713168435">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="534" y="143" key="ftp.server.browser/0.0.1536.824@0.0.1536.824" timestamp="1604234513066" />
+    <state x="534" y="143" key="ftp.server.browser/0.0.1536.824@0.0.1536.824" timestamp="1608713168435" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1605188460848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/main_py$open_code_file.coverage" NAME="open_code_file Coverage Results" MODIFIED="1604647607045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/clustering_py$clustering.coverage" NAME="clustering Coverage Results" MODIFIED="1608718845890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/main_py$main_before.coverage" NAME="main_before Coverage Results" MODIFIED="1605018821313" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/paper_design_deepcluster$vgg16.coverage" NAME="vgg16 Coverage Results" MODIFIED="1604236588078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/main_py$test.coverage" NAME="test Coverage Results" MODIFIED="1604883825946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/clustering_py$main.coverage" NAME="main Coverage Results" MODIFIED="1608718653939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -15,14 +15,13 @@
 """
 import torch
 import torch.nn as nn
-from torchvision import transforms
+from torchvision import transforms, datasets
 import torchvision.models as models
 import torch.optim as optim
 import datetime
 from torch.autograd import Variable
 import numpy as np
 from typing import Optional
-from torch.optim.lr_scheduler import StepLR
 
 
 # 保存网络
@@ -36,42 +35,35 @@ def save_net(net, epoch):
 # 提取网络
 def load_net(net):
     # restore entire net1 to net2
-    net = torch.load('./pkl/' + net + '_net.pkl')
-    return net
+    model_load = torch.load('./pkl/epoch_' + net + '_net.pkl')
+    return model_load
 
 
 # 图像归一化后裁剪，最后尺寸224*224*3
-def datatransform():
+def transform():
     data_transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.24703223, 0.24348512, 0.26158784])
-        # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
     return data_transform
 
 
-def transform_test():
-    test_transform = transforms.Compose(
-        [transforms.ToTensor(),
-         transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.24703223, 0.24348512, 0.26158784])
-         ])
-    return test_transform
-
-
 # 定义训练过程
-def train(net, epochs, lr, train_loader, test_loader):
+def train(net, epochs, lr, train_loader, test_loader, weight_decay=5e-4):
     # 刷新txt
+    model_name = format(net.__class__.__name__)
     net.train()
-    with open("result.txt", "w") as f:
-        f.write("开始实验")  # 这句话自带文件关闭功能，不需要再写f.close()
+    with open('./experiment_record(first)/' + model_name + '/result.txt', "w") as f:
+        f.write("开始实验\n")  # 自带文件关闭功能，不需要再写f.close()
 
     # 定义loss和optimizer
     cirterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)
-    # optimizer = optim.Adam(model.parameters(), lr=0.01)
-    # scheduler = StepLR(optimizer, step_size=10, gamma=0.5)
+    optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=weight_decay)
+    max_acc = 0
+    loadingtime = 0
+    loadingtime2 = 0
 
     for epoch in range(epochs):
         starttime = datetime.datetime.now()  # 计时
@@ -94,7 +86,6 @@ def train(net, epochs, lr, train_loader, test_loader):
             optimizer.step()
             running_loss += loss.item()
             train_total += train_labels.size(0)
-        # scheduler.step()
 
         # 训练计时
         endtime = datetime.datetime.now()
@@ -103,7 +94,7 @@ def train(net, epochs, lr, train_loader, test_loader):
         # 打印训练结果
         print('train %d epoch loss: %.3f  acc: %.3f  load:%d' % (
             epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
-        f = open("result.txt", "a")
+        f = open('./experiment_record(first)/' + model_name + '/result.txt', "a")
         f.write('train %d epoch loss: %.3f  acc: %.3f  load:%d \n' % (
             epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
         f.close()
@@ -129,18 +120,23 @@ def train(net, epochs, lr, train_loader, test_loader):
         # 测试计时
         endtime2 = datetime.datetime.now()
         loadingtime2 = (endtime2 - endtime).seconds
-
-        # 打印测试结果
+        acc = 100 * correct / test_total
+        if max_acc < acc:
+            max_acc = acc
+        # 打印测试结果n
         print('test  %d epoch loss: %.3f  acc: %.3f  load:%d ' %
-              (epoch + 1, test_loss / test_total, 100 * correct / test_total, loadingtime2))
-        f = open("result.txt", "a")
+              (epoch + 1, test_loss / test_total, acc, loadingtime2))
+        f = open('./experiment_record(first)/' + model_name + '/result.txt', "a")
         f.write('test  %d epoch loss: %.3f  acc: %.3f  load:%d\n' %
-                (epoch + 1, test_loss / test_total, 100 * correct / test_total, loadingtime2))
+                (epoch + 1, test_loss / test_total, acc, loadingtime2))
         f.close()
 
-        if (epoch + 1) % 100 == 0:
-            lr = lr / 10
+        if (epoch + 1) % 20 == 0:
+            lr = lr / 8
+            print('epoch decrease 10x')
             save_net(net, epoch)
+
+    return max_acc, loadingtime, loadingtime2
 
 
 def set_random_seed(seed: Optional[int] = None) -> int:
@@ -161,9 +157,42 @@ def set_random_seed(seed: Optional[int] = None) -> int:
     return seed
 
 
-def loadmodel(num_classes=10):
+def load_model(num_classes=10):
     net = models.mobilenet_v2(pretrained=False)
     net.classifier = nn.Sequential(
         nn.Dropout(0.2),
         nn.Linear(in_features=1280, out_features=num_classes, bias=True))
     return net
+
+
+def write_result(model, epochs, batch_size, num_workers, lr, max_acc, weight_decay, traintime, testtime):
+    f = open('./experiment_record(first)/' + model + '/final_result.txt', "a")
+    f.write('model %s   train %d epoch   batch_size %d   num_workers %d   lr %f   max_acc: %.3f  '
+            'weight_decay %f   traintime %d   testtime %d\n' %
+            (model, epochs, batch_size, num_workers, lr, max_acc, weight_decay, traintime, testtime))
+    f.close()
+
+
+class Data_loader:
+
+    def __init__(self, root, num_workers, batch_size):
+        self.root = root
+        self.num_workers = num_workers
+        self.batch_size = batch_size
+        self.transform = transform()
+
+    def trainloader(self):
+        train_dataset = datasets.CIFAR10(root=self.root, train=True, transform=self.transform, download=False)
+        train_loader = torch.utils.data.DataLoader(train_dataset,
+                                                   batch_size=self.batch_size,
+                                                   shuffle=True,
+                                                   num_workers=self.num_workers)
+        return train_loader
+
+    def testloader(self):
+        test_dataset = datasets.CIFAR10(root=self.root, train=False, transform=self.transform, download=False)
+        test_loader = torch.utils.data.DataLoader(test_dataset,
+                                                  batch_size=self.batch_size,
+                                                  shuffle=True,
+                                                  num_workers=self.num_workers)
+        return test_loader

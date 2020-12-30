@@ -6,12 +6,11 @@
 #
 import math
 
-import numpy as np
 import torch
 import torch.nn as nn
 
-__all__ = [ 'AlexNet', 'alexnet']
- 
+__all__ = ['AlexNet', 'alexnet']
+
 # (number of filters, kernel size, stride, pad)
 CFG = {
     '2012': [(96, 11, 4, 2), 'M', (256, 5, 1, 2), 'M', (384, 3, 1, 1), (384, 3, 1, 1), (256, 3, 1, 1), 'M']
@@ -23,11 +22,11 @@ class AlexNet(nn.Module):
         super(AlexNet, self).__init__()
         self.features = features
         self.classifier = nn.Sequential(nn.Dropout(0.5),
-                            nn.Linear(256 * 6 * 6, 4096),
-                            nn.ReLU(inplace=True),
-                            nn.Dropout(0.5),
-                            nn.Linear(4096, 4096),
-                            nn.ReLU(inplace=True))
+                                        nn.Linear(256 * 6 * 6, 4096),
+                                        nn.ReLU(inplace=True),
+                                        nn.Dropout(0.5),
+                                        nn.Linear(4096, 4096),
+                                        nn.ReLU(inplace=True))
 
         self.top_layer = nn.Linear(4096, num_classes)
         self._initialize_weights()

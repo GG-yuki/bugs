@@ -92,6 +92,20 @@ class MobileNetV1(nn.Module):
         output = F.softmax(x, dim=1)  # import torch.nn.funtional as F
         return output
 
+    def init_params(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                init.constant_(m.weight, 1)
+                init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                init.normal_(m.weight, std=0.001)
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+
 
 model = MobileNetV1(10).cuda()
 summary(model, (3, 32, 32))

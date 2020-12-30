@@ -22,7 +22,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from torch.nn import init
 
 class Head(nn.Module):  # MobileNet_2 网络的第1层
     def __init__(self):
@@ -132,6 +132,20 @@ class MobileNetV2(nn.Module):  # MobileNet_2网络的完整定义
         out = self.fc2(out)
         out = F.softmax(out, dim=1)
         return out
+
+    def init_params(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                init.constant_(m.weight, 1)
+                init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                init.normal_(m.weight, std=0.001)
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
 
 
 # def test():

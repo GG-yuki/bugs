@@ -13,31 +13,13 @@
 *
 ********************************************************************/
 '''
-
-
-import numpy as np
-import pandas as pd
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import torch.utils.data as Data
-import matplotlib.pyplot as plt
-import torch.nn.functional as F
-import csv
-import os
-from torchvision import datasets,transforms, models
-from snooper import my_snooper
-
-
 '''MobileNetV3 in PyTorch.
 See the paper "Inverted Residuals and Linear Bottlenecks:
 Mobile Networks for Classification, Detection and Segmentation" for more details.
 '''
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
-
 
 
 class hswish(nn.Module):
@@ -53,42 +35,26 @@ class hsigmoid(nn.Module):
 
 
 class SeModule(nn.Module):
-    """ Position attention module"""
-    #Ref from SAGAN
-    def __init__(self, in_dim):
+    def __init__(self, in_size, reduction=4):
         super(SeModule, self).__init__()
-        self.chanel_in = in_dim
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
 
-        self.query_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim//8, kernel_size=1)
-        self.key_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim//8, kernel_size=1)
-        self.value_conv = nn.Conv2d(in_channels=in_dim, out_channels=in_dim, kernel_size=1)
-        self.gamma = nn.Parameter(torch.zeros(1))
+        self.se = nn.Sequential(
+            nn.Conv2d(in_size, in_size // reduction, kernel_size=1, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(in_size // reduction),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(in_size // reduction, in_size, kernel_size=1, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(in_size),
+            hsigmoid()
+        )
 
-        self.softmax = nn.Softmax(dim=-1)
     def forward(self, x):
-        """
-            inputs :
-                x : input feature maps( B X C X H X W)
-            returns :
-                out : attention value + input feature
-                attention: B X (HxW) X (HxW)
-        """
-        m_batchsize, C, height, width = x.size()
-        proj_query = self.query_conv(x).view(m_batchsize, -1, width*height).permute(0, 2, 1)
-        proj_key = self.key_conv(x).view(m_batchsize, -1, width*height)
-        energy = torch.bmm(proj_query, proj_key)
-        attention = self.softmax(energy)
-        proj_value = self.value_conv(x).view(m_batchsize, -1, width*height)
-
-        out = torch.bmm(proj_value, attention.permute(0, 2, 1))
-        out = out.view(m_batchsize, C, height, width)
-
-        out = self.gamma*out + x
-        return out
+        return x * self.se(x)
 
 
 class Block(nn.Module):
     '''expand + depthwise + pointwise'''
+
     def __init__(self, kernel_size, in_size, expand_size, out_size, nolinear, semodule, stride):
         super(Block, self).__init__()
         self.stride = stride
@@ -97,7 +63,8 @@ class Block(nn.Module):
         self.conv1 = nn.Conv2d(in_size, expand_size, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn1 = nn.BatchNorm2d(expand_size)
         self.nolinear1 = nolinear
-        self.conv2 = nn.Conv2d(expand_size, expand_size, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=expand_size, bias=False)
+        self.conv2 = nn.Conv2d(expand_size, expand_size, kernel_size=kernel_size, stride=stride,
+                               padding=kernel_size // 2, groups=expand_size, bias=False)
         self.bn2 = nn.BatchNorm2d(expand_size)
         self.nolinear2 = nolinear
         self.conv3 = nn.Conv2d(expand_size, out_size, kernel_size=1, stride=1, padding=0, bias=False)
@@ -116,7 +83,7 @@ class Block(nn.Module):
         out = self.bn3(self.conv3(out))
         if self.se != None:
             out = self.se(out)
-        out = out + self.shortcut(x) if self.stride==1 else out
+        out = out + self.shortcut(x) if self.stride == 1 else out
         return out
 
 
@@ -144,7 +111,6 @@ class MobileNetV3_Large(nn.Module):
             Block(5, 160, 672, 160, hswish(), SeModule(160), 2),
             Block(5, 160, 960, 160, hswish(), SeModule(160), 1),
         )
-
 
         self.conv2 = nn.Conv2d(160, 960, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(960)
@@ -180,7 +146,6 @@ class MobileNetV3_Large(nn.Module):
         return out
 
 
-
 class MobileNetV3_Small(nn.Module):
     def __init__(self, num_classes=2):
         super(MobileNetV3_Small, self).__init__()
@@ -201,7 +166,6 @@ class MobileNetV3_Small(nn.Module):
             Block(5, 96, 576, 96, hswish(), SeModule(96), 1),
             Block(5, 96, 576, 96, hswish(), SeModule(96), 1),
         )
-
 
         self.conv2 = nn.Conv2d(96, 576, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(576)
@@ -226,6 +190,15 @@ class MobileNetV3_Small(nn.Module):
                 if m.bias is not None:
                     init.constant_(m.bias, 0)
 
+    # def weights_init(m):
+    #     classname = m.__class__.__name__
+    #     if classname.find('Conv2d') != -1:
+    #         init.xavier_normal_(m.weight.data)
+    #         init.constant_(m.bias.data, 0.0)
+    #     elif classname.find('Linear') != -1:
+    #         init.xavier_normal_(m.weight.data)
+    #         init.constant_(m.bias.data, 0.0)
+
     def forward(self, x):
         out = self.hs1(self.bn1(self.conv1(x)))
         out = self.bneck(out)
@@ -234,14 +207,15 @@ class MobileNetV3_Small(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.hs3(self.bn3(self.linear3(out)))
         out = self.linear4(out)
-        out = F.softmax(out,dim=1)
+        out = F.softmax(out, dim=1)
         return out
 
-
-
-def test():
-    net = MobileNetV3_Small()
-    x = torch.randn(2,3,224,224)
-    y = net(x)
-    print(y.size())
-test()
+# def test():
+#     net = MobileNetV3_Small()
+#     x = torch.randn(2,3,224,224)
+#     y = net(x)
+#     print(y.size())
+# test()
+model = MobileNetV3_Large(2).cuda()
+from torchsummary import summary
+summary(model, (3, 224, 224))

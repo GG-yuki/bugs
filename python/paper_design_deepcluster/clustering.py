@@ -82,10 +82,10 @@ def preprocess_features(npdata, pca=256):
         np.array of dim N * pca: data PCA-reduced, whitened and L2-normalized
     """
     _, ndim = npdata.shape
-    npdata =  npdata.astype('float32')
+    npdata = npdata.astype('float32')
 
     # Apply PCA-whitening with Faiss
-    mat = faiss.PCAMatrix (ndim, pca, eigen_power=-0.5)
+    mat = faiss.PCAMatrix(ndim, pca, eigen_power=-0.5)
     mat.train(npdata)
     assert mat.is_trained
     npdata = mat.apply_py(npdata)
@@ -212,13 +212,11 @@ class Kmeans(object):
         xb = preprocess_features(data)
 
         # cluster the data
-        I, loss = run_kmeans(xb, self.k, verbose)
+        I, loss = run_kmeans(xb, self.k)
         self.images_lists = [[] for i in range(self.k)]
         for i in range(len(data)):
             self.images_lists[I[i]].append(i)
-
-        if verbose:
-            print('k-means time: {0:.0f} s'.format(time.time() - end))
+        print('k-means time: {0:.0f} s'.format(time.time() - end))
 
         return loss
 
@@ -241,7 +239,7 @@ def make_adjacencyW(I, D, sigma):
     indptr = np.multiply(k, np.arange(V + 1))
 
     def exp_ker(d):
-        return np.exp(-d / sigma**2)
+        return np.exp(-d / sigma ** 2)
 
     exp_ker = np.vectorize(exp_ker)
     res_D = exp_ker(D)
@@ -338,7 +336,7 @@ class PIC(object):
         self.nnn = nnn
         self.distribute_singletons = distribute_singletons
 
-    def cluster(self, data, verbose=False):
+    def cluster(self, data):
         end = time.time()
 
         # preprocess the data
@@ -377,6 +375,5 @@ class PIC(object):
         for c in images_lists:
             self.images_lists.append(images_lists[c])
 
-        if verbose:
-            print('pic time: {0:.0f} s'.format(time.time() - end))
+        print('pic time: {0:.0f} s'.format(time.time() - end))
         return 0

@@ -14,41 +14,39 @@
 ********************************************************************/
 """
 # coding=utf-8
+import os
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 from support import *
-from mobilenetv1 import *
+# from mobilenetv1 import *
 # from mobilenetv2 import *
-# from mobilenetv3 import *
-from torchvision import datasets
+# from mobilenetv3 import *  # 1
+# from v3_cam import *  # 2
+# from v3_pam import *  # 3
+from mobilenetv2_another import *
 
 # 部分训练参数参数
-epochs = 200  # 训练次数
-batch_size = 128  # 批处理大小
+data_root = './dataset'
+epochs = 60  # 训练次数
+batch_size = 32  # 批处理大小
 num_workers = 4  # 多线程
 LR = 0.001  # 初始学习速率
+weight_decay = 5e-4
 
 # seed
 seed: Optional[int] = None
 
-# 对加载的图像作归一化处理， 并裁剪为[224x224x3]大小的图像
-data_transform = datatransform()
-test_transform = transform_test()
-
-print(torch.cuda.is_available())
-# 加载数据,train和test路径下分文件夹归放数据
-train_dataset = datasets.CIFAR10(root='./data', train=True, download=False, transform=data_transform)
-train_loader = torch.utils.data.DataLoader(train_dataset,
-                                           batch_size=batch_size,
-                                           shuffle=True,
-                                           num_workers=num_workers)
-
-test_dataset = datasets.CIFAR10(root='./data', train=False, download=False, transform=test_transform)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+# 对加载的图像作归一化处理，并裁剪为[224x224x3]大小的图像，加载数据
+load_data = Data_loader(data_root, num_workers, batch_size)
+train_loader = load_data.trainloader()
+test_loader = load_data.testloader()
 
 # 网络实例化
 # net = restore_params() 加载之前存储的网络参数
-# net = MobileNetV1(num_classes=10).cuda()  # 分类
-net = load_net('epoch_299')
-# net = loadmodel(10)  # 分类
-# net = net.cuda()
-# net = MobileNetV3_Small(10).cuda() # 分类
-train(net, epochs, LR, train_loader, test_loader)
+net = MobileNetV2(10).cuda()  # 分类
+# net = MobileNetV2(2).cuda()  # 分类
+# net = MobileNetV3_Large_PAM(10).cuda()  # 分类
+# net.init_params()
+result = train(net, epochs, LR, train_loader, test_loader, weight_decay=weight_decay)
+write_result(format(net.__class__.__name__), epochs, batch_size, num_workers, LR, result[0], weight_decay, result[1],
+             result[2])

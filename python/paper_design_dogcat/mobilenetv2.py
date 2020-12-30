@@ -19,7 +19,7 @@
 * ============================================================*/
 '''
 # coding:utf-8
-import torch
+from torch.nn import init
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -110,7 +110,7 @@ class MobileNetV2(nn.Module):  # MobileNet_2网络的完整定义
              [96, 6, 160, 3, 2],
              [160, 6, 320, 1, 1]]
 
-    def __init__(self ,num):
+    def __init__(self, num):
         super(MobileNetV2, self).__init__()
         self.layers = self._make_layers()
         self.fc1 = nn.Linear(1000, 10)
@@ -125,6 +125,20 @@ class MobileNetV2(nn.Module):  # MobileNet_2网络的完整定义
         layer.append(Tail())
         return nn.Sequential(*layer)
 
+    def init_params(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                init.constant_(m.weight, 1)
+                init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                init.normal_(m.weight, std=0.001)
+                if m.bias is not None:
+                    init.constant_(m.bias, 0)
+
     def forward(self, x):
         out = self.layers(x)
         out = out.view(-1, 1000)
@@ -132,6 +146,10 @@ class MobileNetV2(nn.Module):  # MobileNet_2网络的完整定义
         out = self.fc2(out)
         out = F.softmax(out, dim=1)
         return out
+
+# net = MobileNetV2(2).cuda()
+# from torchsummary import summary
+# summary(net, (3, 224, 224))
 
 
 # def test():
@@ -142,10 +160,10 @@ class MobileNetV2(nn.Module):  # MobileNet_2网络的完整定义
 #
 #
 # test()
-net = MobileNetV2(2)
-x = torch.randn(2, 3, 224, 224)
-y = net(x)
-print(y)
+# net = MobileNetV2(2)
+# x = torch.randn(2, 3, 224, 224)
+# y = net(x)
+# print(y)
 
 # start build CNN
 # class Block(nn.Module):
@@ -228,7 +246,7 @@ print(y)
 #         out = F.softmax(out, dim=1)  # import torch.nn.funtional as F
 #         return out
 
-#model.py
+# model.py
 
 # from torch import nn
 # import torch

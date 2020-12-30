@@ -79,7 +79,7 @@ def main(args):
     criterion = nn.CrossEntropyLoss().cuda()
 
     # creating cluster assignments log
-    cluster_log = Logger(r'/home/jijl/My_project/paper_design_deepcluster/check/exp')
+    cluster_log = Logger(r'exp.txt')
 
     # load the data
     end = time.time()
@@ -139,14 +139,20 @@ def main(args):
         end = time.time()
         loss = train(train_dataloader, model, criterion, optimizer, epoch)
 
-
-        nmi = normalized_mutual_info_score(
-            clustering.arrange_clustering(deepcluster.images_lists),
-            clustering.arrange_clustering(cluster_log.data[-1])
-        )
-
-
-        print('NMI against previous assignment: {0:.3f}'.format(nmi))
+        print('###### Epoch [{0}] ###### \n'
+              'Time: {1:.3f} s\n'
+              'Clustering loss: {2:.3f} \n'
+              'ConvNet loss: {3:.3f}'
+              .format(epoch, time.time() - end, clustering_loss, loss))
+        try:
+            nmi = normalized_mutual_info_score(
+                clustering.arrange_clustering(deepcluster.images_lists),
+                clustering.arrange_clustering(cluster_log.data[-1])
+            )
+            print('NMI against previous assignment: {0:.3f}'.format(nmi))
+        except IndexError:
+            pass
+        print('####################### \n')
         # save cluster assignments
         cluster_log.log(deepcluster.images_lists)
 
@@ -174,8 +180,7 @@ def train(loader, model, crit, opt, epoch):
     optimizer_tl = torch.optim.SGD(
         model.top_layer.parameters(),
         lr=0.05,
-        weight_decay=10**(-5)
-        ,
+        weight_decay=10**(-5),
     )
 
     end = time.time()

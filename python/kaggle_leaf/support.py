@@ -1,4 +1,4 @@
-'''
+"""
 /********************************************************************
 *
 *  文件名：support.py
@@ -12,7 +12,7 @@
 *  修改记录：65
 *
 ********************************************************************/
-'''
+"""
 import torch
 import torch.nn as nn
 from torchvision import transforms
@@ -60,11 +60,12 @@ class AverageMeter:
     """
     Computes and stores the average and current value
     """
+
     def __init__(self):
+        self.val = 0
         self.reset()
 
     def reset(self):
-        self.val = 0
         self.avg = 0
         self.sum = 0
         self.count = 0
@@ -79,7 +80,7 @@ class AverageMeter:
 # 保存网络
 def save_net(net):
     torch.save(net, 'net.pkl')  # 保存整个网络
-    torch.save(net.state_dict(), 'net_params.pkl')   # 只保存网络中的参数 (速度快, 占内存少)
+    torch.save(net.state_dict(), 'net_params.pkl')  # 只保存网络中的参数 (速度快, 占内存少)
     print('save_done')
 
 
@@ -103,8 +104,7 @@ def datatransform():
 
 
 # 定义训练过程
-def train(net,epochs,LR,train_loader):
-
+def train(net, epochs, LR, train_loader):
     # 定义loss和optimizer
     cirterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=LR, momentum=0.9)
@@ -112,7 +112,7 @@ def train(net,epochs,LR,train_loader):
     accs = AverageMeter()
 
     for epoch in range(epochs):
-        starttime = datetime.datetime.now() # 计时
+        starttime = datetime.datetime.now()  # 计时
 
         # 训练开始
         running_loss = 0.0
@@ -134,20 +134,19 @@ def train(net,epochs,LR,train_loader):
             train_correct += ((outputs.argmax(1) == labels).sum().item())
             losses.update(loss.item(), inputs.size(0))
             accs.update((outputs.argmax(1) == labels).sum().item() / inputs.size(0), inputs.size(0))
-            tk.set_postfix(loss=losses.avg,acc=accs.avg)
+            tk.set_postfix(loss=losses.avg, acc=accs.avg)
 
             # 训练计时
         endtime = datetime.datetime.now()
-        loadingtime=(endtime - starttime).seconds
+        loadingtime = (endtime - starttime).seconds
 
         # 打印训练结果
         print('train %d epoch loss: %.3f  acc: %.3f  load:%d' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
         f = open("foo.txt", "a")
         f.write('train %d epoch loss: %.3f  acc: %.3f  load:%d \n' % (
-            epoch + 1, running_loss / train_total, 100 * train_correct / train_total,loadingtime))
+            epoch + 1, running_loss / train_total, 100 * train_correct / train_total, loadingtime))
         f.close()
-
 
         if epoch % 30 == 0:
             LR = LR / 10

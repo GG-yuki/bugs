@@ -1,0 +1,2 @@
+model MobileNetV3_Large   train 60 epoch   batch_size 128   num_workers 4   lr 0.001000   max_acc: 39.700  weight_decay 0.002000   traintime 196   testtime 13
+model MobileNetV3_Large   train 60 epoch   batch_size 32   num_workers 4   lr 0.001000   max_acc: 84.220  weight_decay 0.000500   traintime 137   testtime 10

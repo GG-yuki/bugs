@@ -4,12 +4,11 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 #
+import math
 import torch
 import torch.nn as nn
-import math
-from random import random as rd
 
-__all__ = [ 'VGG', 'vgg16']
+__all__ = ['VGG', 'vgg16']
 
 
 class VGG(nn.Module):
@@ -31,10 +30,10 @@ class VGG(nn.Module):
             grayscale.weight.data.fill_(1.0 / 3.0)
             grayscale.bias.data.zero_()
             sobel_filter = nn.Conv2d(1, 2, kernel_size=3, stride=1, padding=1)
-            sobel_filter.weight.data[0,0].copy_(
+            sobel_filter.weight.data[0, 0].copy_(
                 torch.FloatTensor([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
             )
-            sobel_filter.weight.data[1,0].copy_(
+            sobel_filter.weight.data[1, 0].copy_(
                 torch.FloatTensor([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
             )
             sobel_filter.bias.data.zero_()
@@ -55,9 +54,9 @@ class VGG(nn.Module):
         return x
 
     def _initialize_weights(self):
-        for y,m in enumerate(self.modules()):
+        for y, m in enumerate(self.modules()):
             if isinstance(m, nn.Conv2d):
-                #print(y)
+                # print(y)
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 for i in range(m.out_channels):
                     m.weight.data[i].normal_(0, math.sqrt(2. / n))

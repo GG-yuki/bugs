@@ -38,15 +38,6 @@ def restore_net():
     return net
 
 
-# 提取网络(不常用，用的时候记得修改）
-def restore_params():
-    # 新建 net2
-    net2 = mobilenetv2.mobilenetv2(num_classes=2)
-    # 将保存的参数复制到 net2
-    net2.load_state_dict(torch.load('net_params.pkl'))
-    return net2
-
-
 # 图像归一化后裁剪，最后尺寸224*224*3
 def datatransform():
     data_transform = transforms.Compose([

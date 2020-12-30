@@ -14,20 +14,6 @@
 ********************************************************************/
 '''
 
-
-import numpy as np
-import pandas as pd
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import torch.utils.data as Data
-import matplotlib.pyplot as plt
-import torch.nn.functional as F
-import csv
-import os
-from torchvision import datasets,transforms, models
-
-
 '''MobileNetV3 in PyTorch.
 See the paper "Inverted Residuals and Linear Bottlenecks:
 Mobile Networks for Classification, Detection and Segmentation" for more details.
@@ -36,7 +22,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
-
 
 
 class hswish(nn.Module):
@@ -71,6 +56,7 @@ class SeModule(nn.Module):
 
 class Block(nn.Module):
     '''expand + depthwise + pointwise'''
+
     def __init__(self, kernel_size, in_size, expand_size, out_size, nolinear, semodule, stride):
         super(Block, self).__init__()
         self.stride = stride
@@ -79,7 +65,8 @@ class Block(nn.Module):
         self.conv1 = nn.Conv2d(in_size, expand_size, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn1 = nn.BatchNorm2d(expand_size)
         self.nolinear1 = nolinear
-        self.conv2 = nn.Conv2d(expand_size, expand_size, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, groups=expand_size, bias=False)
+        self.conv2 = nn.Conv2d(expand_size, expand_size, kernel_size=kernel_size, stride=stride,
+                               padding=kernel_size // 2, groups=expand_size, bias=False)
         self.bn2 = nn.BatchNorm2d(expand_size)
         self.nolinear2 = nolinear
         self.conv3 = nn.Conv2d(expand_size, out_size, kernel_size=1, stride=1, padding=0, bias=False)
@@ -98,7 +85,7 @@ class Block(nn.Module):
         out = self.bn3(self.conv3(out))
         if self.se != None:
             out = self.se(out)
-        out = out + self.shortcut(x) if self.stride==1 else out
+        out = out + self.shortcut(x) if self.stride == 1 else out
         return out
 
 
@@ -126,7 +113,6 @@ class MobileNetV3_Large(nn.Module):
             Block(5, 160, 672, 160, hswish(), SeModule(160), 2),
             Block(5, 160, 960, 160, hswish(), SeModule(160), 1),
         )
-
 
         self.conv2 = nn.Conv2d(160, 960, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(960)
@@ -162,7 +148,6 @@ class MobileNetV3_Large(nn.Module):
         return out
 
 
-
 class MobileNetV3_Small(nn.Module):
     def __init__(self, num_classes=2):
         super(MobileNetV3_Small, self).__init__()
@@ -183,7 +168,6 @@ class MobileNetV3_Small(nn.Module):
             Block(5, 96, 576, 96, hswish(), SeModule(96), 1),
             Block(5, 96, 576, 96, hswish(), SeModule(96), 1),
         )
-
 
         self.conv2 = nn.Conv2d(96, 576, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(576)
@@ -216,14 +200,15 @@ class MobileNetV3_Small(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.hs3(self.bn3(self.linear3(out)))
         out = self.linear4(out)
-        out = F.softmax(out,dim=1)
+        out = F.softmax(out, dim=1)
         return out
-
 
 
 def test():
     net = MobileNetV3_Small()
-    x = torch.randn(2,3,224,224)
+    x = torch.randn(2, 3, 224, 224)
     y = net(x)
     print(y.size())
+
+
 test()
