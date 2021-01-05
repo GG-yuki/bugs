@@ -16,11 +16,11 @@
 # coding=utf-8
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 from support import *
-from mobilenetv1 import *
+# from mobilenetv1 import *
 # from mobilenetv2 import *
-# from mobilenetv3 import *  # 1
+from mobilenetv3 import *  # 1
 # from v3_cam import *  # 2
 # from v3_pam import *  # 3
 
@@ -29,7 +29,7 @@ data_root = './dataset'
 epochs = 120  # 训练次数
 batch_size = 32  # 批处理大小
 num_workers = 4  # 多线程
-LR = 0.01  # 初始学习速率
+LR = 0.001  # 初始学习速率
 weight_decay = 5e-4
 
 # seed
@@ -42,7 +42,7 @@ test_loader = load_data.testloader()
 
 # 网络实例化
 # net = restore_params() 加载之前存储的网络参数
-net = MobileNetV1(100).cuda()  # 分类
+net = MobileNetV3_Small(100).cuda()  # 分类
 # net = MobileNetV2(2).cuda()  # 分类
 # net = MobileNetV3_Large_PAM(10).cuda()  # 分类
 net.init_params()

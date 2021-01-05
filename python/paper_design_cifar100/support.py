@@ -45,7 +45,7 @@ def transform():
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5070, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761])
+        transforms.Normalize(mean=[0.507, 0.486, 0.440], std=[0.267, 0.256, 0.276])
     ])
     return data_transform
 
@@ -132,7 +132,7 @@ def train(net, epochs, lr, train_loader, test_loader, weight_decay=5e-4):
         f.close()
 
         if (epoch + 1) % 30 == 0:
-            lr = lr / 8
+            lr = lr / 10
             print('epoch decrease 10x')
             save_net(net, epoch)
 
@@ -182,7 +182,7 @@ class Data_loader:
         self.transform = transform()
 
     def trainloader(self):
-        train_dataset = datasets.CIFAR100(root=self.root, train=True, transform=self.transform, download=True)
+        train_dataset = datasets.CIFAR100(root=self.root, train=True, transform=self.transform, download=False)
         train_loader = torch.utils.data.DataLoader(train_dataset,
                                                    batch_size=self.batch_size,
                                                    shuffle=True,
@@ -190,7 +190,7 @@ class Data_loader:
         return train_loader
 
     def testloader(self):
-        test_dataset = datasets.CIFAR100(root=self.root, train=False, transform=self.transform, download=True)
+        test_dataset = datasets.CIFAR100(root=self.root, train=False, transform=self.transform, download=False)
         test_loader = torch.utils.data.DataLoader(test_dataset,
                                                   batch_size=self.batch_size,
                                                   shuffle=True,

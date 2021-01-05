@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchsummary import summary
 from torch.nn import init
+
 '''
 /*============================================================
 *
@@ -81,15 +82,13 @@ class MobileNetV1(nn.Module):
             conv_dw(1024, 1024, 1),
         )
         self.avg = nn.AdaptiveAvgPool2d(1)
-        self.fc1 = nn.Linear(1024, 1000)
-        self.fc2 = nn.Linear(1000, num_classes)
+        self.fc1 = nn.Linear(1024, num_classes)
 
     def forward(self, x):
         x = self.model(x)
         x = self.avg(x)
         x = x.view(x.size(0), -1)
         x = self.fc1(x)
-        x = self.fc2(x)
         output = F.softmax(x, dim=1)  # import torch.nn.funtional as F
         return output
 
@@ -106,7 +105,3 @@ class MobileNetV1(nn.Module):
                 init.normal_(m.weight, std=0.001)
                 if m.bias is not None:
                     init.constant_(m.bias, 0)
-
-
-model = MobileNetV1(10).cuda()
-summary(model, (3, 32, 32))
