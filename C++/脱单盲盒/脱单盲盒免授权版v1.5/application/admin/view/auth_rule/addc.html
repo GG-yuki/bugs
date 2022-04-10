@@ -1,0 +1,59 @@
+{extend name="tpl/base-add" /}
+{block name="nav"}
+    {include file="auth_rule/nav" /}
+{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>上一级</th>
+                <td>
+                    <select name="data[pid]" class="form-control w-md">
+                        <option value="0">作为第一级</option>
+                        {volist name="parent_list" id="v"}
+                        {in name="v.level" value="1,2"}
+                        <option value="{$v.id}">{$v.spacer|raw} {$v.title}({$v.name|raw})</option>
+                        {/in}
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>菜单名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /></td>
+            </tr>
+            <tr>
+                <th>控制器</th>
+                <td><input class="form-control w-lg" type="text" name="c_name" /><span class="help-block">注意大小写</span></td>
+            </tr>
+            <tr>
+                <th>默认方法</th>
+                <td>
+                    <input class="form-control w-lg" type="text" name="default_action" value="index" /><span class="help-block">作为默认入口页面</span>
+                </td>
+            </tr>
+            <tr>
+                <th>二级方法</th>
+                <td>
+                    <label><input type="checkbox" name="a_name[]" value="index" checked /> 列表[index]</label>
+                    <label><input type="checkbox" name="a_name[]" value="add,add_post" checked /> 添加[add/add_post]</label>
+                    <label><input type="checkbox" name="a_name[]" value="edit,edit_post" checked /> 编辑[edit/edit_post]</label>
+                    <label><input type="checkbox" name="a_name[]" value="delete" checked /> 删除[delete]</label>
+                    <label><input type="checkbox" name="a_name[]" value="setsort" checked /> 排序[setsort]</label>
+                    <label><input type="checkbox" name="a_name[]" value="setstatus" checked /> 设置状态[setstatus]</label>
+                    <label><input type="checkbox" name="a_name[]" value="uploadfile" /> 上传文件[uploadfile]</label>
+                    <label><input type="checkbox" name="a_name[]" value="batch,batch_post" /> 批量导入[batch/batch_post]</label>
+                    <label><input type="checkbox" name="a_name[]" value="export" /> 导出数据[export]</label>
+                </td>
+            </tr>
+            <tr>
+                <th>其他方法</th>
+                <td><input class="form-control w-lg" type="text" name="a_name[]" /><span class="help-block">多个请用英文逗号分隔</span></td>
+            </tr>
+            <tr>
+                <th>图标</th>
+                <td><input class="form-control w-lg" type="text" name="data[icon]" placeholder="例如fa fa-***" /><span class="help-block">支持<a href="http://glyphicons.com/" target="_blank">Glyphicons</a> 和 <a href="http://www.thinkcmf.com/font/icons" target="_blank">Font Awesome</a></span></td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

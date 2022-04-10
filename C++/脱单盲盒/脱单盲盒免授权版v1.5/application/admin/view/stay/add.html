@@ -1,0 +1,214 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <table class="table table-bordered table-hover table-data" id="tableData">
+            <tbody>
+            <tr>
+                <th>微信号码</th>
+                <td><input class="form-control w-lg" type="text" name="data[wechat]" value="{$data.wechat}" /></td>
+            </tr>
+            <tr>
+                <th>留一句话</th>
+                <td>
+                    <textarea class="form-control w-lg" name="data[content]">{$data.content}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>星座</th>
+                <td>
+                    <select name="data[constellation]"  class="form-control w-lg">
+                        <option value="" {eq name="data.constellation" value=""}selected{/eq}>请选择星座</option>
+                        <option value="白羊座" {eq name="data.constellation" value="白羊座"}selected{/eq}>白羊座</option>
+                        <option value="金牛座" {eq name="data.constellation" value="金牛座"}selected{/eq}>金牛座</option>
+                        <option value="双子座" {eq name="data.constellation" value="双子座"}selected{/eq}>双子座</option>
+                        <option value="巨蟹座" {eq name="data.constellation" value="巨蟹座"}selected{/eq}>巨蟹座</option>
+                        <option value="狮子座" {eq name="data.constellation" value="狮子座"}selected{/eq}>狮子座</option>
+                        <option value="处女座" {eq name="data.constellation" value="处女座"}selected{/eq}>处女座</option>
+                        <option value="天秤座" {eq name="data.constellation" value="天秤座"}selected{/eq}>天秤座</option>
+                        <option value="天蝎座" {eq name="data.constellation" value="天蝎座"}selected{/eq}>天蝎座</option>
+                        <option value="射手座" {eq name="data.constellation" value="射手座"}selected{/eq}>射手座</option>
+                        <option value="摩羯座" {eq name="data.constellation" value="摩羯座"}selected{/eq}>摩羯座</option>
+                        <option value="水瓶座" {eq name="data.constellation" value="水瓶座"}selected{/eq}>水瓶座</option>
+                        <option value="双鱼座" {eq name="data.constellation" value="双鱼座"}selected{/eq}>双鱼座</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>年龄</th>
+                <td><input class="form-control w-lg" type="text" name="data[age]" value="{$data.age}" /></td>
+            </tr>
+            <tr>
+                <th>性别</th>
+                <td>
+                    <label><input type="radio" name="data[sex]" value="1" checked /> 男</label>
+                    <label><input type="radio" name="data[sex]" value="2" {eq name="data.sex" value="2"}checked{/eq} /> 女</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th>类型</th>
+                <td>
+                    <label><input type="radio" name="data[type]" value="0" checked /> 留一次</label>
+                    <label><input type="radio" name="data[type]" value="1" {eq name="data.type" value="1"}checked{/eq} /> 一直留</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th>来源</th>
+                <td><input class="form-control w-lg" type="text" name="data[source]" value="{$data.source}" /></td>
+            </tr>
+
+
+            <tr>
+                <th>省市区</th>
+                <td>
+                    <select id="CompanyAddress_ProvinceID" class="form-control w-md" autocomplete="off" name="data[province]" style="display: inline-block;">
+                        <option value="0">请选择</option>
+                        {volist name="province_list" id="v"}
+                        <option value="{$v.id}"  {eq name="data.province" value="$v.id"}selected{/eq}>{$v.name_cn}</option>
+                        {/volist}
+                    </select>
+                    <select id="CompanyAddress_CityID" class="form-control w-md" autocomplete="off" name="data[city]" style="display: inline-block;">
+                        <option value="0">请选择</option>
+                        {volist name="city_list" id="v"}
+                        <option value="{$v.id}"  {eq name="data.city" value="$v.id"}selected{/eq}>{$v.name_cn}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>代表图片</th>
+                <td>
+                    <div>
+                        <a href="javascript:;" data-server="{:url('uploadfile')}" data-path="" id="wuPickImage">选择图片</a>
+                        <span class="help-block">格式：jpg，png，gif，jpeg；尺寸：-- x -- px</span>
+                    </div>
+                    <div id="imageDisplay">
+                        <input type="hidden" name="data[headimg]" value="{$data.headimg}" class="js-file-input" />
+                        <input type="hidden" name="asset_id[]" class="js-asset-input" />
+                        {empty name="data.headimg"}
+                        <img class="data-img js-img" data-default="__IMAGES__/thumbnail.png" src="__IMAGES__/thumbnail.png" />
+                        {else/}
+                        <img class="data-img js-img" data-default="__IMAGES__/thumbnail.png" src="{$data.headimg}" />
+                        {/empty}
+                        <a class="deletefile js-deletefile" href="javascript:;"><i class="fa fa-close"></i> 删除</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+
+    $(function () {
+        initQiniuUploader();
+    });
+
+    var uploader;
+    var qiniuImgDomain = '{$qiniu_domain}',
+        qiniuVideoKeyPath = 'manghe';
+
+    function makeGuid() {
+        function S4() {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        }
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    }
+
+    function initQiniuUploader() {
+        uploader = Qiniu.uploader({
+            disable_statistics_report: true, // 禁止自动发送上传统计信息到七牛，默认允许发送
+            runtimes: 'html5,flash,html4', // 上传模式,依次退化
+            browse_button: 'wuPickImage', // 上传选择的点选按钮，**必需**
+            uptoken_url:'/ajax/uptoken', // Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
+            get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
+            save_key: false, // 默认 false。若在服务端生成 uptoken 的上传策略中指定了 `save_key`，则开启，SDK在前端将不对key进行任何处理
+            domain: qiniuImgDomain, // bucket 域名，下载资源时用到，如：'http://xxx.bkt.clouddn.com/' **必需**
+            max_file_size: '10mb', // 最大文件体积限制
+            flash_swf_url: '/static/common/plupload-2.3.6/js/Moxie.swf', //引入 flash,相对路径
+            max_retries: 3, // 上传失败最大重试次数
+            dragdrop: false, // 开启可拖曳上传
+            // drop_element: 'container',          // 拖曳上传区域元素的 ID，拖曳文件或文件夹后可触发上传
+            chunk_size: '0mb', // 分块上传时，每块的体积
+            auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传,
+            multi_selection: false,
+            init: {
+                'FilesAdded': function(up, files) {
+                    layer.load();
+                },
+                'BeforeUpload': function(up, file) {
+                    layer.load();
+                },
+                'UploadProgress': function(up, file) {
+                    layer.load();
+                },
+                'FileUploaded': function(up, file, info) {
+                    layer.closeAll('loading');
+                    var domain = up.getOption('domain');
+                    var res = JSON.parse(info.response);
+                    var url = domain + res.key; //获取上传成功后的文件的Url
+
+                    var ext = Qiniu.getFileExtension(file.name);
+                    if (ext === 'jpg' || ext === 'png') {
+                        $('.js-img').attr('src', url);
+                        $('.js-file-input').val(url);
+                    } else {
+                        gameData.video = '';
+                        showMsg('请选择图片进行上传');
+                    }
+                },
+                'Error': function(up, err, errTip) {
+                    //上传出错时,处理相关的事情
+                    showMsg(errTip);
+                },
+                'UploadComplete': function() {
+                    //队列文件处理完毕后,处理相关的事情
+                },
+                'Key': function(up, file) {
+                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
+                    var ext = Qiniu.getFileExtension(file.name);
+                    var name = makeGuid();
+                    var date = getTodayDate();
+                    var key = qiniuVideoKeyPath + '/' + date + '/' + name + '.' + ext;
+                    return key;
+                }
+            }
+        });
+    }
+
+    function getTodayDate(){
+        var d = new Date();
+        var s = '';
+        s += d.getMonth() + 1;
+        s += d.getDate();
+        return s;
+    }
+
+</script>
+<script type="text/javascript" src="/static/common/smart/smart.js"></script>
+<script type="text/javascript">
+    //省市区的加载
+    $('#CompanyAddress_ProvinceID').on('change', function () {
+        LoadAddress('CompanyAddress_ProvinceID', 'CompanyAddress_CityID', 'CompanyAddress_AreaID')
+    });
+    $('#CompanyAddress_CityID').on('change', function () {
+        LoadAddress('CompanyAddress_CityID','CompanyAddress_AreaID', '')
+    });
+</script>
+{/block}

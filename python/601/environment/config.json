@@ -1,0 +1,97 @@
+{
+  "border_x": 50000,
+  "border_y": 50000,
+  "border_z": -20000,
+  "interval": 1,
+  "time_out": 600,
+  "AMS": {
+    "red_config":{
+      "data_link":"no_link",
+      "warning_aircraft": "auto",
+      "red_aircraft_list": [
+      {
+        "maneuver_model": "F22semantic",
+        "radar_model": "raptor",
+        "fcs_model":"complete",
+        "SMS": [
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          }
+        ]
+      },
+      {
+        "maneuver_model": "F22semantic",
+        "radar_model": "raptor",
+        "fcs_model":"complete",
+        "SMS": [
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          }
+        ]
+      }
+    ]
+    },
+    "blue_config":{
+      "data_link":"no_link",
+      "warning_aircraft": "auto",
+      "blue_aircraft_list": [
+      {
+        "maneuver_model": "F22semantic",
+        "radar_model": "raptor",
+        "fcs_model":"complete",
+        "SMS": [
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          }
+        ]
+      },
+      {
+        "maneuver_model": "F22semantic",
+        "radar_model": "raptor",
+        "fcs_model":"complete",
+        "SMS": [
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          },
+          {
+            "type": "AAM16"
+          }
+        ]
+      }
+    ]
+    }
+  }
+}

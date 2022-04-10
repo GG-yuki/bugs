@@ -1,0 +1,89 @@
+{extend name="tpl/base" /}
+{block name="search"}
+    <form class="well search-form form-inline" action="" method="get">
+        <div class="form-group">
+            类型：
+            <select name="type" class="form-control">
+                <option value="0" {eq name="opts.type" value="0"}selected{/eq}>请选择</option>
+                <option value="1" {eq name="opts.type" value="1"}selected{/eq}>普通盲盒</option>
+                <option value="2" {eq name="opts.type" value="2"}selected{/eq}>条件盲盒</option>
+            </select>
+        </div>
+        <div class="form-group">
+            日期：<input class="form-control w-sm js-date" type="text" name="start_date" value="{$opts.start_date|htmlspecialchars}" placeholder="开始时间" /> - <input class="form-control w-sm js-date" type="text" name="end_date" value="{$opts.end_date|htmlspecialchars}" placeholder="结束时间" />
+        </div>
+        <div class="form-group">
+            提交人微信：<input class="form-control" type="text" name="wechat"  value="{$opts.wechat}" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="searchBtn">查询</button>
+    </form>
+{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered" id="tableList" 
+           data-toggle="table" 
+           data-select-item-name="ids[]" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th class="w-50" data-field="sort">排序</th>
+                <th class="w-50" data-field="id">ID</th>
+                <th>订单类型</th>
+                <th>意向人信息</th>
+                <th>意向人头像</th>
+                <th>类型</th>
+                <th>提交人信息</th>
+                <th>提交人头像</th>
+                <th>提交IP</th>
+                <th>添加时间</th>
+                <th class="w-50">状态</th>
+                <th class="w-50">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr>
+                <td></td>
+                <td><input class="form-control w-xs js-sort" type="text" name="sort[]" value="{$v.sort}" /></td>
+                <td>{$v.id}</td>
+                <td>{$v.type}</td>
+                <td>{$v.stay.province}-{$v.stay.city} {$v.stay.wechat}</td>
+                <td><img src="{$v.stay.headimg}?imageView2/2/h/100/q/75" alt="" style="height: 50px;"></td>
+                <td>{$v.stays.sex|default="未提交"} -取- {$v.stay.sex}</td>
+                <td>{$v.stays.province}-{$v.stays.city} {$v.wechat}</td>
+                <td><img src="{$v.stays.headimg}?imageView2/2/h/100/q/75" alt="" style="height: 50px;"></td>
+                <td><span>{$v.ip}</span> <a href="JavaScript:;" class="ipaddress">[查询]</a></td>
+                <td>{$v.create_time|date="Y-m-d H:i:s"}</td>
+                <td><a href="javascript:;" class="status js-status" data-field="status" data-value="{$v.status}"><i></i></a></td>
+                <td>
+                    <!--<a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>-->
+                    <a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+<script>
+    $(function () {
+        $(".ipaddress").click(function () {
+            layer.load();
+            var ip = $(this).prev().text();
+            $.ajax({
+                url:'https://restapi.amap.com/v3/ip?key=0113a13c88697dcea6a445584d535837',
+                data:{ip:ip},
+                success:function (data) {
+                    var content = "["+ip+"]"+data.province+data.city+"，邮编："+data.adcode+"，经纬度："+data.rectangle;
+                    layer.alert(content);
+                    layer.closeAll('loading');
+                }
+            });
+        })
+    })
+</script>
+
+{/block}

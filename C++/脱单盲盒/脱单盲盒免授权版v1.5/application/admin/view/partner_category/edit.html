@@ -1,0 +1,33 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            {volist name="lang_list" id="lang"}
+            {~$field="cate_name_".$lang['lang_code']}
+            <tr>
+                <th>分类名称 [{$lang.title}]</th>
+                <td><input class="form-control w-lg" type="text" name="data[{$field}]" value="{$data[$field]}" /></td>
+            </tr>
+            {/volist}
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

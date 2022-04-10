@@ -1,0 +1,136 @@
+{include file="common/header" /}
+
+<div class="index">
+    <header>
+        <h1>{$info.title}</h1>
+    </header>
+    <div class="text">{$info.content|raw}</div>
+    <script>
+        $(document).snowfall('clear');
+        $(document).snowfall({
+            image: "__cn__/image/huaban.png",
+            flakeCount:10,
+            minSize: 10,
+            maxSize: 30
+        });
+    </script>
+    <div class="content">
+        <div class="layui-row">
+            <!-- 幻灯片开始 -->
+            {in name="3" value="$info.middleware" }
+                <div class="layui-col-xs12" >
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {volist name="banner_kv" id="v"}
+                            <div class="swiper-slide"><a href="{$v.link}"><img src="{$v.image}" alt=""></a></div>
+                            {/volist}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <script>
+                        new Swiper ('.swiper-container', {
+                            direction: 'horizontal', // 垂直切换选项
+                            loop: true, // 循环模式选项
+                            grabCursor : true, //小手形状
+                            effect : 'flip', //切换样式
+                            pagination: {
+                                el: '.swiper-pagination'
+                            },
+                            autoplay: {
+                                delay: 3000,
+                                disableOnInteraction: false
+                            }
+                        })
+                    </script>
+                </div>
+            {/in}
+            <!-- 幻灯片结束 -->
+            <div class="layui-col-xs6 nav-one">
+                <a href="/stay">
+                    <img src="__cn__/image/img05.png" alt="" class="icon-nav">
+                    <!--<i class="layui-icon layui-icon-release" style="font-size: 3rem; color: #1E9FFF;"></i>-->
+                    <p>留一个</p>
+                </a>
+            </div>
+            <div class="layui-col-xs6 nav-one">
+                <a href="/take">
+                    <img src="__cn__/image/img06.png" alt="" class="icon-nav">
+                    <!--<i class="layui-icon layui-icon-dialogue" style="font-size: 3rem; color: #1E9FFF;"></i>-->
+                    <p>抽一个</p>
+                </a>
+            </div>
+
+            <div class="layui-col-xs12 nav-two">
+                <div class="layui-col-xs3">
+                    <a href="/about">
+                        <img src="__cn__/image/img01.png" alt="">
+                        <p>常见问题</p>
+                    </a>
+                </div>
+                <div class="layui-col-xs3">
+                    <a href="JavaScript:void(0)" id="invitation">
+                        <img src="__cn__/image/img02.png" alt="">
+                        <p>推广海报</p>
+                    </a>
+                </div>
+                <div class="layui-col-xs3">
+                    <a href="/order">
+                        <img src="__cn__/image/img03.png" alt="">
+                        <p>订单查询</p>
+                    </a>
+                </div>
+                <div class="layui-col-xs3">
+                    <a href="/">
+                        <img src="__cn__/image/img04.png" alt="">
+                        <p>版本切换</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="layui-col-xs12">
+                <p>现有数据{$sex[0]['num']+$sex[1]['num']+$info.man+$info.woman}条，包含男生{$sex[0]['num']+$info.man}条、女生{$sex[1]['num']+$info.woman}条</p>
+                <div style="margin:10px auto; box-sizing:border-box;">
+                    <div class="funnyNewsTicker fnt-radius fnt-shadow fnt-easing" id="funnyNewsTicker1">
+                        <ul>
+                            {volist name="list" id="v"}
+                            <li>
+                                <div style="width: 100px;height: 100px;line-height: 100px;display: inline-block;vertical-align: top;text-align: center;">
+                                    <img style="max-height: 100px;max-width: 100px;" src="{$v.headimg}?imageView2/2/h/100/q/75" alt="">
+                                </div>
+                                <div style="display: inline-block;width: calc(100% - 120px);padding: 5px">
+                                    <p><b>{$v.province|default='未填写'} {$v.city|default='未填写'}</b></p>
+                                    <p><b>{$v.age==0?"":$v.age."岁"} {$v.constellation}</b></p>
+                                    <b>{$v.content|default='此用户没有留言~'}</b>
+                                </div>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 跑马灯开始 -->
+                <div>
+                    <marquee behavior="alternate" scrollamount="3">
+                        {volist name="partner" id="v"}
+                            <a href="{$v.link}">
+                                <img src="{$v.image}" alt="{$v.title_cn}" style="border: 1px solid #bdbdbd;padding: 5px;height: 10vw;max-height: 50px;">
+                            </a>
+                        {/volist}
+                    </marquee>
+                </div>
+                <!-- 跑马灯结束 -->
+
+                <hr>
+                <div style="text-align: center;color: #999;padding: 0px 0px 10px 0px">
+                    <p>请阅读<a href="../news/919" style="color: #999">网站条款</a> | <a href="https://beian.miit.gov.cn/">{$siteinfo.icp}</a></p>
+                </div>
+
+                <!--右下脚小人物-->
+                <div style="position: fixed;bottom: 0px;right: 10px;opacity: .9;z-index: 999;">
+                    <img src="__cn__/image/renwu-01.png" alt="" style="height: 200px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="common/footer" /}

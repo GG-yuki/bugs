@@ -1,0 +1,45 @@
+{extend name="tpl/base-info" /}
+{block name="nav"}
+    {include file="public/nav" /}
+{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>管理员id</th>
+                <td>{$data.user_id}</td>
+            </tr>
+            <tr>
+                <th>管理员名</th>
+                <td>{$data.user_name}</td>
+            </tr>
+            <tr>
+                <th>操作类型</th>
+                <td>{$data.action_type}</td>
+            </tr>
+            <tr>
+                <th>内容</th>
+                <td>{$data.text}</td>
+            </tr>
+            <tr>
+                <th>操作数据</th>
+                <td>{$data.data}</td>
+            </tr>
+
+                <th>时间</th>
+                <td>
+                    {if $data.time}
+                    {$data.time|date="Y-m-d H:i:s"}
+                    {else}
+                    {$data.create_time|date="Y-m-d H:i:s"}
+                    {/if}
+                </td>
+            </tr>
+
+            <tr>
+                <th>IP信息</th>
+                <td>{$data.ip} [ {$data.ipinfo} ]</td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

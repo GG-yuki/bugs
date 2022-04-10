@@ -1,0 +1,21 @@
+1618748896446	geckodriver	INFO	Listening on 127.0.0.1:58938
+1618748907480	geckodriver	INFO	Listening on 127.0.0.1:58952
+1618748957699	geckodriver	INFO	Listening on 127.0.0.1:59004
+1618749075514	geckodriver	INFO	Listening on 127.0.0.1:59209
+1618749081998	geckodriver	INFO	Listening on 127.0.0.1:59219
+1618749105947	geckodriver	INFO	Listening on 127.0.0.1:59247
+1618749126381	geckodriver	INFO	Listening on 127.0.0.1:59268
+1618749377009	geckodriver	INFO	Listening on 127.0.0.1:59699
+1618749843905	geckodriver	INFO	Listening on 127.0.0.1:60426
+1618749923219	geckodriver	INFO	Listening on 127.0.0.1:60675
+1618750044695	geckodriver	INFO	Listening on 127.0.0.1:60877
+1618750063851	geckodriver	INFO	Listening on 127.0.0.1:60898
+1618750064402	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\Yuki\\AppData\\Local\\Temp\\rust_mozprofileS58EqD"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1618750068471	Marionette	INFO	Listening on port 60903
+1618750068589	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1618753641922	Marionette	INFO	Stopped listening on port 60903
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

@@ -1,0 +1,31 @@
+{extend name="tpl/base-info" /}
+{block name="nav"}
+    {include file="public/nav" /}
+{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>手机号</th>
+                <td><input class="form-control w-lg" type="text" name="data[subject]" value="{$data.mobile}" /></td>
+            </tr>
+            <tr>
+                <th>短信内容</th>
+                <td><input class="form-control w-lg" type="text" name="data[email_to]" value="{$data.content}" /></td>
+            </tr>
+            <tr>
+                <th>发送结果</th>
+                <td>{$data.desc}</td>
+            </tr>
+
+                <th>发送时间</th>
+                <td>{$data.create_time}</td>
+            </tr>
+
+            <tr>
+                <th>IP信息</th>
+                <td>{$data.ip_info} [ {$data.ip_addr} ]</td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

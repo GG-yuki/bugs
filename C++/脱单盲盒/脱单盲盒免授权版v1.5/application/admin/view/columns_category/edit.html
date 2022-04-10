@@ -1,0 +1,57 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>分类位置名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[cate_name]" value="{$data[cate_name]}" /></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+            <tr>
+                <th>关联栏目</th>
+                <td>
+                    <div style="margin-bottom: 10px;"><button type="button" class="btn btn-primary" id="addColumns">添加栏目</button></div>
+                    <input type="hidden" name="columns_ids" value="" id="columnsIds" />
+                    <table class="table table-bordered table-hover table-data" id="columnsListTable">
+                        <thead>
+                            <tr>
+                                <td class="w-100">栏目ID</td>
+                                <td class="w-300">栏目图片</td>
+                                <td>栏目名称</td>
+                                <td class="w-300">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="data.columns" id="v"}
+                            <tr class="column-item" id="columnsID_{$v.id}">
+                                <td>{$v.id}</td>
+                                <td><img src="{$v.image}" height="50" /></td>
+                                <td>{$v.title_cn} | {$v.title_en}</td>
+                                <td>
+                                    <input type="hidden" name="columns[]" value="{$v.id}" />
+                                    <a href="javascript:;" class="js-move-up"><i class="fa fa-arrow-up"></i> 移上</a>
+                                    <a href="javascript:;" class="js-move-down"><i class="fa fa-arrow-down"></i> 移下</a>
+                                    <a href="javascript:;" class="js-remove-item"><i class="fa fa-trash"></i> 删除</a>
+                                </td>
+                            </tr>
+                            {/volist}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    {include file="columns_category/js" /}
+{/block}

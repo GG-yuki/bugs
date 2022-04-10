@@ -1,0 +1,34 @@
+{include file="public/head" /}
+<div class="wrapper">
+    {block name="search"}{/block}
+    <form action="#" method="post" id="tableListForm">
+        {block name="content"}
+            
+        {/block}
+    </form>
+
+    <div class="table-list-toolbar clearfix">
+        <div class="table-list-actions" id="tableListActions">
+            {block name="tablelistactions"}
+                <button type="button" class="btn btn-primary js-close-dialog">确定</button>
+            {/block}
+        </div>
+        <div class="table-list-pages">
+            {block name="tablelistpagination"}
+            {$pagination|raw}
+            {/block}
+        </div>
+    </div>
+
+</div>
+{include file="public/plugins" /}
+<script>
+    var layerIndex = parent.layer.getFrameIndex(window.name);
+    $(function(){
+        $(".js-close-dialog").on("click",function(){
+            parent.layer.close(layerIndex);
+        });
+    });
+</script>
+{block name="script"}{/block}
+{include file="public/foot" /}

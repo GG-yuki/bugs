@@ -1,0 +1,178 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+<ul class="nav nav-pills page-nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="pill">展会信息</a></li>
+    <li><a href="#tab2" data-toggle="pill">展商相关</a></li>
+    <li><a href="#tab3" data-toggle="pill">观众相关</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>标题</th>
+                    <td><input class="form-control w-md" type="text" name="data[title]" /><span class="help-block">仅用于后台，区分展会，如：第20届</span></td>
+                </tr>
+                <tr>
+                    <th>展会名称</th>
+                    <td><input class="form-control w-lg" type="text" name="data[expo_name]" /></td>
+                </tr>
+                <tr>
+                    <th>展会名称[英]</th>
+                    <td><input class="form-control w-lg" type="text" name="data[expo_name_en]" /></td>
+                </tr>
+                <tr>
+                    <th>展会届数</th>
+                    <td><input class="form-control w-md" type="number" name="data[expo_num]" /> 届</td>
+                </tr>
+                <tr>
+                    <th>开展地址</th>
+                    <td><input class="form-control w-lg" type="text" name="data[expo_addr]" /></td>
+                </tr>
+                <tr>
+                    <th>开展时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="data[start_time]" placeholder="开展时间" autocomplete="off" />
+                        - 
+                        <input class="form-control w-md js-datetime" type="text" name="data[end_time]" placeholder="闭展时间" autocomplete="off" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>状态</th>
+                    <td>
+                        <label><input type="radio" name="data[status]" value="1" checked /> 正常</label>
+                        <label><input type="radio" name="data[status]" value="0" /> 禁用</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab2">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>展商申请状态</th>
+                    <td>
+                        <label><input type="radio" name="exhibitor[apply_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="exhibitor[apply_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>展商申请时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="exhibitor[apply_start]" placeholder="开始时间" autocomplete="off" />
+                        - 
+                        <input class="form-control w-md js-datetime" type="text" name="exhibitor[apply_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>邀请观众状态</th>
+                    <td>
+                        <label><input type="radio" name="exhibitor[invite_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="exhibitor[invite_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>邀请观众时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="exhibitor[invite_start]" placeholder="开始时间" autocomplete="off" />
+                        - 
+                        <input class="form-control w-md js-datetime" type="text" name="exhibitor[invite_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>会刊状态</th>
+                    <td>
+                        <label><input type="radio" name="publication[invite_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="publication[invite_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>会刊提交时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="publication[invite_start]" placeholder="开始时间" autocomplete="off" />
+                        -
+                        <input class="form-control w-md js-datetime" type="text" name="publication[invite_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>胸卡状态</th>
+                    <td>
+                        <label><input type="radio" name="badges[invite_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="badges[invite_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>胸卡申请时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="badges[invite_start]" placeholder="开始时间" autocomplete="off" />
+                        -
+                        <input class="form-control w-md js-datetime" type="text" name="badges[invite_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab3">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>预登记状态</th>
+                    <td>
+                        <label><input type="radio" name="visitor[prereg_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="visitor[prereg_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>预登记时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="visitor[prereg_start]" placeholder="开始时间" autocomplete="off" />
+                        - 
+                        <input class="form-control w-md js-datetime" type="text" name="visitor[prereg_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>为他人登记状态</th>
+                    <td>
+                        <label><input type="radio" name="visitor[pasvreg_status]" value="1" /> 正常</label>
+                        <label><input type="radio" name="visitor[pasvreg_status]" value="0" checked /> 禁用</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>为他人登记时间</th>
+                    <td>
+                        <input class="form-control w-md js-datetime" type="text" name="visitor[pasvreg_start]" placeholder="开始时间" autocomplete="off" />
+                        - 
+                        <input class="form-control w-md js-datetime" type="text" name="visitor[pasvreg_end]" placeholder="结束时间" autocomplete="off" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Barcode 前缀</th>
+                    <td><input class="form-control w-md" type="text" name="visitor[barcode_prefix]" /></td>
+                </tr>
+                <tr>
+                    <th>Barcode 起始</th>
+                    <td><input class="form-control w-md" type="text" name="visitor[barcode_start]" /></td>
+                </tr>
+                <tr>
+                    <th>Barcode 长度</th>
+                    <td><input class="form-control w-md" type="number" name="visitor[barcode_length]" value="6" /> <span class="help-block">如6位显示：000001</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    $(function () {
+
+    });
+
+</script>
+{/block}

@@ -1,0 +1,47 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>推广分类</th>
+                <td>
+                    <select name="data[category_id]" class="form-control w-md">
+                        <option value="0">请选择</option>
+                        {volist name="category_list" id="v"}
+                            <option value="{$v.id}">{$v.spacer|raw} {$v.cate_name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>推广标题 </th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /></td>
+            </tr>
+            <tr>
+                <th>推广链接</th>
+                <td><input class="form-control w-lg" type="text" name="data[url]" placeholder="http://" /></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[brief]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 启用</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 禁用</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

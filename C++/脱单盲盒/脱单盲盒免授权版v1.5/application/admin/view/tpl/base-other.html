@@ -1,0 +1,19 @@
+{include file="public/head" /}
+<div class="wrapper">
+    {block name="nav"}{include file="public/nav"/}{/block}
+    {block name="search"}{/block}
+    <form action="{:url($action_name.'_post')}" method="post" enctype="multipart/form-data" id="formData">
+        {block name="content"}
+            
+        {/block}
+        {block name="actions"}
+            <div class="well table-data-actions">
+                <button type="submit" class="btn btn-primary" id="submitDataBtn">保存</button>
+                <button type="button" class="btn btn-default">返回</button>
+            </div>
+        {/block}
+    </form>
+</div>
+{include file="public/plugins" /}
+{block name="script"}{/block}
+{include file="public/foot" /}

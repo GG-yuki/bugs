@@ -1,0 +1,20 @@
+{extend name="tpl/base-add" /}
+{block name="nav"}{include file="profile/nav" /}{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>账号</th>
+                <td><input class="form-control w-md" type="text" value="{$data.account}" readonly /></td>
+            </tr>
+            <tr>
+                <th>邮箱</th>
+                <td><input class="form-control w-lg" type="text" name="data[email]" value="{$data.email}" /></td>
+            </tr>
+            <tr>
+                <th>手机</th>
+                <td><input class="form-control w-lg" type="text" name="data[mobile]" value="{$data.mobile}" /></td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

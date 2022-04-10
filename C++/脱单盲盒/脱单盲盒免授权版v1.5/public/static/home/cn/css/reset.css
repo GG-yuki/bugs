@@ -1,0 +1,9 @@
+body, div, dl, dt, dd, ul, ol,li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input, button, textarea, p, th, td{margin: 0;padding: 0;font-size:12px;}
+img{border: none;}
+h1, h2, h3, h4, h5, h6{font-size: 14px;}
+input, button, textarea, select, optgroup, option{font-family: inherit;font-size: inherit; font-style: inherit; font-weight: inherit;}
+input, button, textarea, select{ *font-size:100%;}
+ul{list-style: none;}
+:link, :visited{text-decoration: none;}
+.clearfix:after{content: "."; display: block;height: 0;clear: both;visibility: hidden;}
+.clearfix{zoom: 1;}

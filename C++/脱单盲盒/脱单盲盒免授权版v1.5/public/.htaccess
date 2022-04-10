@@ -1,0 +1,24 @@
+#???WWW
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{HTTP_HOST} ^silverindustry\.smi [NC]
+    RewriteRule ^(.*)$ http://www.silverindustry.smi/$1 [L,R=301,NC]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L]
+</IfModule>
+
+#????????
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+#????????
+Options -Indexes

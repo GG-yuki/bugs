@@ -1,0 +1,77 @@
+{extend name="tpl/base" /}
+{block name="nav"}
+<ul class="nav nav-tabs page-nav-tabs">
+    <li {eq name="action_name" value="index"}class="active"{/eq}><a href="{:url('index')}">管理</a></li>
+</ul>
+{/block}
+{block name="search"}
+    <form class="well search-form form-inline" action="" method="get">
+        <div class="form-group">
+            订单号：<input class="form-control" type="text" name="order_sn"  value="{$opts.order_sn}" />
+        </div>
+        <div class="form-group">
+            订单时间：
+            <input class="form-control" type="date" name="date_a" value="{$opts.date_a}" /> -
+            <input class="form-control" type="date" name="date_b" value="{$opts.date_b}" />
+        </div>
+        <div class="form-group">
+            订单状态：
+            <select name="status" class="form-control">
+                <option value="0" selected >请选择</option>
+                <option value="1" {eq name="opts.status" value="1"}selected{/eq}>未付款</option>
+                <option value="2" {eq name="opts.status" value="2"}selected{/eq}>已付款</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="searchBtn">查询</button>
+        <button type="submit" class="btn btn-success" data-url="{:url('export')}" id="exportBtn">导出数据</button>
+    </form>
+{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered" id="tableList" 
+           data-toggle="table" 
+           data-select-item-name="ids[]" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th class="w-50" data-field="id">ID</th>
+                <th>订单号</th>
+                <th>价格</th>
+                <th>支付单号</th>
+                <th>类型</th>
+                <th>所属位置</th>
+                <th>提交人微信</th>
+                <th>订单状态</th>
+                <th>下单时间</th>
+                <th class="w-150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr>
+                <td></td>
+                <td>{$v.id}</td>
+                <td>{$v.order_sn}</td>
+                <td>{$v.price}元</td>
+                <td>{$v.pay_sn}</td>
+                <td>{$v.type}</td>
+                <td>{$v.position}</td>
+                <td>{$v.data.wechat}</td>
+                <td>{$v.status}</td>
+                <td>{$v.create_time|date="Y-m-d H:i:s"}</td>
+                <td>
+                    <!--<a href="" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>-->
+                    <a href="JavaScript:alert('退款请联系管理员！')" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 退款</a>
+                    <!--<a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>-->
+                    <!--<a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>-->
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="tablelistactions"}{/block}
+{block name="script"}{/block}

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="13b057ab-2ce5-41d3-b755-059034f04b42" name="Default Changelist" comment="">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/alexnet_cnn_kmeans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/AlphaNoGo-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/deployment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/remote-mappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/game.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/human_play.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/mcts_alphaZero.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/mcts_pure.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/pic/AlphaNoGo_1000.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/pic/AlphaNoGo_1500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/pic/AlphaNoGo_500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/policy_value_net.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Nogo/AlphaNoGo-master/train.py" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/../BAG_classification/resnet18.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BAG_classification/resnet50.pkl" beforeDir="false" />
+>>>>>>> a240ef68 (first commit)
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deepcluster2to3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deepcluster2to3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets.py" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/eval_linear.py" beforeDir="false" afterPath="$PROJECT_DIR$/eval_linear.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobilenetv1.py" beforeDir="false" afterPath="$PROJECT_DIR$/mobilenetv1_sobel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/support.py" beforeDir="false" afterPath="$PROJECT_DIR$/support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vgg_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/cnn_kmeans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/.idea/paper_design_cifar100.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/.idea/paper_design_cifar100.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/experiment_record(first)/experiment_result.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/experiment_record(first)/experiment_result.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/main_file_classify.py" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/main_file_classify.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar100/mobilenetv1.py" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar100/mobilenetv1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/deployment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/project601.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/remote-mappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/_theatre.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/battlespace.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/sim_out.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project601/environment/theatre.py" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/support_for_classify.py" beforeDir="false" afterPath="$PROJECT_DIR$/support_for_classify.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_cifar10/experiment_record(first)/experiment_result.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_cifar10/experiment_record(first)/experiment_result.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../paper_design_dogcat/experiment_record(first)/experiment_result.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../paper_design_dogcat/experiment_record(first)/experiment_result.xlsx" afterDir="false" />
+>>>>>>> a240ef68 (first commit)
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JupyterTrust" id="5d54e841-454a-4541-a72d-60cd76b9b59a" />
+  <component name="ProjectId" id="1m0kswzXhIuSXR6Z30roJr39n8x" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+<<<<<<< HEAD
+    <property name="settings.editor.selected.configurable" value="web.server" />
+=======
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+>>>>>>> a240ef68 (first commit)
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Yuki\Desktop\bugs\python\deepcluster2to3" />
+    </key>
+  </component>
+<<<<<<< HEAD
+  <component name="RunManager" selected="Python.test">
+=======
+  <component name="RunManager" selected="Python.main_file_classify">
+>>>>>>> a240ef68 (first commit)
+    <configuration name="alexnet_cnn_kmeans" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Yuki\Desktop\bugs\python\deepcluster2to3\alexnet_cnn_kmeans.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< HEAD
+=======
+    <configuration name="datasets" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datasets.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+>>>>>>> a240ef68 (first commit)
+    <configuration name="main_file_classify" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_file_classify.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="mobilenetv1_no_sobel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mobilenetv1_no_sobel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+=======
+>>>>>>> a240ef68 (first commit)
+    <configuration name="mobilenetv1_sobel (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mobilenetv1_sobel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="deepcluster2to3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.main_file_classify" />
+      <item itemvalue="Python.mobilenetv1_sobel (1)" />
+<<<<<<< HEAD
+      <item itemvalue="Python.mobilenetv1_no_sobel" />
+      <item itemvalue="Python.alexnet_cnn_kmeans" />
+      <item itemvalue="Python.test" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.alexnet_cnn_kmeans" />
+        <item itemvalue="Python.main_file_classify" />
+        <item itemvalue="Python.mobilenetv1_sobel (1)" />
+        <item itemvalue="Python.mobilenetv1_no_sobel" />
+=======
+      <item itemvalue="Python.alexnet_cnn_kmeans" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.datasets" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main_file_classify" />
+        <item itemvalue="Python.datasets" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.alexnet_cnn_kmeans" />
+        <item itemvalue="Python.mobilenetv1_sobel (1)" />
+>>>>>>> a240ef68 (first commit)
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="13b057ab-2ce5-41d3-b755-059034f04b42" name="Default Changelist" comment="" />
+      <created>1608638105960</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608638105960</updated>
+      <workItem from="1608638108846" duration="36796000" />
+      <workItem from="1608975813633" duration="10937000" />
+      <workItem from="1609036362765" duration="336000" />
+      <workItem from="1609037870599" duration="5442000" />
+      <workItem from="1609044881646" duration="449000" />
+      <workItem from="1609210864190" duration="5746000" />
+      <workItem from="1609228247564" duration="381000" />
+      <workItem from="1609311061867" duration="1920000" />
+      <workItem from="1612420579917" duration="8293000" />
+      <workItem from="1612589735729" duration="8858000" />
+      <workItem from="1613678506103" duration="1189000" />
+      <workItem from="1613904209075" duration="16043000" />
+      <workItem from="1614584426458" duration="37319000" />
+      <workItem from="1614940599447" duration="11417000" />
+      <workItem from="1615275995764" duration="463000" />
+      <workItem from="1615294525420" duration="34000" />
+      <workItem from="1615624419660" duration="2347000" />
+      <workItem from="1615858339867" duration="7918000" />
+      <workItem from="1615945243040" duration="9624000" />
+      <workItem from="1616030505598" duration="10468000" />
+      <workItem from="1616059906199" duration="41000" />
+      <workItem from="1616160694613" duration="4054000" />
+      <workItem from="1616204487532" duration="5058000" />
+      <workItem from="1616216628160" duration="4742000" />
+      <workItem from="1616223571970" duration="2535000" />
+      <workItem from="1616294681817" duration="45000" />
+      <workItem from="1616493388817" duration="523000" />
+      <workItem from="1616591446641" duration="17000" />
+      <workItem from="1617001208027" duration="2924000" />
+      <workItem from="1617254498220" duration="3528000" />
+      <workItem from="1617261578311" duration="691000" />
+      <workItem from="1617262311768" duration="7798000" />
+      <workItem from="1617450811733" duration="22137000" />
+      <workItem from="1617582912163" duration="6247000" />
+      <workItem from="1617676016780" duration="4550000" />
+      <workItem from="1617717125012" duration="3851000" />
+      <workItem from="1617787300743" duration="5588000" />
+      <workItem from="1617812627180" duration="2351000" />
+      <workItem from="1618029825582" duration="17251000" />
+      <workItem from="1618124802846" duration="4104000" />
+      <workItem from="1618215872132" duration="2009000" />
+      <workItem from="1618227858663" duration="260000" />
+      <workItem from="1618228493334" duration="604000" />
+      <workItem from="1618229241416" duration="64000" />
+      <workItem from="1618229449792" duration="29162000" />
+      <workItem from="1619103898381" duration="351000" />
+      <workItem from="1619142756838" duration="11477000" />
+      <workItem from="1619168325023" duration="62000" />
+      <workItem from="1619230005478" duration="1532000" />
+      <workItem from="1619312014943" duration="1895000" />
+      <workItem from="1619340533823" duration="4114000" />
+      <workItem from="1619418417705" duration="1264000" />
+      <workItem from="1619508542204" duration="19776000" />
+      <workItem from="1619663660100" duration="8990000" />
+      <workItem from="1620269271511" duration="594000" />
+      <workItem from="1620269990942" duration="1280000" />
+      <workItem from="1620280474764" duration="7103000" />
+      <workItem from="1620302896627" duration="3435000" />
+      <workItem from="1620361999278" duration="28160000" />
+      <workItem from="1621341966423" duration="6627000" />
+      <workItem from="1621852358171" duration="1489000" />
+      <workItem from="1621912080313" duration="4829000" />
+      <workItem from="1622361898446" duration="4639000" />
+      <workItem from="1622441440712" duration="1654000" />
+<<<<<<< HEAD
+=======
+      <workItem from="1629446622721" duration="2199000" />
+>>>>>>> a240ef68 (first commit)
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/eval_linear_py$mobilenetv1.coverage" NAME="mobilenetv1 Coverage Results" MODIFIED="1617527421976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/little_sample_py$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1615878352937" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/little_sample_py$mobilenetv1.coverage" NAME="mobilenetv1 Coverage Results" MODIFIED="1616033774697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_py$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1609043374600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/eval_linear_py$test.coverage" NAME="test Coverage Results" MODIFIED="1619317953973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+<<<<<<< HEAD
+=======
+    <SUITE FILE_PATH="coverage/main_py$main_file_classify.coverage" NAME="main_file_classify Coverage Results" MODIFIED="1629449228062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+>>>>>>> a240ef68 (first commit)
+    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1616160940213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/little_sample_py$test__1_.coverage" NAME="test  Coverage Results" MODIFIED="1615877100237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_py$test.coverage" NAME="test Coverage Results" MODIFIED="1616208051087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/deepcluster2to3$test.coverage" NAME="test Coverage Results" MODIFIED="1608726595458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/clustering_py$mobilenetv1.coverage" NAME="mobilenetv1 Coverage Results" MODIFIED="1614004586545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$main_file_classify.coverage" NAME="main_file_classify Coverage Results" MODIFIED="1618057361663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$test.coverage" NAME="test Coverage Results" MODIFIED="1618041413673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/little_sample_py$main.coverage" NAME="main Coverage Results" MODIFIED="1615968854162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/deepcluster2to3$main.coverage" NAME="main Coverage Results" MODIFIED="1608638762726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1618035501070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/vgg_test_py$vgg_test.coverage" NAME="vgg_test Coverage Results" MODIFIED="1617262613290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$mobilenetv1_sobel__1_.coverage" NAME="mobilenetv1_sobel (1) Coverage Results" MODIFIED="1618042814704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$eval_linear.coverage" NAME="eval_linear Coverage Results" MODIFIED="1618035558750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+<<<<<<< HEAD
+=======
+    <SUITE FILE_PATH="coverage/main_py$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1629448000388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+>>>>>>> a240ef68 (first commit)
+    <SUITE FILE_PATH="coverage/mobilenetv3_another_sobel_py$test.coverage" NAME="test Coverage Results" MODIFIED="1621393059665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/eval_linear_py$vgg_test.coverage" NAME="vgg_test Coverage Results" MODIFIED="1617527374774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cnn_kmeans_py$test.coverage" NAME="test Coverage Results" MODIFIED="1620464804337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_file_classify_py$mobilenetv1_no_sobel.coverage" NAME="mobilenetv1_no_sobel Coverage Results" MODIFIED="1618040573196" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/deepcluster2to3$new_test.coverage" NAME="new_test Coverage Results" MODIFIED="1608902672579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/new_test_py$new_test.coverage" NAME="new_test Coverage Results" MODIFIED="1608976208624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cnn_kmeans_py$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1617813263746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

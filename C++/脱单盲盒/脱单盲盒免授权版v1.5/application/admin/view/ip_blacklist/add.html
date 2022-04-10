@@ -1,0 +1,28 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>Ip地址</th>
+                <td><input class="form-control w-lg" type="text" name="data[ip]" /><span class="help-block">加入后会被禁止访问本站</span></td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td>
+                    <textarea name="data[remarks]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+            initImageWebUploader("#wuPickImage");
+        });
+    </script>
+{/block}

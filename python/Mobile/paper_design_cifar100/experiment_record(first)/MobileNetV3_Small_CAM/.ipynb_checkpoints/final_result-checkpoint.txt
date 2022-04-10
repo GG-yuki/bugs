@@ -1,0 +1,2 @@
+model MobileNetV3_Small_CAM   train 60 epoch   batch_size 128   num_workers 4   lr 0.001000   max_acc: 37.030  weight_decay 0.002000   traintime 88   testtime 8
+model MobileNetV3_Small_CAM   train 60 epoch   batch_size 32   num_workers 4   lr 0.001000   max_acc: 42.670  weight_decay 0.000500   traintime 75   testtime 7

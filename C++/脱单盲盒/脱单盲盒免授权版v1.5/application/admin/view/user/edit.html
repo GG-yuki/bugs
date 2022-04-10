@@ -1,0 +1,49 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>用户组</th>
+                <td>
+                    <select name="data[group_id]" class="form-control w-md">
+                        <option value="0">请选择</option>
+                        {volist name="group_list" id="v"}
+                            <option value="{$v.id}" {eq name="data.group_id" value="$v.id"}selected{/eq}>{$v.name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>账号</th>
+                <td><input class="form-control w-md" type="text" value="{$data.account}" readonly  /></td>
+            </tr>
+            <tr>
+                <th>电子邮箱</th>
+                <td><input class="form-control w-md" type="text" autocomplete="false" name="data[email]" value="{$data.email}" /></td>
+            </tr>
+            <tr>
+                <th>手机号码</th>
+                <td><input class="form-control w-md" type="text" autocomplete="false" name="data[mobile]" value="{$data.mobile}" /></td>
+            </tr>
+            <tr>
+                <th>所属位置编号</th>
+                <td><input class="form-control w-md" type="text" autocomplete="false" name="data[province]" value="{$data.province}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 正常</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 禁用</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

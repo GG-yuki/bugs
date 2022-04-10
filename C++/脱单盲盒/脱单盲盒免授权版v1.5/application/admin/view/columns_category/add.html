@@ -1,0 +1,44 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>分栏位置名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[cate_name]" /></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+            <tr>
+                <th>关联栏目</th>
+                <td>
+                    <div style="margin-bottom: 10px;"><button type="button" class="btn btn-primary" id="addColumns">添加栏目</button></div>
+                    <input type="hidden" name="columns_ids" value="" id="columnsIds" />
+                    <table class="table table-bordered table-hover table-data" id="columnsListTable">
+                        <thead>
+                            <tr>
+                                <td class="w-100">栏目ID</td>
+                                <td class="w-300">栏目图片</td>
+                                <td>栏目名称</td>
+                                <td class="w-300">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    {include file="columns_category/js" /}
+{/block}

@@ -1,0 +1,43 @@
+{extend name="tpl/base" /}
+
+{block name="nav"}{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered" id="tableList"
+           data-toggle="table" 
+           data-select-item-name="ids[]" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th class="w-50" data-field="id">ID</th>
+                <th class="w-100">管理员id/管理员名</th>
+                <th class="w-50">类型</th>
+                <th class="w-300">内容</th>
+                <th class="w-100">时间</th>
+                <th class="w-100">ip</th>
+                <th class="w-150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr>
+                <td></td>
+                <td>{$v.id}</td>
+                <td>{$v.user_id}/{$v.user_name}</td>
+                <td>{$v.action_type}</td>
+                <td>{$v.text}</td>
+                <td>{$v.create_time}</td>
+                <td>{$v.ip}</td>
+                <td>
+                    <a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 查看详情</a>
+                <!--    <a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>-->
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="script"}{/block}

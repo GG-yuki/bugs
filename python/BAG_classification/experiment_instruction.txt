@@ -1,0 +1,14 @@
+基础部分
+1.首先，同时按住win+R（win键为键盘左下角四个小方块那个键），输入cmd，回车
+2.在黑色画面中cd+空格+文件夹路径，示例：cd C:\Users\Yuki\Desktop\bugs\python
+3.输入python+空格+文件名即可运行程序，示例：python resnet18.py，在result文件夹里查看结果
+4.运行test_resnet18.py，可直接加载训练好的神经网络进行测试，图像预测结果放在result文件夹中，预测准确率在cmd中显示
+5.运行train_resnet18.py，程序训练网络，每轮训练后会进行一次测试，每5轮会在reslut文件夹中重新生成一次结果
+tips:输入cls可以清屏,按住ctrl+c可以停止程序运行
+
+提高部分
+1.输入python resnet18.py -h，查看可以调试的参数，分别为学习率，训练轮数（resnet18.py输入此参数不影响任何实验结果），线程数，批尺寸，训练集目录（同上），测试集目录
+2.以上参数均可以修改，如果不输入也可以运行，输入示例如下：python resnet18.py --learningrate 0.001 --epochs 40 --num_workers 0 --batch_size 1 --train_folder ./dataset/train --test_folder ./classmate_photo
+tips:以上参数为标准参数,运行不会报错，如果在手动实验中出现错误一般情况下为输入的参数格式错误，或是由于电脑性能不够引起的报错。自行训练网络后识别率大幅度降低为正常情况，本实验目的主要是帮助同学大致了解参数对网络的影响
+
+另，本实验所用的程序与课件均已开源，相关代码可在githu.com/GG-yuki找到，欢迎大家follow

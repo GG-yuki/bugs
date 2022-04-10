@@ -1,0 +1,43 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>上一级</th>
+                <td>
+                    <select name="data[pid]" class="form-control w-md">
+                        <option value="0">作为第一级</option>
+                        {volist name="parent_list" id="v"}
+                            <option value="{$v.id}" {eq name="data.pid" value="$v.id"}selected{/eq}>{$v.spacer|raw} {$v.name_cn}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>名称（中）</th>
+                <td><input class="form-control w-lg" type="text" name="data[name_cn]" value="{$data.name_cn}" /></td>
+            </tr>
+            <tr>
+                <th>名称（英）</th>
+                <td><input class="form-control w-lg" type="text" name="data[name_en]" value="{$data.name_en}" /></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+        });
+    </script>
+{/block}

@@ -1,0 +1,34 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            {volist name="lang_list" id="lang"}
+            {php}$field="cate_name_".$lang['lang_code'];{/php}
+            <tr>
+                <th>分类名称 [{$lang.title}]</th>
+                <td><input class="form-control w-lg" type="text" name="data[{$field}]" /></td>
+            </tr>
+            {/volist}
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+        
+    </script>
+{/block}

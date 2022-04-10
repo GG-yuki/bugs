@@ -1,0 +1,123 @@
+{extend name="tpl/base-add" /}
+{block name="nav"}{include file="news/nav"/}{/block}
+{block name="content"}
+<ul class="nav nav-pills page-nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="pill">基本信息</a></li>
+    {volist name="lang_list" id="lang"}
+    <li><a href="#tab_{$lang.lang_code}" data-toggle="pill">正文内容[{$lang.title}]</a></li>
+    {/volist}
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <table class="table table-bordered table-hover table-data" id="tableData">
+            <tbody>
+                <tr>
+                    <th>分类</th>
+                    <td>
+                        <select name="data[category_id]" class="form-control w-md">
+                            <option value="0">请选择</option>
+                            {volist name="category_list" id="v"}
+                                <option value="{$v.id}">{$v.cate_name_cn|raw}</option>
+                            {/volist}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>发布日期</th>
+                    <td><input class="form-control w-md js-date" type="text" name="data[publish_time]" value="{:date('Y-m-d')}" /></td>
+                </tr>
+                {volist name="lang_list" id="lang"}
+                <tr>
+                    <th>代表图片（{$lang.title}）</th>
+                    <td>
+                        <div>
+                            <a href="javascript:;" data-server="{:url('uploadfile')}" data-display="imageDisplay_{$i}" data-path="news" id="wuPickImage_{$i}">选择图片</a>
+                            <span class="help-block">格式：jpg，png，gif，jpeg；尺寸：-- x -- px</span>
+                        </div>
+                        <div id="imageDisplay_{$i}">
+                            <input type="hidden" name="lang[{$lang.lang_code}][image]" class="js-file-input" />
+                            <input type="hidden" name="asset_id[]" class="js-asset-input" />
+                            <img class="data-img js-img" data-default="__PUBLIC__/images/thumbnail.png" src="__PUBLIC__/images/thumbnail.png" />
+                            <a class="deletefile js-deletefile hidden" href="javascript:;"><i class="fa fa-close"></i> 删除</a>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+                <tr>
+                    <th>排序</th>
+                    <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+                </tr>
+                <tr>
+                    <th>状态</th>
+                    <td>
+                        <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                        <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {volist name="lang_list" id="lang"}
+    <div class="tab-pane fade" id="tab_{$lang.lang_code}">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][title]" /></td>
+                </tr>
+                <tr>
+                    <th>副标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][sub_title]" /></td>
+                </tr>
+                <tr>
+                    <th>作者</th>
+                    <td><input class="form-control w-md" type="text" name="lang[{$lang.lang_code}][author]" /></td>
+                </tr>
+                <tr>
+                    <th>来源</th>
+                    <td><input class="form-control w-md" type="text" name="lang[{$lang.lang_code}][source]" /></td>
+                </tr>
+                <tr>
+                    <th>外链</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][outlink]" /></td>
+                </tr>
+                <tr>
+                    <th>描述</th>
+                    <td>
+                        <textarea name="lang[{$lang.lang_code}][brief]" class="form-control w-lg" rows="4"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>内容</th>
+                    <td>
+                        <textarea class="ckeditor" name="lang[{$lang.lang_code}][content]"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>SEO标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][meta_title]" /></td>
+                </tr>
+                <tr>
+                    <th>SEO关键词</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][meta_kws]" /></td>
+                </tr>
+                <tr>
+                    <th>SEO描述</th>
+                    <td><textarea name="lang[{$lang.lang_code}][meta_desc]" class="form-control w-lg" rows="4"></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {/volist}
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            {volist name="lang_list" id="lang"}
+            initImageWebUploader("#wuPickImage_{$i}");
+            {/volist}
+        });
+        
+    </script>
+{/block}

@@ -1,0 +1,59 @@
+{extend name="tpl/base-edit" /}
+{block name="nav"}
+    {include file="auth_rule/nav" /}
+{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>菜单</th>
+                <td>
+                    <label><input type="radio" name="data[is_menu]" value="1" checked /> 是</label>
+                    <label><input type="radio" name="data[is_menu]" value="0" {eq name="data.is_menu" value="0"}checked{/eq}/> 否</label>
+                </td>
+            </tr>
+            <tr>
+                <th>上一级</th>
+                <td>
+                    <select name="data[pid]" class="form-control w-md">
+                        <option value="0">作为第一级</option>
+                        {volist name="parent_list" id="v"}
+                        <option value="{$v.id}" {eq name="data.pid" value="$v.id"}selected{/eq}>{$v.spacer|raw} {$v.title}({$v.name|raw})</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>菜单名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" value="{$data.title}" /></td>
+            </tr>
+            <tr>
+                <th>规则路径</th>
+                <td><input class="form-control w-lg" type="text" name="data[name]" value="{$data.name}"/><span class="help-block">注意大小写</span></td>
+            </tr>
+            <tr>
+                <th>条件</th>
+                <td><input class="form-control w-lg" type="text" name="data[condition]" value="{$data.condition}"/><span class="help-block">可不填</span></td>
+            </tr>
+            <tr>
+                <th>图标</th>
+                <td><input class="form-control w-lg" type="text" name="data[icon]" value="{$data.icon}" placeholder="例如fa fa-***" /><span class="help-block">支持<a href="http://glyphicons.com/" target="_blank">Glyphicons</a> 和 <a href="http://www.thinkcmf.com/font/icons" target="_blank">Font Awesome</a></span></td>
+            </tr>
+            <tr>
+                <th>备注</th>
+                <td><textarea name="data[remark]" class="form-control w-lg" rows="4">{$data.remark}</textarea></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

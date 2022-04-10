@@ -1,0 +1,36 @@
+注意事项：所有文件都要先拷贝到桌面在运行，全部文件都安装在C盘里（即默认不改变安装地址），讲解过程中有问题，讲解过后再示意助教单独询问。在配环境的过程中遇到不确定的可以先问助教，以免造成电脑宕机；正式实验开始后尽量自己先操作，独立思考。
+
+
+一.配置python环境
+1.hechang_chen文件里所有文件拷贝到桌面上，然后关闭Y盘，所有操作在桌面进行。
+2.进入C:\Users\Yuki\AppData\Local\Programs\Python\Python37文件夹，注意AppData文件夹为隐藏文件夹，可以通过显示隐藏文件打开，也可以通过在地址中输入文件夹位置打开
+3.右键“我的电脑”，点击属性，点击高级系统设置，点击环境变量，在系统变量栏里双击path，新建两个变量，一个为C:\Users\Yuki\AppData\Local\Programs\Python\Python37，另一个为C:\Users\Yuki\AppData\Local\Programs\Python\Python37\Scripts，确认保存退出
+
+
+二.配置torchvision环境
+4.重新返回Python37文件夹，打开到Python37\Lib\site-packages位置
+5.打开刚刚保存到桌面的文件BAG_classification，进入env文件夹，找到torchvision有关的2个文件夹，复制粘贴到site-packages文件夹中
+
+
+三.配置torch环境
+6.关闭Python37文件夹，回到刚才的BAG_classification\env文件夹中，复制地址
+7.同时按住win+R（win键为键盘左下角四个小方块那个键），输入cmd
+8.先输入cd+空格，再同时按住shift+insert键，标准情况如下：cd C:\Users\Yuki\Desktop\bugs\python\BAG_classification\env，回车，进入该文件夹
+9.输入pip install -r env.txt
+10.等下载完成后关闭cmd，运行VC文件，在询问是否关机时，一定不要选择关机！！！如果选择关机则会清空所有文件，需要重新来一遍上述操作
+
+
+四.确认环境
+11.打开cmd，输入python，回车
+12.输入import torch，回车
+13.输入import torchvision，回车
+14.如若以上都没有报错，则配置成功，按住ctrl+z，敲击回车，或者输入exit()，敲击回车，回到cmd
+
+
+如若配置成功，则已经可以运行基础程序，可以依次阅读README.txt，experiment_instruction.txt
+
+
+五.安装pycharm，进阶教程
+15.点击pycharm安装包，在中间某可以勾选的界面，勾选第一个和最后一个选项（不勾选不影响程序运行）
+16.打开pycharm，右键运行resnet18.py，运行成功会在下方栏出现“acc 70%”字样，如若运行不成功请示意助教
+17.pycharm安装成功后请仔细阅读上面的txt文件

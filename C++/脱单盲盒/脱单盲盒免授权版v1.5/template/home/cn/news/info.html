@@ -1,0 +1,47 @@
+{include file="common/header" /}
+
+<div style="margin: 5% auto;width: 90%">
+
+
+    <h2>{$article.info.title}</h2>
+    <hr>
+    <div style="text-align: center">
+        <span class="layui-badge">{$article.info.author}</span>
+        <span class="layui-badge layui-bg-blue">{$category.cate_name_cn}</span>
+        <span class="layui-badge layui-bg-orange">{$article.publish_time|date="Y-m-d"}</span>
+    </div><br>
+
+    <div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-lg12">
+                <div class="layui-panel" style="padding: 5px">
+                    {$article.info.content|raw}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br >
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="margin: 0px;text-align: center;">
+            <a href="../stay" class="layui-btn layui-btn-radius layui-btn-normal">留一个</a>
+            <a href="../take" class="layui-btn layui-btn-radius layui-btn-warm">抽一个</a>
+            <a href="../index" class="layui-btn layui-btn-radius">回主页</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    layui.use(['dropdown', 'util', 'layer'], function(){
+        var element = layui.element;
+        var layer = layui.layer;
+
+        //监听折叠
+        element.on('collapse(test)', function(data){
+            layer.msg('展开状态：'+ data.show);
+        });
+    });
+</script>
+
+{include file="common/footer" /}

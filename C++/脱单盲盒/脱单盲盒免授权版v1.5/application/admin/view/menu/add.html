@@ -1,0 +1,248 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+<ul class="nav nav-pills page-nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="pill">基本信息</a></li>
+    {volist name="lang_list" id="lang"}
+    <li><a href="#tab_{$lang.lang_code}" data-toggle="pill">正文内容[{$lang.title}]</a></li>
+    {/volist}
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <table class="table table-bordered table-hover table-data" id="tableData">
+            <tbody>
+                <tr>
+                    <th>上一级</th>
+                    <td>
+                        <select name="data[pid]" class="form-control w-md">
+                            <option value="0">作为第一级</option>
+                            {volist name="parent_list" id="v"}
+                            <option value="{$v.id}" {eq name="pid" value="$v.id"}selected{/eq}>{$v.spacer|raw} {$v.menu_name}</option>
+                            {/volist}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>菜单名称</th>
+                    <td><input class="form-control w-md" type="text" name="data[menu_name]" /><span class="help-block">仅在后台使用</span></td>
+                </tr>
+                <tr>
+                    <th>URL路径</th>
+                    <td><input class="form-control w-lg" type="text" name="data[pathinfo]" placeholder="xxx/xxx" /><span class="help-block">必须是唯一的二级URL路径</span></td>
+                </tr>
+                <tr>
+                    <th>代表图片</th>
+                    <td>
+                        <div>
+                            <a href="javascript:;" data-server="{:url('uploadfile')}" data-path="menu" id="wuPickImage">选择图片</a>
+                            <span class="help-block">格式：jpg，png，gif，jpeg；尺寸：-- x -- px</span>
+                        </div>
+                        <div id="imageDisplay">
+                            <input type="hidden" name="data[image]" class="js-file-input" />
+                            <input type="hidden" name="asset_id[]" class="js-asset-input" />
+                            <img class="data-img js-img" data-default="__PUBLIC__/images/thumbnail.png" src="__PUBLIC__/images/thumbnail.png" />
+                            <a class="deletefile js-deletefile hidden" href="javascript:;"><i class="fa fa-close"></i> 删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>排序</th>
+                    <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+                </tr>
+                <tr>
+                    <th>状态</th>
+                    <td>
+                        <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                        <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>面包屑导航</th>
+                    <td>
+                        <label><input type="radio" name="data[breadcrumb]" value="1" checked /> 显示</label>
+                        <label><input type="radio" name="data[breadcrumb]" value="0" /> 隐藏</label>
+                    </td>
+                </tr>
+                <tr id="contentTypeWrap">
+                    <th>内容类型</th>
+                    <td>
+                        <label><input type="radio" name="data[content_type]" value="0" checked /> 普通内容</label>
+                        <label><input type="radio" name="data[content_type]" value="1" /> 调用其他页面内容</label>
+                        <!--<label><input type="radio" name="data[content_type]" value="2" /> 独立模块</label>-->
+                    </td>
+                </tr>
+                <tr id="contentIdWrap">
+                    <th>调用页面</th>
+                    <td>
+                        <select name="data[content_id]" class="form-control w-md">
+                            <option value="0">请选择</option>
+                            {volist name="parent_list" id="v"}
+                            <option value="{$v.id}">{$v.spacer|raw} {$v.menu_name}</option>
+                            {/volist}
+                        </select>
+                    </td>
+                </tr>
+                <tr id="moduleTypeWrap">
+                    <th>模块类型</th>
+                    <td>
+                        <select name="data[module_type]" class="form-control w-md" id="moduleType">
+                            <option value="">请选择</option>
+                            <option value="columns">分栏导航</option>
+                            <option value="article_category">文章分类</option>
+                            <option value="article">新闻列表</option>
+                            <option value="page">文章列表</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="contentCategoryWrap">
+                    <th>模块内容</th>
+                    <td>
+                        <input type="hidden" name="data[content_category]" value="" id="contentCategory" />
+                        <select class="form-control w-md js-content-category" id="columnsType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="columns_category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="articleType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="news_category_list" id="v"}
+                            <option value="{$v.id}" data-pathinfo="news/{$v.pathinfo}">{$v.cate_name_cn|raw}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="partnerType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="partner_category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name_cn}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="downloadType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="download_category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name_cn}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="eventType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="event_category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name_cn}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="pageType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="page_category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name}</option>
+                            {/volist}
+                        </select>
+                        <select class="form-control w-md js-content-category" id="galleryType" style="display:none;">
+                            <option value="0">请选择</option>
+                            {volist name="gallery_list" id="v"}
+                            <option value="{$v.id}">{$v.title_cn}</option>
+                            {/volist}
+                        </select>
+                        <span class="help-block" id="articleTips" style="display:none;"></span>
+                    </td>
+                </tr>
+<!--                <tr id="contentTplWrap">
+                    <th>内容模板</th>
+                    <td>
+                        <select name="data[content_tpl]" class="form-control w-md">
+                            <option value="">请选择</option>
+                            {volist name="content_template_list" id="v"}
+                            <option value="{$v.tpl_name}">{$v.title} [ {$v.tpl_name}.html ]</option>
+                            {/volist}
+                        </select>
+                        <span class="help-block">文件位置：模板目录/content/</span>
+                    </td>
+                </tr>-->
+                <tr id="tplNameWrap">
+                    <th>模板页面</th>
+                    <td>
+                        <select name="data[tpl_name]" class="form-control w-md">
+                            <option value="">请选择</option>
+                            {volist name="content_template_list" id="v"}
+                            <option value="{$v.tpl_name}">{$v.title} [ {$v.tpl_name}.html ]</option>
+                            {/volist}
+                        </select>
+                        <span class="help-block">文件位置：模板目录/page/</span>
+                    </td>
+                </tr>
+                <tr class="js-pager-section">
+                    <th>分页状态</th>
+                    <td>
+                        <label><input type="radio" name="data[pager_status]" value="1" checked /> 开启</label>
+                        <label><input type="radio" name="data[pager_status]" value="0" /> 禁用</label>
+                    </td>
+                </tr>
+                <tr class="js-pager-section">
+                    <th>每页数量</th>
+                    <td>
+                        <input type="text" class="form-control w-md" name="data[pager_list_rows]" value="20" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {volist name="lang_list" id="lang"}
+    <div class="tab-pane fade" id="tab_{$lang.lang_code}">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>导航名称</th>
+                    <td><input class="form-control w-md" type="text" name="lang[{$lang.lang_code}][name]" /><span class="help-block">导航中展示</span></td>
+                </tr>
+                <tr>
+                    <th>标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][title]" /></td>
+                </tr>
+                <tr>
+                    <th>副标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][sub_title]" /></td>
+                </tr>
+                <tr>
+                    <th>描述</th>
+                    <td>
+                        <textarea name="lang[{$lang.lang_code}][brief]" class="form-control w-lg" rows="4"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>跳转链接</th>
+                    <td>
+                        <input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][outlink]" placeholder="http://" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>打开窗口</th>
+                    <td>
+                        <label><input type="radio" name="lang[{$lang.lang_code}][target]" value="_self" checked /> 当前窗口</label>
+                        <label><input type="radio" name="lang[{$lang.lang_code}][target]" value="_blank" /> 打开新窗口</label>
+                    </td>
+                </tr>
+                <tr class="js-content-wrap">
+                    <th>内容</th>
+                    <td>
+                        <textarea class="ckeditor" name="lang[{$lang.lang_code}][content]"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>SEO标题</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][meta_title]" /></td>
+                </tr>
+                <tr>
+                    <th>SEO关键词</th>
+                    <td><input class="form-control w-lg" type="text" name="lang[{$lang.lang_code}][meta_kws]" /></td>
+                </tr>
+                <tr>
+                    <th>SEO描述</th>
+                    <td><textarea name="lang[{$lang.lang_code}][meta_desc]" class="form-control w-lg" rows="4"></textarea></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    {/volist}
+</div>
+
+{/block}
+{block name="script"}
+    {include file="menu/js" /}
+{/block}

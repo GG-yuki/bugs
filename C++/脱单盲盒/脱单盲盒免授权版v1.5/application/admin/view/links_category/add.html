@@ -1,0 +1,45 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>上一级</th>
+                <td>
+                    <select name="data[pid]" class="form-control w-md">
+                        <option value="0">作为第一级</option>
+                        {volist name="parent_list" id="v"}
+                            <option value="{$v.id}" {eq name="pid" value="$v.id"}selected{/eq}>{$v.spacer|raw} {$v.cate_name|raw}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>推广分类</th>
+                <td><input class="form-control w-lg" type="text" name="data[cate_name]" /></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[brief]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+        });
+    </script>
+{/block}

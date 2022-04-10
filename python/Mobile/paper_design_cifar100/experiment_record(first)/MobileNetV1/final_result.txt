@@ -1,0 +1,1 @@
+model MobileNetV1   train 60 epoch   batch_size 32   num_workers 4   lr 0.001000   max_acc: 1.390  weight_decay 0.000500   traintime 224   testtime 15

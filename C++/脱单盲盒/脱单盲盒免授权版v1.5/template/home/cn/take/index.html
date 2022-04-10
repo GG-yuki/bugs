@@ -1,0 +1,342 @@
+{include file="common/header" /}
+
+<div class="take">
+    <header>
+        <h1>{$take.title}</h1>
+    </header>
+    <div class="text">{$take.content|raw}</div>
+    <div class="content">
+        <div class="layui-row">
+            <div class="layui-col-xs12">
+                <form class="layui-form layui-form-pane" action="">
+
+                    <div class="layui-tab" lay-filter="type">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">普通盲盒</li>
+                            <li>条件盲盒</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span class="red">* </span>意向位置</label>
+                                <div class="layui-input-inline">
+                                    <select name="province" id="province" lay-filter="province" lay-verify="required" autocomplete="off" >
+                                        <option value="" selected>请选择</option>
+                                        {volist name="province_list" id="v"}
+                                        <option value="{$v.id}">{$v.name_cn}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    <select name="city" id="city" lay-verify="required">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span class="red">* </span>意向性别</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="sex" value="1" title="男" checked>
+                                    <input type="radio" name="sex" value="2" title="女">
+                                    <input type="hidden" name="type" value="1">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span class="red">* </span> 你的微信</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="wechat" autocomplete="off" placeholder="请输入微信号码" class="layui-input" lay-verify="required|wechat">
+                                </div>
+                            </div>
+                            <div class="layui-tab-item layui-show"></div>
+                            <div class="layui-tab-item">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">意向星座</label>
+                                    <div class="layui-input-inline">
+                                        <select name="constellation" lay-filter="constellation" id="constellation" autocomplete="off" >
+                                            <option value="" selected>请选择星座</option>
+                                            <option value="白羊座">白羊座</option>
+                                            <option value="金牛座">金牛座</option>
+                                            <option value="双子座">双子座</option>
+                                            <option value="巨蟹座">巨蟹座</option>
+                                            <option value="狮子座">狮子座</option>
+                                            <option value="处女座">处女座</option>
+                                            <option value="天秤座">天秤座</option>
+                                            <option value="天蝎座">天蝎座</option>
+                                            <option value="射手座">射手座</option>
+                                            <option value="摩羯座">摩羯座</option>
+                                            <option value="水瓶座">水瓶座</option>
+                                            <option value="双鱼座">双鱼座</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">有无照片</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="headimg" value="1" title="随机" checked>
+                                        <input type="radio" name="headimg" value="2" title="有">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">意向年龄</label>
+                                        <input type="text" name="age_min" placeholder="最小周岁" autocomplete="off" class="layui-input inlineOne"> -
+                                        <input type="text" name="age_max" placeholder="最大周岁" autocomplete="off" class="layui-input inlineOne">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<style>-->
+                        <!--.fanpai{-->
+                            <!--width: 100%;-->
+                            <!--text-align: center;-->
+                        <!--}-->
+                        <!--.fanpai>div{-->
+                            <!--display: inline-block;-->
+                            <!--width: 30%;-->
+                            <!--border: 1px solid;-->
+                            <!--height: 25vw;-->
+                            <!--max-height: 160px;-->
+                            <!--margin: 1% 0%;-->
+                        <!--}-->
+
+                        <!--.front{-->
+                            <!--z-index: 2;-->
+                            <!--height: 100%;-->
+                            <!--background-image: url(https://z3.ax1x.com/2021/09/15/4Vl11K.png);-->
+                            <!--background-size: 100% 100%;-->
+                            <!--backface-visibility: hidden;-->
+                        <!--}-->
+                        <!--.flipper {-->
+                            <!--transition: 0.6s;-->
+                            <!--transform-style: preserve-3d;-->
+                            <!--position: relative;-->
+                            <!--height: 100%;-->
+                            <!--width: 100%;-->
+                        <!--}-->
+                        <!--.back {-->
+                            <!--transform: rotateY(180deg);-->
+                            <!--backface-visibility: hidden;-->
+                            <!--position: absolute;-->
+                            <!--top: 0;-->
+                            <!--left: 0;-->
+                            <!--height: 100%;-->
+                            <!--width: 100%;-->
+                        <!--}-->
+                    <!--</style>-->
+                    <!--<div class="fanpai">-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--1-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--2-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--3-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--4-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--5-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="flip-container">-->
+                            <!--<div class="flipper">-->
+                                <!--<div class="front">&nbsp;</div>-->
+                                <!--<div class="back">-->
+                                    <!--6-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<script>-->
+                        <!--$(".flip-container").click(function () {-->
+                            <!--$(this).children().css("transform","rotateY(180deg)");-->
+                            <!--$(this).siblings(".flip-container").remove();-->
+                            <!--//页面层-->
+                            <!--layer.open({-->
+                                <!--type: 1,-->
+                                <!--title:'抽取成功',-->
+                                <!--skin: 'layui-layer-rim', //加上边框-->
+                                <!--area: ['80%', '50%'], //宽高-->
+                                <!--content: "asd"-->
+                            <!--});-->
+                        <!--})-->
+                    <!--</script>-->
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block" style="margin: 0px;text-align: center;">
+                            <button type="submit" class="layui-btn layui-btn-radius layui-btn-warm" lay-submit lay-filter="formDemo" style="background-color: #f792ac;">立即提交</button>
+                            <a href="../" class="layui-btn layui-btn-radius">返回主页</a>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <script>
+                        $(function () {
+                            layui.use(['form','layer','element'], function () {
+                                var form=layui.form;
+                                var layer=layui.layer;
+                                var element=layui.element;
+
+                                // 判断弹窗
+                                if("{$alert}" != ''){
+                                    layer.ready(function(){
+                                        layer.open({'closeBtn':0,content: "{$alert}"});
+                                    });
+                                }
+
+                                form.verify({
+                                    wechat: [
+                                        /^[a-zA-Z0-9_]([-_a-zA-Z0-9]{5,19})+$/,'微信号不符合规则！'
+                                    ]
+                                });
+
+                                // 判断什么类型
+                                element.on('tab(type)', function(elem){
+                                    if(elem.index==0){
+                                        $("input[name='type']").val("1");
+                                    }
+                                    if(elem.index==1){
+                                        $("input[name='type']").val("2");
+                                    }
+                                });
+
+                                // 监听二级联动下拉框
+                                form.on('select(province)',function(data){
+                                    layer.load();
+                                    $.ajax({
+                                        url: '/api/get_region',
+                                        type: 'get',
+                                        data: {pid:data.value},
+                                        dataType: "json",
+                                        success: function(rst){
+                                            $("select[name='city']").html("");
+                                            $("select[name='city']").append("<option value='' selected>请选择</option>");
+                                            $.each(rst.data, function (i, o) {
+                                                $("select[name='city']").append("<option value='" + o.id + "'>" + o.name_cn + "</option>");
+                                            });
+                                            form.render();
+                                            layer.closeAll('loading');
+                                        }
+                                    });
+                                })
+
+                                // 监听提交按钮
+                                form.on('submit(formDemo)', function(data){
+                                    layer.load();
+                                    $.ajax({
+                                        url:"/take/save",
+                                        async: false,
+                                        type:"POST",
+                                        dataType: "json",
+                                        data:data.field,
+                                        success: function(data){
+                                            if(data.code==4001){
+                                                //询问框
+                                                layer.ready(function(){
+                                                    layer.confirm(data.msg, {
+                                                        btn: ['去投放']
+                                                    }, function(){
+                                                        window.location.href = '../stay?province='+data.data.province+'&city='+data.data.city+'&wechat='+data.data.wechat+'&sex='+data.data.sex;
+                                                    });
+                                                });
+                                                layer.closeAll('loading');
+                                            }
+
+                                            if(data.code==4002){
+                                                //询问框
+                                                layer.ready(function(){
+                                                    layer.confirm(data.msg, {
+                                                        btn: ['去邀请']
+                                                    }, function(){
+                                                        window.location.href = '../invitation?wechat='+data.data.wechat;
+                                                    });
+                                                });
+                                                layer.closeAll('loading');
+                                            }
+
+                                            if(data.code==0){
+                                                layer.msg(data.msg);
+                                                layer.closeAll('loading');
+                                            }
+
+                                            if(data.code==1){
+                                                if(data.data.url){
+                                                    var content = "您的订单号为【"+data.data.order_sn+"】请截图保存，便于后期查询您的订单。";
+                                                    layer.ready(function(){
+                                                        layer.confirm(content,{'closeBtn':0,title: "重要提示",btn: ['微信支付']}, function(){
+                                                            window.location.href = data.data.url;
+                                                        });
+                                                    });
+                                                }else {
+                                                    var html = `<table width="98%" style="text-align: center;margin: 1%;">
+                        <tr>
+                            <td rowspan="4" style="text-align: center"><img style="width: 100px;" src="${data['data']['headimg']}" alt=""></td>
+                            <td><b>${data['data']['province']} ${data['data']['city']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>${data['data']['age']}岁 ${data['data']['sex']} ${data['data']['constellation']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>${data['data']['content']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color: red;">微信号：${data['data']['wechat']}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="padding: 5px;color: red;"><b>请及时截图保存，该信息只显示一次！</b></td>
+                        </tr>
+                    </table>`;
+                                                    //页面层
+                                                    layer.open({
+                                                        type: 1,
+                                                        title: '抽取成功',
+                                                        skin: 'layui-layer-rim', //加上边框
+                                                        area: ['80%', '50%'], //宽高
+                                                        content: html
+                                                    });
+                                                    layer.closeAll('loading');
+                                                }
+                                            }
+                                        }
+                                    });
+                                    return false;
+                                });
+                            });
+                        });
+                    </script>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;color: #999;padding: 0px 0px 10px 0px">
+        <p>提交即同意<a href="../news/919" style="color: #999">网站条款</a> | <a href="../about">常见问题</a> | <a href="JavaScript:void(0)" id="invitation">海报</a></p>
+    </div>
+</div>
+{include file="common/footer" /}

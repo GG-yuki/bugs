@@ -1,0 +1,71 @@
+<script>
+    $(function(){
+        //国家与省市区联动
+        function initCountry(){
+            var value = $("#countryList").val();
+            if(value==="219"){
+                $("#regionWrap").show();
+            }else{
+                $("#regionWrap").hide();
+            }
+            $("#countryCn").val("");
+            $("#countryEn").val("");
+            if(value!=="0"){
+                $selected = $("#countryList option:selected");
+                $("#countryCn").val($selected.data("cn"));
+                $("#countryEn").val($selected.data("en"));
+            }
+        }
+        $("#countryList").on("change",function(){
+            initCountry();
+        });
+        initCountry();
+        //省市区联动
+        function getRegionList(pid,callback){
+            $.ajax({
+                type: "GET",
+                url: "/admin/ajax/get_region_list",
+                data: {
+                    pid: pid
+                },
+                dataType: "json",
+                success: function(rst){
+                    if(rst.code===1){
+                        callback(rst.list);
+                    }else{
+                        show_msg(rst.msg);
+                    }
+                }
+            });
+        }
+        function initCityList(data){
+            renderRegionList(data,"#cityList");
+        }
+        function initZoneList(data){
+            renderRegionList(data,"#zoneList");
+        }
+        function renderRegionList(data,obj){
+            if(!data) return;
+            var $obj = $(obj);
+            $.each(data,function(i,o){
+                var html = '<option value="'+o.id+'">'+o.name+'</option>';
+                $obj.append(html);
+            });
+        }
+        $("#provinceList").on("change",function(){
+            $("#cityList option:gt(0)").remove();
+            $("#zoneList option:gt(0)").remove();
+            if(this.value==="0"){
+                return;
+            }
+            getRegionList(this.value,initCityList);
+        });
+        $("#cityList").on("change",function(){
+            $("#zoneList option:gt(0)").remove();
+            if(this.value==="0"){
+                return;
+            }
+            getRegionList(this.value,initZoneList);
+        });
+    });
+</script>

@@ -1,0 +1,28 @@
+{include file="public/head" /}
+<div class="wrapper">
+    {block name="nav"}{include file="public/nav"/}{/block}
+
+    <form action="{:url($action_name.'_post')}" method="post" enctype="multipart/form-data" id="formData">
+        {:token()}
+        <input type="hidden" name="data[id]" value="{$data.id}" id="dataId" />
+        {block name="content"}
+            
+        {/block}
+        {block name="actions"}
+            <div class="well table-data-actions">
+                <button type="submit" class="btn btn-primary" id="submitDataBtn">保存</button>
+                <button type="button" class="btn btn-default js-cancel-btn">返回</button>
+            </div>
+        {/block}
+    </form>
+</div>
+{include file="public/plugins" /}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            var ue = UE.getEditor('ueditor',ue_config);
+        });
+    </script>
+{/block}
+{include file="public/foot" /}

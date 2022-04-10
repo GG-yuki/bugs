@@ -1,0 +1,112 @@
+{include file="common/header" /}
+
+<div class="index">
+    <header>
+        <h1>订单查询</h1>
+    </header>
+    <div class="text">
+        <p>请输入28位的“交易单号”或19位的“订单号”查询您的【留一个】或【抽一个】订单，免费订单暂不支持查询，交易单号位置见下图/订单号在您提交订单时显示！</p>
+        <p class="red">如果“交易单号”查不到，请使用19位的“订单号”进行查询</p>
+    </div>
+    <div class="content">
+        <div class="layui-row">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="red">* </span>交易单号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="order_sn" autocomplete="off" value="{$order_sn}" placeholder="19位订单号或28位交易单号" class="layui-input" lay-verify="required|order">
+                        </div>
+                    </div>
+                    <div style="text-align: center;margin-bottom: 15px;"><img src="__cn__/image/order.jpg" style="text-align: center;max-width: 500px;" width="100%"></div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block" style="margin: 0px;text-align: center;">
+                            <button type="button" class="layui-btn layui-btn-radius layui-btn-warm" lay-submit lay-filter="order_from" id="order_from">查询</button>
+                            <a href="../index" class="layui-btn layui-btn-radius">回主页</a>
+                        </div>
+                    </div>
+                </form>
+
+
+            <script>
+                $(function () {
+                    layui.use(['form','layer'], function () {
+                        var form=layui.form;
+                        var layer=layui.layer;
+
+                        form.verify({
+                            order: [
+                                /^[0-9]{19}/,'请输入19位订单号或28位交易单号！'
+                            ]
+                        });
+
+                        // 监听提交按钮
+                        form.on('submit(order_from)', function(data){
+                            layer.load();
+                            $.ajax({
+                                url:"/order_sava",
+                                type:"POST",
+                                dataType: "json",
+                                data:data.field,
+                                success: function(data){
+                                    if(data.code==0){
+                                        layer.msg(data.msg);
+                                    }
+                                    if(data.code==1){
+                                        if(data.data.type==1){
+                                            //询问框
+                                            layer.ready(function(){
+                                                layer.confirm("您已成功提交微信！", {
+                                                    btn: ['去抽一个']
+                                                }, function(){
+                                                    window.location.href = '../take';
+                                                });
+                                            });
+                                        }
+                                        if(data.data.type==2 || data.data.type==3){
+                                            var html = `<table width="98%" style="text-align: center;margin: 1%;">
+                        <tr>
+                            <td rowspan="4" style="text-align: center"><img style="width: 100px;" src="${data['data']['headimg']}" alt=""></td>
+                            <td><b>${data['data']['province']} ${data['data']['city']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>${data['data']['age']}岁  ${data['data']['sex']} ${data['data']['constellation']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>${data['data']['content']}</b></td>
+                        </tr>
+                        <tr>
+                            <td><b style="color: red;">微信号：${data['data']['wechat']}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="padding: 5px;color: red;"><b>添加好友时，请备注来自脱单盲盒！</b></td>
+                        </tr>
+                    </table>`;
+                                            //页面层
+                                            layer.ready(function(){
+                                                layer.open({
+                                                    type: 1,
+                                                    title:'查询成功',
+                                                    skin: 'layui-layer-rim', //加上边框
+                                                    area: ['80%', '50%'], //宽高
+                                                    content: html
+                                                });
+                                            });
+                                        }
+                                    }
+                                    layer.closeAll('loading');
+                                }
+                            })
+                            return false;
+                        });
+
+                        if("{$order_sn}" != ""){
+                            $("#order_from").trigger("click");//模拟执行id=a的事件
+                        }
+
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+{include file="common/footer" /}

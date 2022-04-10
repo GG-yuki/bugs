@@ -1,0 +1,78 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>用户组名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[name]" value="{$data.name}" required /></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[remark]" class="form-control w-lg" rows="4">{$data.remark}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 正常</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}{/eq} /> 禁用</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-condensed table-bordered table-list treetable" id="tableList">
+        <thead>
+            <tr>
+                <th class="hidden"></th>
+                <th class="w-50 hidden">排序</th>
+                <th class="w-50 hidden">ID</th>
+                <th>菜单名称 [ <a href="javascript:;" class="js-tt-expand">展开</a>/<a href="javascript:;" class="js-tt-collapse">收起</a> ]</th>
+                <th class="w-300">菜单规则</th>
+                <th class="w-300">备注</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="rule_list" id="v"}
+            <tr data-tt-id="{$v.id}" data-tt-parent-id="{$v.pid}">
+                <td class="hidden"></td>
+                <td class="hidden"></td>
+                <td class="hidden">{$v.id}</td>
+                <td><label><input type="checkbox" value="{$v.id}" class="js-checknode" {in name="$v.id" value="$data.rules"}checked{/in} /> {$v.title}</label></td>
+                <td>{$v.name|html_entity_decode}</td>
+                <td>{$v.remark}</td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <textarea class="hidden" name="data[rules]" id="rules"></textarea>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            $(".js-checknode").on("click",function(){
+                var check = this.checked;
+                var $tr = $(this).parents("tr").eq(0);
+                checkNode($tr,check);
+            });
+            function checkNode(obj,check){
+                var ttid = obj.data("tt-id");
+                obj.nextAll('[data-tt-parent-id="'+ttid+'"]').each(function(i,o){
+                    $(this).find(":checkbox").prop("checked", check);
+                    if($(this).hasClass("branch")){
+                        checkNode($(this),check);
+                    }
+                });
+            }
+            $("#formData").submit(function(){
+                var list = [];
+                $(".js-checknode:checked").each(function(){
+                    list.push(this.value);
+                });
+                var rules = list.join(",");
+                $("#rules").val(rules);
+            });
+        });
+    </script>
+{/block}

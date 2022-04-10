@@ -1,0 +1,61 @@
+{extend name="tpl/base" /}
+{block name="search"}
+    <form class="well search-form form-inline" action="" method="get">
+        <div class="form-group">
+            分类：
+            <select class="form-control" name="category_id">
+                <option value="0">请选择</option>
+                {volist name="category_list" id="v"}
+                    <option value="{$v.id}" {eq name="opts.category_id" value="$v.id"}selected{/eq}>{$v.cate_name_cn}</option>
+                {/volist}
+            </select>
+        </div>
+        <div class="form-group">
+            名称：<input class="form-control" type="text" name="title2"  value="{$opts.title2}" />
+        </div>
+        <button type="submit" class="btn btn-primary">查询</button>
+        <button type="submit" class="btn btn-success" data-url="{:url('export')}" id="exportBtn">导出数据</button>
+    </form>
+{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered" id="tableList" 
+           data-toggle="table" 
+           data-select-item-name="ids[]" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th class="w-50" data-field="sort">排序</th>
+                <th class="w-50" data-field="id">ID</th>
+                <th class="w-200">分类</th>
+                <th class="w-200">图片</th>
+                <th class="w-300">名称</th>
+                <th>链接地址</th>
+                <th class="w-50">状态</th>
+                <th class="w-150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr>
+                <td></td>
+                <td><input class="form-control w-xs js-sort" type="text" name="sort[]" value="{$v.sort}" /></td>
+                <td>{$v.id}</td>
+                <td>{$v.category.cate_name_cn}</td>
+                <td><img src="{$v.image}" height="50" /></td>
+                <td>{$v.title_cn} | {$v.title_en}</td>
+                <td>{$v.link}</td>
+                <td><a href="javascript:;" class="status js-status" data-field="status" data-value="{$v.status}"><i></i></a></td>
+                <td>
+                    <a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="script"}{/block}

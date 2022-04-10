@@ -1,0 +1,39 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>标题</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" value="{$data.title}" /></td>
+            </tr>
+            <tr>
+                <th>模板名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[tpl_name]" value="{$data.tpl_name}" /></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[remark]" class="form-control w-lg" rows="4">{$data.remark}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

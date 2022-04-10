@@ -1,0 +1,46 @@
+{extend name="tpl/base-info" /}
+{block name="nav"}
+    {include file="public/nav" /}
+{/block}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>邮件主题</th>
+                <td><input class="form-control w-lg" type="text" name="data[subject]" value="{$data.subject}" /></td>
+            </tr>
+            <tr>
+                <th>收件人</th>
+                <td><input class="form-control w-lg" type="text" name="data[email_to]" value="{$data.email_to}" /></td>
+            </tr>
+            <tr>
+                <th>邮件内容</th>
+                <td><textarea name="data[remark]" class="ckeditor" rows="10">{$data.content}</textarea></td>
+            </tr>
+            <tr>
+                <th>发送结果</th>
+                <td><textarea name="data[remark]" class="form-control w-lg" rows="4">{$data.result_msg}</textarea></td>
+            </tr>
+            <tr>
+                <th>发送时间</th>
+                <td>{$data.create_time}</td>
+            </tr>
+            <tr>
+                <th>IP信息</th>
+                <td>{$data.ip_info} [ {$data.ip_addr} ]</td>
+            </tr>
+            <tr>
+                <th>邮件查阅时间</th>
+                <td>{$data.view_time|show_datetime="无"}</td>
+            </tr>
+            <tr>
+                <th>邮件查阅次数</th>
+                <td>{$data.views}</td>
+            </tr>
+            <tr>
+                <th>邮件查阅IP信息</th>
+                <td>{$data.view_ip_info} [ {$data.view_ip_addr} ]</td>
+            </tr>
+        </tbody>
+    </table>
+{/block}

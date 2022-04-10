@@ -1,0 +1,42 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>标题</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /><span class="help-block">这是说明</span></td>
+            </tr>
+            <tr>
+                <th>配置代码</th>
+                <td><input class="form-control w-lg" type="text" name="data[config_name]" /><span class="help-block">这是说明</span></td>
+            </tr>
+            <tr>
+                <th>配置值</th>
+                <td>
+                    <textarea name="data[config_value]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[remark]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

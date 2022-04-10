@@ -1,0 +1,146 @@
+{extend name="tpl/base-info" /}
+{block name="nav"}{/block}
+{block name="content"}
+
+<div class="stats-title"><i class="fa fa-table"></i> 应届展商相关数据</div>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="w-200">展商登记总数量</th>
+            <th class="w-200">新展商数量</th>
+            <th class="w-200">旧展商数量</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="stats-title"><i class="fa fa-pie-chart"></i> 应届展商来源</div>
+<div class="stats-chart">
+    <div id="chart3" style="width:800px;height:400px;"></div>
+</div>
+
+<div class="stats-title"><i class="fa fa-bar-chart"></i> 历届展商数量</div>
+<div class="stats-chart">
+    <div id="chart2" style="width:800px;height:400px;"></div>
+</div>
+
+{/block}
+{block name="script"}
+<script src="__JS__/echarts/echarts.js"></script>
+<script>
+    
+    $(function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart2'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            yAxis: {
+                type: 'category',
+                data: ['第1届', '第2届', '第3届']
+            },
+            xAxis: {
+                type: 'value'
+            },
+            series: [{
+                type: 'bar',
+                label: {
+                    normal: {
+                        show: true,
+                        position: "insideRight"
+                    }
+                },
+                data: [1200, 2200, 1500]
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+    $(function(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('chart3'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:['中文','英文','PC端','移动端','导入']
+            },
+            series: [
+                {
+                    name:'语言版本',
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius: [0, '40%'],
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    data:[
+                        {value:1335, name:'中文'},
+                        {value:679, name:'英文'}
+                    ]
+                },
+                {
+                    name:'展商来源',
+                    type:'pie',
+                    selectedMode: 'single',
+                    radius: ['50%', '70%'],
+                    label: {
+                        normal: {
+                            formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                            backgroundColor: '#eee',
+                            borderColor: '#aaa',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            rich: {
+                                a: {
+                                    color: '#999',
+                                    lineHeight: 22,
+                                    align: 'center'
+                                },
+                                hr: {
+                                    borderColor: '#aaa',
+                                    width: '100%',
+                                    borderWidth: 0.5,
+                                    height: 0
+                                },
+                                b: {
+                                    fontSize: 16,
+                                    lineHeight: 33
+                                },
+                                per: {
+                                    color: '#eee',
+                                    backgroundColor: '#334455',
+                                    padding: [2, 4],
+                                    borderRadius: 2
+                                }
+                            }
+                        }
+                    },
+                    data:[
+                        {value:1500, name:'PC端'},
+                        {value:579, name:'移动端'},
+                        {value:1679, name:'导入', selected:true}
+                    ]
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+</script>
+{/block}

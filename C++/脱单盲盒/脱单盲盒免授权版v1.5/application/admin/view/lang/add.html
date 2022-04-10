@@ -1,0 +1,35 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>语言名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /></td>
+            </tr>
+            <tr>
+                <th>语言代码</th>
+                <td><input class="form-control w-lg" type="text" name="data[lang_code]"  /> <span class="help-block">如：中文（cn），英文（en），日文（jp），繁体（zh）</span></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+        
+    </script>
+{/block}

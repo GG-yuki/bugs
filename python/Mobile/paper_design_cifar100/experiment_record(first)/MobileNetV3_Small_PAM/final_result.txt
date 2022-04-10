@@ -1,0 +1,2 @@
+model MobileNetV3_Small_PAM   train 60 epoch   batch_size 32   num_workers 4   lr 0.001000   max_acc: 79.460  weight_decay 0.000500   traintime 203   testtime 12
+model MobileNetV3_Small_PAM   train 60 epoch   batch_size 32   num_workers 4   lr 0.000500   max_acc: 79.090  weight_decay 0.000500   traintime 182   testtime 11

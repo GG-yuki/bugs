@@ -1,0 +1,147 @@
+{extend name="tpl/base" /}
+{block name="search"}
+    <form class="well search-form form-inline" action="" method="get">
+        <div class="form-group">
+            微信号：<input class="form-control" type="text" name="wechat"  value="{$opts.wechat}" />
+        </div>
+        <div class="form-group">
+            年龄：<input class="form-control w-xs" type="text" name="age"  value="{$opts.age}" />
+        </div>
+        <div class="form-group">
+            星座：
+            <select name="constellation" class="form-control">
+                <option value="" {eq name="opts.constellation" value=""}selected{/eq}>请选择星座</option>
+                <option value="白羊座" {eq name="opts.constellation" value="白羊座"}selected{/eq}>白羊座</option>
+                <option value="金牛座" {eq name="opts.constellation" value="金牛座"}selected{/eq}>金牛座</option>
+                <option value="双子座" {eq name="opts.constellation" value="双子座"}selected{/eq}>双子座</option>
+                <option value="巨蟹座" {eq name="opts.constellation" value="巨蟹座"}selected{/eq}>巨蟹座</option>
+                <option value="狮子座" {eq name="opts.constellation" value="狮子座"}selected{/eq}>狮子座</option>
+                <option value="处女座" {eq name="opts.constellation" value="处女座"}selected{/eq}>处女座</option>
+                <option value="天秤座" {eq name="opts.constellation" value="天秤座"}selected{/eq}>天秤座</option>
+                <option value="天蝎座" {eq name="opts.constellation" value="天蝎座"}selected{/eq}>天蝎座</option>
+                <option value="射手座" {eq name="opts.constellation" value="射手座"}selected{/eq}>射手座</option>
+                <option value="摩羯座" {eq name="opts.constellation" value="摩羯座"}selected{/eq}>摩羯座</option>
+                <option value="水瓶座" {eq name="opts.constellation" value="水瓶座"}selected{/eq}>水瓶座</option>
+                <option value="双鱼座" {eq name="opts.constellation" value="双鱼座"}selected{/eq}>双鱼座</option>
+            </select>
+        </div>
+        <div class="form-group">
+            头像：
+            <select name="headimg" class="form-control">
+                <option value="1" {eq name="opts.headimg" value="1"}selected{/eq}>请选择</option>
+                <option value="2" {eq name="opts.headimg" value="2"}selected{/eq}>有头像</option>
+                <option value="3" {eq name="opts.headimg" value="3"}selected{/eq}>无头像</option>
+            </select>
+        </div>
+        <div class="form-group">
+            性别：
+            <select name="sex" class="form-control">
+                <option value="1" {eq name="opts.sex" value="1"}selected{/eq}>请选择</option>
+                <option value="2" {eq name="opts.sex" value="2"}selected{/eq}>男</option>
+                <option value="3" {eq name="opts.sex" value="3"}selected{/eq}>女</option>
+            </select>
+        </div>
+        <div class="form-group">
+            省市：
+            <select id="CompanyAddress_ProvinceID" class="form-control w-md" autocomplete="off" name="province" style="display: inline-block;">
+                <option value="0">请选择</option>
+                {volist name="province_list" id="v"}
+                <option value="{$v.id}"  {eq name="opts.province" value="$v.id"}selected{/eq}>{$v.name_cn}</option>
+                {/volist}
+            </select>
+            <select id="CompanyAddress_CityID" class="form-control w-md" autocomplete="off" name="city" style="display: inline-block;">
+                <option value="0">请选择</option>
+                {volist name="city_list" id="v"}
+                <option value="{$v.id}"  {eq name="opts.city" value="$v.id"}selected{/eq}>{$v.name_cn}</option>
+                {/volist}
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" id="searchBtn">查询</button>
+    </form>
+{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered" id="tableList" 
+           data-toggle="table" 
+           data-select-item-name="ids[]" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th class="w-50" data-field="sort">排序</th>
+                <th class="w-50" data-field="id">ID</th>
+                <th>微信号码</th>
+                <th>性别</th>
+                <th>省</th>
+                <th>市</th>
+                <th>头像</th>
+                <th>星座</th>
+                <th>年龄</th>
+                <th class="w-200">介绍内容</th>
+                <th>类型</th>
+                <th>提交时间</th>
+                <th>提交IP</th>
+                <th class="w-50">状态</th>
+                <th class="w-150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr>
+                <td></td>
+                <td><input class="form-control w-xs js-sort" type="text" name="sort[]" value="{$v.sort}" /></td>
+                <td>{$v.id}</td>
+                <td>{$v.wechat}</td>
+                <td>{$v.sex==1?"男":"女"}</td>
+                <td>{$v.province}</td>
+                <td>{$v.city}</td>
+                <td><img src="{$v.headimg}?imageView2/2/h/100/q/75" alt="" height="50px"></td>
+                <td>{$v.constellation}</td>
+                <td>{$v.age==0?"":$v.age."岁"}</td>
+                <td>{$v.content}</td>
+                <td>{$v.type==0?"留一次":"一直留"}</td>
+                <td>{$v.create_time|date="Y-m-d H:i:s"}</td>
+                <td><span>{$v.ip}</span> <a href="JavaScript:;" class="ipaddress">[查询]</a></td>
+                <td><a href="javascript:;" class="status js-status" data-field="status" data-value="{$v.status}"><i></i></a></td>
+                <td>
+                    <a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="/static/common/smart/smart.js"></script>
+<script type="text/javascript">
+    //省市区的加载
+    $('#CompanyAddress_ProvinceID').on('change', function () {
+        LoadAddress('CompanyAddress_ProvinceID', 'CompanyAddress_CityID', 'CompanyAddress_AreaID')
+    });
+    $('#CompanyAddress_CityID').on('change', function () {
+        LoadAddress('CompanyAddress_CityID','CompanyAddress_AreaID', '')
+    });
+</script>
+<script>
+    $(function () {
+        $(".ipaddress").click(function () {
+            layer.load();
+            var ip = $(this).prev().text();
+            $.ajax({
+                url:'https://restapi.amap.com/v3/ip?key=0113a13c88697dcea6a445584d535837',
+                data:{ip:ip},
+                success:function (data) {
+                    var content = "["+ip+"]"+data.province+data.city+"，邮编："+data.adcode+"，经纬度："+data.rectangle;
+                    layer.alert(content);
+                    layer.closeAll('loading');
+                }
+            });
+        })
+    })
+</script>
+{/block}

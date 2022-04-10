@@ -1,0 +1,40 @@
+{extend name="tpl/base-edit" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>广告位名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[position_name]" value="{$data.position_name}"/></td>
+            </tr>
+            <tr>
+                <th>广告位编码</th>
+                <td><input class="form-control w-lg" type="text" name="data[position_code]" value="{$data.position_code}"/><span class="help-block">用于前台调用</span></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[brief]" class="form-control w-lg" rows="4">{$data.brief}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="{$data.sort}" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" {eq name="data.status" value="0"}checked{/eq} /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            
+        });
+    </script>
+{/block}

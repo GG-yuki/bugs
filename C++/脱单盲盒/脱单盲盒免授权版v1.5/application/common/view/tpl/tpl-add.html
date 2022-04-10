@@ -1,0 +1,82 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>上一级</th>
+                <td>
+                    <select name="data[pid]" class="form-control w-md">
+                        <option value="0">作为第一级</option>
+                        {volist name="parent_list" id="v"}
+                            <option value="{$v.id}" {eq name="pid" value="$v.id"}selected{/eq}>{$v.spacer|raw} {$v.title}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>分类</th>
+                <td>
+                    <select name="data[category_id]" class="form-control w-md">
+                        <option value="0">请选择</option>
+                        {volist name="category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>标题</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /><span class="help-block">这是说明</span></td>
+            </tr>
+            <tr>
+                <th>描述</th>
+                <td>
+                    <textarea name="data[brief]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>内容</th>
+                <td>
+                    <textarea class="ckeditor" name="data[content]"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>代表图片</th>
+                <td>
+                    <div>
+                        <a href="javascript:;" data-server="{:url('uploadfile')}" data-path="" id="wuPickImage">选择图片</a>
+                        <span class="help-block">格式：jpg，png，gif，jpeg；尺寸：-- x -- px</span>
+                    </div>
+                    <div id="imageDisplay">
+                        <input type="hidden" name="data[image]" class="js-file-input" />
+                        <input type="hidden" name="asset_id[]" class="js-asset-input" />
+                        <img class="data-img js-img" data-default="__PUBLIC__/images/thumbnail.png" src="__PUBLIC__/images/thumbnail.png" />
+                        <a class="deletefile js-deletefile hidden" href="javascript:;"><i class="fa fa-close"></i> 删除</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>图标</th>
+                <td><input class="form-control w-lg" type="text" name="data[icon]" placeholder="例如fa fa-***" /><span class="help-block">支持<a href="http://glyphicons.com/" target="_blank">Glyphicons</a> 和 <a href="http://www.thinkcmf.com/font/icons" target="_blank">Font Awesome</a></span></td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+            initImageWebUploader("#wuPickImage");
+        });
+    </script>
+{/block}

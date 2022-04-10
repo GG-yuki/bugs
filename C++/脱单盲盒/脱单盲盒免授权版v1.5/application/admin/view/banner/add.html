@@ -1,0 +1,71 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>广告位</th>
+                <td>
+                    <select name="data[position_id]" class="form-control w-md">
+                        <option value="0">请选择</option>
+                        {volist name="position_list" id="v"}
+                            <option value="{$v.id}">{$v.position_name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>标题</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" /></td>
+            </tr>
+            <tr>
+                <th>副标题</th>
+                <td><input class="form-control w-lg" type="text" name="data[sub_title]" /></td>
+            </tr>
+            <tr>
+                <th>内容</th>
+                <td>
+                    <textarea name="data[brief]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>链接</th>
+                <td><input class="form-control w-lg" type="text" name="data[link]" placeholder="http://"/></td>
+            </tr>
+            <tr>
+                <th>图片</th>
+                <td>
+                    <div>
+                        <a href="javascript:;" data-server="{:url('uploadfile')}" data-path="banner" id="wuPickImage">选择图片</a>
+                        <span class="help-block">格式：jpg，png，gif，jpeg；尺寸：-- x -- px</span>
+                    </div>
+                    <div id="imageDisplay">
+                        <input type="hidden" name="data[image]" class="js-file-input" />
+                        <input type="hidden" name="asset_id[]" class="js-asset-input" />
+                        <img class="data-img js-img" data-default="__PUBLIC__/images/thumbnail.png" src="__PUBLIC__/images/thumbnail.png" />
+                        <a class="deletefile js-deletefile hidden" href="javascript:;"><i class="fa fa-close"></i> 删除</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        $(function(){
+            initImageWebUploader("#wuPickImage");
+        });
+        
+    </script>
+{/block}

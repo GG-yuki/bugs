@@ -1,0 +1,60 @@
+<script type="text/javascript">
+    function showColumns(data){
+        if($("#columnsID_"+data.id).length){
+            return;
+        }
+        var html = '<tr class="column-item" id="columnsID_'+data.id+'">\
+                        <td>'+data.id+'</td>\
+                        <td><img src="'+data.image+'" height="50"></td>\
+                        <td>'+data.title+'</td>\
+                        <td>\
+                            <input type="hidden" name="columns[]" value="'+data.id+'" />\
+                            <a href="javascript:;" class="js-move-up"><i class="fa fa-arrow-up"></i> 移上</a>\
+                            <a href="javascript:;" class="js-move-down"><i class="fa fa-arrow-down"></i> 移下</a>\
+                            <a href="javascript:;" class="js-remove-item"><i class="fa fa-trash"></i> 删除</a>\
+                        </td>\
+                    </tr>';
+        $("#columnsListTable tbody").append(html);
+    }
+    function removeColumns(data){
+        $("#columnsID_"+data.id).remove();
+    }
+    function getColumnsIds(){
+        var ids = [];
+        $("#columnsListTable tbody input").each(function(){
+            ids.push(this.value);
+        });
+        $("#columnsIds").val(ids);
+    }
+    $(function(){
+        getColumnsIds();
+        $("#addColumns").on("click",function(){
+            layer.open({
+                type: 2,
+                area: ['1000px', '600px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: '{:url("dialog/columns")}'
+            });
+        });
+        $("#columnsListTable tbody").on("click",".js-move-up",function(){
+            var self = $(this).closest(".column-item");
+            var prev = self.prev();
+            if(prev.length){
+                self.after(prev);
+            }
+        });
+        $("#columnsListTable tbody").on("click",".js-move-down",function(){
+            var self = $(this).closest(".column-item");
+            var next = self.next();
+            if(next.length){
+                self.before(next);
+            }
+        });
+        $("#columnsListTable tbody").on("click",".js-remove-item",function(){
+            var self = $(this).closest(".column-item");
+            console.log(self);
+            self.remove();
+        });
+    });
+</script>

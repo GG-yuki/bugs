@@ -1,0 +1,38 @@
+{include file="public/head" /}
+<div class="wrapper">
+    {block name="nav"}{include file="public/nav" /}{/block}
+
+    {block name="search"}{/block}
+
+    <form action="#" method="post" id="tableListForm">
+        {block name="content"}
+            
+        {/block}
+    </form>
+
+    <div class="table-list-toolbar clearfix">
+        <div class="table-list-actions" id="tableListActions">
+            {block name="tablelistactions"}
+                <button type="button" class="btn btn-danger js-remove-select" disabled><i class="fa fa-trash"></i> 删除</button>
+            {/block}
+        </div>
+        <div class="table-list-pages">
+            {block name="tablelistpagination"}
+            <div class="pagination-actions form-inline">
+                共{$total}条数据
+            </div>
+            {$pagination|raw}
+            <div class="pagination-actions form-inline">
+                跳转 
+                <input type="number" min="1" value="{:input('page/d',1)}" class="form-control w-xs" id="pageNum"/>
+                页
+                <button type="button" class="btn btn-default" id="pageJumpBtn">确定</button>
+            </div>
+            {/block}
+        </div>
+    </div>
+
+</div>
+{include file="public/plugins" /}
+{block name="script"}{/block}
+{include file="public/foot" /}

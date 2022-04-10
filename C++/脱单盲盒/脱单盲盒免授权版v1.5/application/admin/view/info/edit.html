@@ -1,0 +1,269 @@
+{extend name="tpl/base-edit-nohead" /}
+{block name="content"}
+<ul class="nav nav-pills page-nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="pill">主站相关</a></li>
+    <li><a href="#tab4" data-toggle="pill">微信支付相关</a></li>
+    <li><a href="#tab2" data-toggle="pill">留一个</a></li>
+    <li><a href="#tab3" data-toggle="pill">抽一个</a></li>
+</ul>
+<style>
+    #info_color_1 *,#info_color_2 *,#info_color_3 *,#info_color_4 *{
+        -webkit-box-sizing: unset;box-sizing: unset;
+    }
+</style>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="tab1">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+            <tr>
+                <th>标题</th>
+                <td><input class="form-control w-lg" type="text" name="info[title]" value="{$data.info.title}" /></td>
+            </tr>
+            <tr>
+                <th>客服微信</th>
+                <td><input class="form-control w-lg" type="text" name="info[wechat]" value="{$data.info.wechat}" /></td>
+            </tr>
+            <tr>
+                <th>电子邮箱</th>
+                <td><input class="form-control w-lg" type="text" name="info[email]" value="{$data.info.email}" /></td>
+            </tr>
+            <tr>
+                <th>虚拟数量</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[man]" placeholder="男" value="{$data.info.man}" /> -
+                    <input class="form-control w-md" type="text" name="info[woman]" placeholder="女" value="{$data.info.woman}" />
+                <span>(前台显示为：真实数量+虚拟数量)</span></td>
+            </tr>
+            <tr>
+                <th>海报模板ID</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[poster]" placeholder="非开发人员勿动" value="{$data.info.poster}" />
+                    <span>(前端宣传海报模板，多个海报例：1,2,3 英文逗号分割)</span></td>
+            </tr>
+            <tr>
+                <th>轮播数量</th>
+                <td><input class="form-control w-lg" type="number" name="info[num]" value="{$data.info.num}" /></td>
+            </tr>
+
+            <tr>
+                <th>扩展功能</th>
+                <td>
+                    <label><input type="checkbox" name="info[middleware][]" {in name="1" value="$data.info.middleware"}checked{/in} value="1"> IP黑名单</label>
+                    <label><input type="checkbox" name="info[middleware][]" {in name="2" value="$data.info.middleware"}checked{/in} value="2"> 禁止PC访问</label>
+                    <label><input type="checkbox" name="info[middleware][]" {in name="3" value="$data.info.middleware"}checked{/in} value="3"> 开启首页幻灯片</label>
+                </td>
+            </tr>
+
+            <!--<tr>-->
+                <!--<th>主题配色</th>-->
+                <!--<td>-->
+                    <!--<link rel="stylesheet" type="text/css" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css" />-->
+                    <!--<script type="text/javascript" src="https://unpkg.com/layui@2.6.8/dist/layui.js"></script>-->
+                    <!--标题背景：<div id="info_color_1"></div><input type="hidden" name="info[info_color_1]" id="info_color_1_id">-->
+                    <!--边框颜色：<div id="info_color_2"></div><input type="hidden" name="info[info_color_2]" id="info_color_2_id">-->
+                    <!--投影颜色：<div id="info_color_3"></div><input type="hidden" name="info[info_color_3]" id="info_color_3_id">-->
+                    <!--图标颜色：<div id="info_color_4"></div><input type="hidden" name="info[info_color_4]" id="info_color_4_id">-->
+                    <!--<script>-->
+                        <!--layui.use('colorpicker', function(){-->
+                            <!--var colorpicker = layui.colorpicker;-->
+                            <!--//开启透明度-->
+                            <!--colorpicker.render({-->
+                                <!--elem: '#info_color_1',-->
+                                <!--color: '{$data.info.info_color_1}',-->
+                                <!--alpha: true,-->
+                                <!--format: 'rgb',-->
+                                <!--done: function(color){-->
+                                    <!--$("#info_color_1_id").val(color);-->
+                                <!--}-->
+                            <!--});-->
+                            <!--colorpicker.render({-->
+                                <!--elem: '#info_color_2',-->
+                                <!--color: '{$data.info.info_color_2}',-->
+                                <!--alpha: true,-->
+                                <!--format: 'rgb',-->
+                                <!--done: function(color){-->
+                                    <!--$("#info_color_2_id").val(color);-->
+                                <!--}-->
+                            <!--});-->
+                            <!--colorpicker.render({-->
+                                <!--elem: '#info_color_3',-->
+                                <!--color: '{$data.info.info_color_3}',-->
+                                <!--alpha: true,-->
+                                <!--format: 'rgb',-->
+                                <!--done: function(color){-->
+                                    <!--$("#info_color_3_id").val(color);-->
+                                <!--}-->
+                            <!--});-->
+                            <!--colorpicker.render({-->
+                                <!--elem: '#info_color_4',-->
+                                <!--color: '{$data.info.info_color_4}',-->
+                                <!--alpha: true,-->
+                                <!--format: 'rgb',-->
+                                <!--done: function(color){-->
+                                    <!--$("#info_color_4_id").val(color);-->
+                                <!--}-->
+                            <!--});-->
+                        <!--});-->
+                    <!--</script>-->
+                <!--</td>-->
+            <!--</tr>-->
+
+            <tr>
+                <th>主页公告</th>
+                <td><textarea class="ckeditor" name="info[content]">{$data.info.content}</textarea></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab2">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>标题</th>
+                    <td><input class="form-control w-lg" type="text" name="stay[title]" value="{$data.stay.title}" /></td>
+                </tr>
+                <tr>
+                    <th>价格(留一次)</th>
+                    <td><input class="form-control w-md" type="text" name="stay[price]" value="{$data.stay.price}" />元</td>
+                </tr>
+                <tr>
+                    <th>价格(一直留)</th>
+                    <td><input class="form-control w-md" type="text" name="stay[price_two]" value="{$data.stay.price_two}" />元</td>
+                </tr>
+                <tr>
+                    <th>扩展功能</th>
+                    <td>
+                        <label><input type="checkbox" name="stay[pay]" {eq name="$data.stay.pay" value="yes"}checked{/eq} value="yes"> 开启收费</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>弹窗内容</th>
+                    <td><textarea class="form-control w-lg" name="stay[alert]">{$data.stay.alert}</textarea></td>
+                </tr>
+                <tr>
+                    <th>顶部公告</th>
+                    <td><textarea class="ckeditor" name="stay[content]">{$data.stay.content}</textarea></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab3">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+                <tr>
+                    <th>标题</th>
+                    <td><input class="form-control w-lg" type="text" name="take[title]" value="{$data.take.title}" /></td>
+                </tr>
+                <tr>
+                    <th>价格(普通盲盒)</th>
+                    <td><input class="form-control w-md" type="text" name="take[price_one]" value="{$data.take.price_one}" />元</td>
+                </tr>
+                <tr>
+                    <th>价格(条件盲盒)</th>
+                    <td><input class="form-control w-md" type="text" name="take[price_two]" value="{$data.take.price_two}" />元</td>
+                </tr>
+                <tr>
+                    <th>扩展功能</th>
+                    <td>
+                        <label><input type="checkbox" name="take[pay]" {eq name="$data.take.pay" value="yes"}checked{/eq} value="yes"> 开启收费</label>
+                        <label><input type="checkbox" name="take[num]" {eq name="$data.take.num" value="yes"}checked{/eq} value="yes"> 限制抽一次(开启海报)</label>
+                        <label><input type="checkbox" name="take[mutual]" {eq name="$data.take.mutual" value="yes"}checked{/eq} value="yes"> 开启先投在抽</label>
+                        <label><input type="checkbox" name="take[take_one]" {eq name="$data.take.take_one" value="yes"}checked{/eq} value="yes"> 关闭普通盲盒</label>
+                        <label><input type="checkbox" name="take[take_two]" {eq name="$data.take.take_two" value="yes"}checked{/eq} value="yes"> 关闭条件盲盒</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>弹窗内容</th>
+                    <td><textarea class="form-control w-lg" name="take[alert]">{$data.take.alert}</textarea></td>
+                </tr>
+                <tr>
+                    <th>顶部公告</th>
+                    <td><textarea class="ckeditor" name="take[content]">{$data.take.content}</textarea></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab4">
+        <table class="table table-bordered table-hover table-data">
+            <tbody>
+
+            <tr class="pay">
+                <th>选择支付平台</th>
+                <td>
+                    <label><input type="radio" name="info[pay_platform]" value="wxpay" {eq name="data.info.pay_platform" value="wxpay"}checked{/eq} /> 微信官方支付</label>
+                    <label><input type="radio" name="info[pay_platform]" value="xunhupay" {eq name="data.info.pay_platform" value="xunhupay"}checked{/eq} /> 虎皮椒</label>
+                    <label><input type="radio" name="info[pay_platform]" value="xorpay" {eq name="data.info.pay_platform" value="xorpay"}checked{/eq} /> XORPAY</label>
+                    <label><input type="radio" name="info[pay_platform]" value="caihong" {eq name="data.info.pay_platform" value="caihong"}checked{/eq} /> 彩虹易支付</label>
+                </td>
+            </tr>
+
+            <tr class="wxpay">
+                <th>微信APPID</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[wx_appid]" value="{$data.info.wx_appid}" placeholder="微信官方支付平台" />
+                    <span><a href="https://pay.weixin.qq.com/">点击进入微信支付</a></span>
+                </td>
+            </tr>
+            <tr class="wxpay">
+                <th>微信APPSECRET</th>
+                <td><input class="form-control w-lg" type="text" name="info[wx_appsecret]" value="{$data.info.wx_appsecret}" placeholder="微信官方支付平台" /></td>
+            </tr>
+            <tr class="wxpay">
+                <th>微信MCHID</th>
+                <td><input class="form-control w-lg" type="text" name="info[wx_mchid]" value="{$data.info.wx_mchid}" placeholder="微信官方支付平台" /></td>
+            </tr>
+            <tr class="wxpay">
+                <th>微信MCHKEY</th>
+                <td><input class="form-control w-lg" type="text" name="info[wx_mchkey]" value="{$data.info.wx_mchkey}" placeholder="微信官方支付平台" /></td>
+            </tr>
+
+            <tr class="xunhupay">
+                <th>虎皮椒APPID</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[appid]" value="{$data.info.appid}" placeholder="虎皮椒个人免签平台" />
+                    <span><a href="http://www.xunhupay.com/">点击进入虎皮椒地址</a></span>
+                </td>
+            </tr>
+            <tr class="xunhupay">
+                <th>虎皮椒APPSECRET</th>
+                <td><input class="form-control w-lg" type="text" name="info[appsecret]" value="{$data.info.appsecret}" placeholder="虎皮椒个人免签平台" /></td>
+            </tr>
+            <tr class="xunhupay">
+                <th>虎皮椒网关地址</th>
+                <td><input class="form-control w-lg" type="text" name="info[xunhu_gateway]" value="{$data.info.xunhu_gateway}" placeholder="虎皮椒平台网关地址" /></td>
+            </tr>
+
+            <tr class="xorpay">
+                <th>XOR_APPID</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[xor_appid]" value="{$data.info.xor_appid}" placeholder="XORPAY个人免签平台" />
+                    <span><a href="https://xorpay.com/">点击进入XORPAY地址</a></span>
+                </td>
+            </tr>
+            <tr class="xorpay">
+                <th>XOR_APPSECRET</th>
+                <td><input class="form-control w-lg" type="text" name="info[xor_appsecret]" value="{$data.info.xor_appsecret}" placeholder="XORPAY个人免签平台" /></td>
+            </tr>
+
+
+            <tr class="caihong">
+                <th>商户ID</th>
+                <td>
+                    <input class="form-control w-md" type="text" name="info[caihong_id]" value="{$data.info.caihong_id}" placeholder="商户ID" />
+                    <span><a href="">仅支持对接彩虹内核易支付</a></span>
+                </td>
+            </tr>
+            <tr class="caihong">
+                <th>商户密钥</th>
+                <td><input class="form-control w-lg" type="text" name="info[caihong_key]" value="{$data.info.caihong_key}" placeholder="商户密钥" /></td>
+            </tr>
+            <tr class="caihong">
+                <th>商户对接网址</th>
+                <td><input class="form-control w-lg" type="text" name="info[caihong_url]" value="{$data.info.caihong_url}" placeholder="例如：https://caihong.pay.com/" /></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}

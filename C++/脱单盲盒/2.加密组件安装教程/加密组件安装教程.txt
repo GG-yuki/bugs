@@ -1,0 +1,18 @@
+加密组件安装教程
+
+1、把压缩包上传到/root目录，然后解压
+
+2、在终端执行cd /root/php-beast-master
+
+3、在终端执行phpize
+
+4、在终端执行find / -name php-config命令，并复制信息，如：/www/server/php/71/bin/php-config
+	注意：这里的71代表的是php7.1版本，需要和你网站的php版本相符，如果不符请点击“网站”->“PHP命令行版本”切换
+
+5、在终端执行./configure --with-php-config=上面的信息，例：./configure --with-php-config=/www/server/php/71/bin/php-config
+
+6、在终端执行sudo make && make install
+
+7、修改php.ini配置文件，加入配置项: extension=beast.so, 重启php-fpm
+
+8、查看是否加载成功！这里有beast就是加载成功了

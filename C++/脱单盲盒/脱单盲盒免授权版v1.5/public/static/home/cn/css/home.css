@@ -1,0 +1,87 @@
+.index,.take,.stay{
+    margin: 5% auto;
+    box-shadow: 5px 5px 20px #ffc0cb8c;
+    width: 90%;
+    max-width: 600px;
+    font-size: 0.8rem;
+    border-radius: 20px 20px 0px 0px;
+    border: 1px solid #f792ac;
+}
+.index header,.take header,.stay header{
+    font-size: 0.6rem;
+    text-align: center;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #f792ac;
+    border-radius: 20px 20px 0px 0px;
+}
+.index>.text,.take>.text,.stay>.text{
+    text-align: center;
+    padding: 10px 20px;
+}
+.index>.text>p,.take>.text>p,.stay>.text>p{
+    padding: 5px;
+}
+
+.index>.content,.take>.content,.stay>.content{
+    margin: 0px 5%;
+}
+
+.index>.content .layui-col-xs6{
+    text-align: center;
+}
+.index>.content .layui-col-xs6 a{
+    display: inline-block;
+    padding: 10px 0px;
+    width: 90%;
+    font-size: 1rem;
+    border: 1px solid #fa004b;
+    border-radius: 5rem;
+}
+.index>.content .layui-col-xs12>p{
+    border: 1px solid #808080;
+    padding: 5px 10px;
+    border-radius: 1rem;
+    color: red;
+    text-align: center;
+    margin: 10px 0px;
+}
+.inlineOne{
+    width: 25% !important;
+    display: inline-block !important;
+}
+.red{
+    color: red;
+}
+.swiper-container {
+    width: 100%;
+    height: 30vw;
+    max-height: 200px;
+    margin: 0px 0px 1rem 0px;
+}
+.swiper-container img{
+    height: 100%;
+    width: 100%;
+}
+.layui-upload span img{
+    height: 135px;
+    max-width: 100%;
+}
+.nav-one a img{
+    width: 3rem;
+}
+.nav-two div{
+    text-align: center;
+}
+.nav-two div a{
+    display: inline-block;
+    padding: 5px 0px;
+    width: 90%;
+    font-size: .8rem;
+    margin: 1rem 0px;
+}
+.nav-two a img{
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+}

@@ -1,0 +1,49 @@
+{extend name="tpl/base" /}
+{block name="search"}{/block}
+{block name="content"}
+    <table class="table table-striped table-list table-no-bordered treetable" id="tableList" 
+           data-treecolumn="2"
+           data-toggle="table" 
+           data-remove-url="{:url('delete')}" 
+           data-status-url="{:url('setstatus')}" 
+           data-sort-url="{:url('setsort')}"
+           >
+        <thead>
+            <tr>
+                <th class="w-50" data-field="sort">排序</th>
+                <th class="w-50" data-field="id">ID</th>
+                <th>名称 [ <a href="javascript:;" class="js-tt-expand">展开</a>/<a href="javascript:;" class="js-tt-collapse">收起</a> ]</th>
+                <th class="w-200">URL路径</th>
+                <th class="w-200">内容类型</th>
+                <th class="w-200">模板页面</th>
+                <!--<th class="w-100">主导航</th>-->
+                <!--<th class="w-100">底导航</th>-->
+                <th class="w-50">状态</th>
+                <th class="w-200">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="v"}
+            <tr data-tt-id="{$v.id}" data-tt-parent-id="{$v.pid}">
+                <td><input class="form-control w-xs js-sort" type="text" name="sort[]" value="{$v.sort}" /></td>
+                <td>{$v.id}</td>
+                <td>{$v.menu_name}</td>
+                <td>{$v.pathinfo}</td>
+                <td>{$v.content_type}</td>
+                <td>{notempty name="v.tpl_name"}{$v.tpl_name}.html{/notempty}</td>
+                <!--<td><a href="javascript:;" class="status js-status" data-field="header_status" data-value="{$v.header_status}"><i></i></a></td>-->
+                <!--<td><a href="javascript:;" class="status js-status" data-field="footer_status" data-value="{$v.footer_status}"><i></i></a></td>-->
+                <td><a href="javascript:;" class="status js-status" data-field="status" data-value="{$v.status}"><i></i></a></td>
+                <td>
+                    <a href="{:url('edit',array('id'=>$v['id']))}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="{:url('add',array('pid'=>$v['id']))}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> 下级</a>
+                    <a href="javascript:;" class="btn btn-danger btn-xs js-remove"><i class="fa fa-trash"></i> 删除</a>
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+{/block}
+{block name="tablelistactions"}
+{/block}
+{block name="script"}{/block}

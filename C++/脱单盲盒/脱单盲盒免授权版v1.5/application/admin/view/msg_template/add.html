@@ -1,0 +1,82 @@
+{extend name="tpl/base-add" /}
+{block name="content"}
+    <table class="table table-bordered table-hover table-data" id="tableData">
+        <tbody>
+            <tr>
+                <th>分类</th>
+                <td>
+                    <select name="data[category_id]" class="form-control w-md">
+                        <option value="0">请选择</option>
+                        {volist name="category_list" id="v"}
+                            <option value="{$v.id}">{$v.cate_name}</option>
+                        {/volist}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>模板编码</th>
+                <td><input class="form-control w-lg" type="text" name="data[code]" value="" /> <span class="help-block">用于前台调用，不要随意更改</span></td>
+            </tr>
+            <tr>
+                <th>模板名称</th>
+                <td><input class="form-control w-lg" type="text" name="data[title]" value="" /></td>
+            </tr>
+            <tr>
+                <th>模板标签</th>
+                <td>
+                    <textarea name="data[content_tag]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>邮件标题（中文）</th>
+                <td><input class="form-control w-lg" type="text" name="data[subject_cn]" value="" /></td>
+            </tr>
+            <tr>
+                <th>邮件标题（英文）</th>
+                <td><input class="form-control w-lg" type="text" name="data[subject_en]" value="" /></td>
+            </tr>
+            <tr>
+                <th>邮件内容（中文）</th>
+                <td>
+                    <textarea class="ckeditor" name="data[email_content_cn]"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>邮件内容（英文）</th>
+                <td>
+                    <textarea class="ckeditor" name="data[email_content_en]"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>短信内容（中文）</th>
+                <td>
+                    <textarea name="data[sms_content_cn]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>短信内容（英文）</th>
+                <td>
+                    <textarea name="data[sms_content_en]" class="form-control w-lg" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input class="form-control w-md" type="text" name="data[sort]" value="0" /></td>
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" checked /> 显示</label>
+                    <label><input type="radio" name="data[status]" value="0" /> 隐藏</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{/block}
+{block name="script"}
+    <script type="text/javascript">
+        $(function(){
+                    
+        });
+    </script>
+{/block}

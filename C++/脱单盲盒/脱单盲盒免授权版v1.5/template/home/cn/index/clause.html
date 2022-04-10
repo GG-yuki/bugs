@@ -1,0 +1,55 @@
+{include file="common/header" /}
+
+<div style="margin: 5% auto;width: 90%">
+    <!--<blockquote class="layui-elem-quote">这个貌似不用多介绍，因为你已经在太多的地方都看到</blockquote>-->
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+        <legend>网站条款</legend>
+    </fieldset>
+
+    <div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-lg12">
+                <div class="layui-panel" style="padding: 5px">
+                    <p>1、安全可靠：<p>
+                    <p>我们竭尽全力通过合理有效的信息安全技术及管理流程，防止您的信息泄露、损毁、丢失。</p><br>
+                    <p>2、自主选择：</p>
+                    <p>我们为您提供便利的信息管理选项，以便您做出合适的选择，自由提交您的个人信息。</p><br>
+                    <p>3、保护通信秘密：</p>
+                    <p>我们严格遵照法律法规，保护您的通信秘密，为您提供安全的通信服务。</p><br>
+                    <p>4、合理必要：</p>
+                    <p>为了向您和其他用户提供更好的服务，我们仅收集必要的信息。</p><br>
+                    <p>5、清晰透明：</p>
+                    <p>我们努力使用简明易懂的表述，向您介绍隐私政策，以便您清晰地了解我们的信息处理方式。</p><br>
+                    <p>6、信息用途：</p>
+                    <p>提交信息即代表同意本站将您所提交的所有信息用于信息发布、提供他人抽取、索取等服务。</p><br>
+                    <p>7、个人隐私：</p>
+                    <p>用户需自行辨别真假，本站将会对站内信息进行随机抽查，如果您发现违规内容请及时举报。</p><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br >
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="margin: 0px;text-align: center;">
+            <a href="../stay" class="layui-btn layui-btn-radius layui-btn-normal">留一个</a>
+            <a href="../take" class="layui-btn layui-btn-radius layui-btn-warm">抽一个</a>
+            <a href="../index" class="layui-btn layui-btn-radius">回主页</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    layui.use(['dropdown', 'util', 'layer'], function(){
+        var element = layui.element;
+        var layer = layui.layer;
+
+        //监听折叠
+        element.on('collapse(test)', function(data){
+            layer.msg('展开状态：'+ data.show);
+        });
+    });
+</script>
+
+{include file="common/footer" /}

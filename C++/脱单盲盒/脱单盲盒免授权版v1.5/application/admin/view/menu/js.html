@@ -1,0 +1,77 @@
+<script type="text/javascript">
+    $(function () {
+        initImageWebUploader("#wuPickImage");
+        
+        function initContentType(edit=false){
+            var data = $("#contentTypeWrap :checked").val();
+            switch(data){
+                case "0":
+                    $("#moduleTypeWrap").hide();
+                    $("#contentTplWrap").hide();
+                    $("#contentIdWrap").hide();
+                    $(".js-pager-section").hide();
+                    $("#contentCategoryWrap").hide();
+                    $(".js-content-wrap, #tplNameWrap").show();
+                    break;
+                case "1":
+                    $(".js-content-wrap").hide();
+                    $("#moduleTypeWrap").hide();
+                    $("#contentTplWrap").hide();
+                    $(".js-pager-section").hide();
+                    $("#contentCategoryWrap").hide();
+                    $("#tplNameWrap").show();
+                    $("#contentIdWrap").show();
+                    break;
+                case "2":
+                    $(".js-content-wrap").hide();
+                    $("#tplNameWrap").show();
+                    $("#contentIdWrap").hide();
+                    $("#moduleTypeWrap").show();
+                    $("#contentTplWrap").show();
+                    $(".js-pager-section").show();
+                    initContentCategory(edit);
+                    break;
+            }
+        }
+        function initContentCategory(edit=false){
+            $(".js-content-category").hide();
+            var data = $("#moduleType").val();
+            if(data && $.inArray(data,["columns","article","partner","download","event","page","gallery"])!==-1){
+                $("#contentCategoryWrap").show();
+                if(edit){
+                    $("#"+data+"Type").val($("#contentCategory").val());
+                }
+                $("#"+data+"Type").show();
+                if(data==="article"){
+                    showArticleTips();
+                    $("#articleTips").show();
+                }
+            }else{
+                $("#contentCategoryWrap").hide();
+            }
+        }
+        initContentType(true);
+        $("#contentTypeWrap").on("click",":radio",function(){
+            initContentType();
+        });
+        $("#moduleType").on("change",function(){
+            initContentCategory();
+        });
+        $(".js-content-category").on("change",function(){
+            $("#contentCategory").val(this.value);
+        });
+        $("#articleType").on("change",function(){
+            showArticleTips();
+        });
+        function showArticleTips(){
+            $obj = $("#articleType");
+            var tips = "";
+            if($obj.value!=="0"){
+                var pathinfo = $obj.find(":selected").data("pathinfo");
+                tips = "文章分类的URL路径："+pathinfo;
+            }
+            $("#articleTips").text(tips);
+        }
+    });
+
+</script>
